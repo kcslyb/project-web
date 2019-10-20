@@ -1,0 +1,93 @@
+import Vue from 'vue';
+import Vuex from 'vuex';
+import store from '@/store/index';
+import {removeToken, setToken} from '@/utils/auth';
+import http from '@/utils/request';
+
+Vue.use(Vuex);
+
+const user = {
+    state: {
+        userId: '',
+        avatar: '',
+        userName: '',
+        roleName: '',
+        userPhone: '',
+        userEmail: '',
+        permissions: ['system-manage'],
+    },
+    mutations: {
+        SET_USER: (state: any, userInfo: any) => {
+            state.userId = userInfo.userId;
+            state.avatar = userInfo.userAvatar;
+            state.userName = userInfo.userName;
+            state.roleName = userInfo.roleName;
+            state.userPhone = userInfo.userPhone;
+            state.userEmail = userInfo.userEmail;
+            state.permissions = userInfo.permissions;
+        },
+        RESET_USER: (state: any) => {
+            state.userId = '';
+            state.avatar = '';
+            state.userName = '';
+            state.roleName = '';
+            state.userPhone = '';
+            state.userEmail = '';
+            state.permissions = '';
+        },
+    },
+    actions: {
+// 登录
+        Login({commit, state}: {commit: any, state: any}, loginForm: any) {
+            return new Promise((resolve, reject) => {
+                http.post('/api/login', loginForm).then((res) => {
+                    setToken();
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
+        // 获取用户信息
+        GetInfo({commit}: {commit: any}) {
+            return new Promise((resolve, reject) => {
+                http.post('/api/getInfo').then((res) => {
+                    if (res) {
+                        // 储存用户信息
+                        commit('SET_USER', res);
+                        setToken();
+                        commit('SET_USER', res);
+                        store.dispatch('GenerateRoutes', res).then(() => {});
+                        resolve(res);
+                    }
+                }).catch((error) => {
+                    reject(error);
+                });
+            });
+        },
+        // 登出
+        LogOut({commit}: {commit: any}) {
+            return new Promise((resolve) => {
+                http.post('/api/logout').then((data) => {
+                    commit('RESET_USER');
+                    removeToken();
+                    resolve(data);
+                }).catch((error) => {
+                    commit('RESET_USER');
+                    removeToken();
+                    resolve(error);
+                });
+            });
+        },
+        // 登出
+        FedLogOut({commit}: {commit: any}) {
+            return new Promise((resolve) => {
+                commit('RESET_USER');
+                removeToken();
+                resolve();
+            });
+        }
+    }
+};
+export default user;
+
