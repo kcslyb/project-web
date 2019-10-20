@@ -1,0 +1,97 @@
+// 通过$符号去声明一个变量
+$default-border-color: #E6E6E6;
+$default-background-color: #EDF5FE;
+$default-background-color-hover: #449EFF;
+$black-color: #000000;
+$white-color: #FFFFFF;
+
+// 继承 ---
+%border-common {
+  border: 1px solid $default-border-color;
+}
+
+@mixin border-base($color) {
+  border: 1px solid $color;
+}
+
+// 混合 ----
+@mixin border-radius-base($radius) {
+  border-radius: $radius;
+  -ms-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+}
+
+.border-radius-common {
+  @include border-radius-base(10px);
+}
+
+.mg-l10 {
+  margin-left: 10px;
+}
+
+.mg-r10 {
+  margin-right: 10px;
+}
+
+.mg-l10-r10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+// 操作符 ----
+article[role="main"] {
+  float: left;
+  width: 600px / 960px * 100%;
+}
+
+%vertical-center-base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vertical-center {
+  @extend %vertical-center-base
+}
+
+.is-selected-color {
+  background-color: $default-background-color;
+}
+
+.page-right-wrap {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 900;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.page-right-part {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  background-color: #fff;
+}
+
+.lightBox { /*需要引起用户注意的元素*/
+  position: absolute;
+  z-index: 1000;
+}
+
+.page-right-main {
+  float: left;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
