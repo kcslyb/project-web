@@ -1,13 +1,17 @@
 // 通过$符号去声明一个变量
-$default-border-color: #E6E6E6;
-$default-background-color: #EDF5FE;
-$default-background-color-hover: #449EFF;
+$active-background-color: #EEF5FE;
+$default-background-color: #449EFF;
+$system-background-color: #282b5e;
+$system-is-select-color: #e8bf6a;
+$default-border-color: #449EFF;
 $black-color: #000000;
+$purple-color: #6666C4;
 $white-color: #FFFFFF;
+$border-color: #A6A7AC;
 
 // 继承 ---
 %border-common {
-  border: 1px solid $default-border-color;
+  border: 1px solid $black-color;
 }
 
 @mixin border-base($color) {
@@ -39,6 +43,10 @@ $white-color: #FFFFFF;
   margin-right: 10px;
 }
 
+.mg-10 {
+  margin: 10px;
+}
+
 // 操作符 ----
 article[role="main"] {
   float: left;
@@ -56,42 +64,50 @@ article[role="main"] {
 }
 
 .is-selected-color {
-  background-color: $default-background-color;
+  background-color: $system-is-select-color;
 }
 
-.page-right-wrap {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 900;
-  background-color: rgba(0, 0, 0, 0.7);
+.text-align-left {
+  text-align: left;
 }
 
-.page-right-part {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  overflow: auto;
-  background-color: #fff;
+.text-align-center {
+  text-align: center;
 }
 
-.lightBox { /*需要引起用户注意的元素*/
-  position: absolute;
-  z-index: 1000;
+.text-align-right {
+  text-align: right;
 }
 
-.page-right-main {
-  float: left;
+.custom-ul {
   width: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  -webkit-filter: blur(5px);
-  -moz-filter: blur(5px);
-  -o-filter: blur(5px);
-  -ms-filter: blur(5px);
-  filter: blur(5px);
+  padding: 5px;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+.custom-ul li {
+  margin-bottom: 10px;
+  padding: 5px 5px;
+  list-style: none;
+  text-align: left;
+  box-sizing: border-box;
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+}
+
+.custom-li-title {
+  color: #000;
+  cursor:pointer;
+  font-size: 0.8rem;
+}
+
+.custom-li-label {
+  cursor:pointer;
+  font-size: 0.5rem;
+  color: $border-color;
+}
+.active {
+  //color: $default-background-color;
+  background-color: #EEF5FE;
 }

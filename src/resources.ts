@@ -1,22 +1,7 @@
-import http from '@/utils/request';
+import http from '@/utils/http-config';
 import {AxiosResponse} from 'axios';
-import {RouterOptions} from 'vue-router';
 
-interface API {
-    url: string;
-
-    get<T = any, R = AxiosResponse<T>>(id: string): Promise<R>;
-
-    post<T = any, R = AxiosResponse<T>>(params: object): Promise<R>;
-
-    put<T = any, R = AxiosResponse<T>>(params: object): Promise<R>;
-
-    delete<T = any, R = AxiosResponse<T>>(id: string): Promise<R>;
-
-    query<T = any, R = AxiosResponse<T>>(params: object): Promise<R>;
-}
-
-class BaseApi implements API {
+class BaseApi {
     public url: string = '';
 
     public get<T = any, R = AxiosResponse<T>>(id: string): Promise<R> {
@@ -36,7 +21,11 @@ class BaseApi implements API {
     }
 
     public query<T = any, R = AxiosResponse<T>>(params: object): Promise<R> {
-        return http.get(this.url, {params});
+        return http.get(this.url + '/query', {params});
+    }
+
+    public queryPager<T = any, R = AxiosResponse<T>>(params: object): Promise<R> {
+        return http.get(this.url + '/query/pager', {params});
     }
 }
 
@@ -47,6 +36,7 @@ export class ApiFactory extends BaseApi {
     }
 }
 
+// tslint:disable-next-line:max-classes-per-file
 export class User extends BaseApi {
     public url: string = 'api/user';
 }
@@ -68,3 +58,57 @@ export class Role extends BaseApi {
     }
 }
 
+// tslint:disable-next-line:max-classes-per-file
+export class UserAccount extends BaseApi {
+    public url: string = 'api/user/account';
+
+    public exportUserExcel() {
+        return http.get(this.url + '/query/export');
+    }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class UserDepartment extends BaseApi {
+    public url: string = 'api/department';
+
+    public queryAllUserByDepartment(params: object) {
+        return http.get(this.url + '/query/user', {params});
+    }
+
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class File extends BaseApi {
+    public url: string = 'api/file';
+
+    public queryCurrentUserFiles(params: object) {
+        return http.get('/api/file/currentList', {params});
+    }
+
+    public download(id: string) {
+        return http.get('/api/file/download/' + id);
+    }
+
+    public QrDownload(params: object) {
+        return http.get('/api/file/qr/download', {params});
+    }
+
+    public remove(id: string) {
+        return http.delete('/api/file/remove/' + id);
+    }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class Note extends BaseApi {
+    public url: string = 'api/note';
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class Dict extends BaseApi {
+    public url: string = 'api/dict';
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class DictGroup extends BaseApi {
+    public url: string = 'api/dictGroup';
+}

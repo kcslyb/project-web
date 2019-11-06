@@ -2,7 +2,6 @@ import {RouteConfig} from 'vue-router';
 import router from '@/router';
 
 function hasPermission(route: RouteConfig, permissions: string[]): boolean {
-    console.info(permissions.includes(route.meta.perm));
     return permissions.includes(route.meta.perm);
 }
 
@@ -14,14 +13,10 @@ function hasPermission(route: RouteConfig, permissions: string[]): boolean {
  */
 function filterRouter(router: RouteConfig[], permissions: string[]): any {
     return router.filter((route) => {
-        if (route.children && route.children.length > 0) {
-            // 如果这个路由下面还有下一级的话,就递归调用
-            let temp: RouteConfig[] = route.children.filter((value) => {
-                return hasPermission(value, permissions);
-            });
-            route.children = temp.length > 0 ? temp : [];
-            // 如果过滤一圈后,没有子元素了,这个父级菜单就也不显示了
-            return filterRouter(route.children, permissions);
+        if (hasPermission(route, permissions)) {
+            if (route.children && route.children.length > 0) {
+                route.children = filterRouter.call(route.children, route.children, permissions);
+            }
         }
         return hasPermission(route, permissions);
     });

@@ -4,11 +4,11 @@ declare module '*.vue' {
 }
 
 declare module 'vue/types/vue' {
-  import VueRouter, { Route } from 'vue-router';
-
-  interface Vue {
-    $router: VueRouter;
-    $route: Route;
+  import vue from 'Vue';
+  interface Vue extends vue{
+    $notify: any;
     $https: any;
+    $formatDateTime: string;
   }
+  export default Vue;
 }

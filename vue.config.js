@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const vConsolePlugin = require('vconsole-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin'); //Gzip
 
@@ -13,24 +14,23 @@ module.exports = {
   pages: undefined,
   //是否使用包含运行时编译器的 Vue 构建版本
   runtimeCompiler: false,
-  //是否为 Babel 或 TypeScript 使用 thread-loader。该选项在系统的 CPU 有多于一个内核时自动启用，仅作用于生产构建，在适当的时候开启几个子进程去并发的执行压缩
-  parallel: require('os').cpus().length > 1,
   //生产环境是否生成 sourceMap 文件，一般情况不建议打开
   productionSourceMap: false,
-  // webpack-dev-server 相关配置 https://webpack.js.org/configuration/dev-server/
   devServer: {
     port: 8018,
     host: '127.0.0.1',
+    // host: '192.168.1.7',
+    // host: '172.200.82.173',
     https: false,
     disableHostCheck: true,
     open: true,
     hotOnly: true, // 热更新
     proxy: process.env.NODE_ENV === 'production' ? { //配置自动启动浏览器
-      "/api/*": {
-        target: "http://127.0.0.1:8088",
+      '/api/*': {
+        target: 'http://127.0.0.1:8088',
         changeOrigin: true,
-        ws: true,//websocket支持
-        secure: false
+        secure: false,
+        ws: true//websocket支持
       }
     } : {
       '/api': {
@@ -50,7 +50,7 @@ module.exports = {
         .rule('vue')
         .use('vue-loader')
         .tap(options => {
-          return options
+          return options;
         });
     config.module
         .rule('images')
@@ -62,10 +62,11 @@ module.exports = {
         });
   },
   configureWebpack: config => {
+    let pluginsPublic = [];
     let pluginsPro = [
       new CompressionPlugin({ //文件开启Gzip，也可以通过服务端filename: '[path].gz[query]',
         algorithm: 'gzip',
-        test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$', ),
+        test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$',),
         threshold: 8192,
         minRatio: 0.8,
       }),
@@ -76,18 +77,18 @@ module.exports = {
         enable: false // 发布代码前记得改回 false
       }),
     ];
-    if(process.env.NODE_ENV === 'production') { // 为生产环境修改配置...process.env.NODE_ENV !== 'development'
-      config.plugins = [...config.plugins, ...pluginsPro];
+    if (process.env.NODE_ENV === 'production') { // 为生产环境修改配置...process.env.NODE_ENV !== 'development'
+      config.plugins = [...config.plugins, ...pluginsPro, ...pluginsPublic];
     } else {
       // 为开发环境修改配置...
-      config.plugins = [...config.plugins, ...pluginsDev];
+      config.plugins = [...config.plugins, ...pluginsDev, ...pluginsPublic];
     }
   },
   css: {
-    // loaderOptions: {
-    //   sass: {
-    //     data: '@import "@/assets/main.scss";'
-    //   }
-    // }
+    loaderOptions: {
+      sass: {
+        prependData: '@import "~@/assets/scss/common.scss";'
+      }
+    }
   }
 };
