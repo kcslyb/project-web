@@ -1,10 +1,11 @@
-import CustomLogo from './self-logo.vue';
-import CustomPerm from './self-perm.vue';
-import CustomDict from './self-dict.vue';
-import CustomInput from './self-input.vue';
-import CustomDrawer from './self-drawer.vue';
-import CustomFileUpload from './self-fileupload.vue';
-import CustomAddressCity from './self-address-city.vue';
+import CustomLogo from './custom-logo.vue';
+import CustomPerm from './custom-perm.vue';
+import CustomDict from './custom-dict.vue';
+import CustomInput from './custom-input.vue';
+import CustomDrawer from './custom-drawer.vue';
+import CustomFileUpload from './custom-file-upload.vue';
+import CustomAddressCity from './custom-address-city.vue';
+import CustomNode from './node/self-node.vue';
 
 const components: any[] = [
     CustomLogo,
@@ -14,6 +15,7 @@ const components: any[] = [
     CustomInput,
     CustomFileUpload,
     CustomAddressCity,
+    CustomNode,
 ];
 
 const install = (Vue: any) => {
