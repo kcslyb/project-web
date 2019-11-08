@@ -71,8 +71,12 @@
     z-index: 10;
     float: right;
     display: inline-block;
-    a:hover {
+    a {
       color: $default-border-color;
+      background-color: $active-background-color
+    }
+    a:hover {
+      color: $purple-color;
       background-color: $active-background-color
     }
   }

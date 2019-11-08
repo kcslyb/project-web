@@ -6,6 +6,8 @@ import CustomDrawer from './custom-drawer.vue';
 import CustomFileUpload from './custom-file-upload.vue';
 import CustomAddressCity from './custom-address-city.vue';
 import CustomNode from './node/self-node.vue';
+import CustomPaging from './custom-paging.vue';
+import CustomCollapse from './custom-collapse.vue';
 
 const components: any[] = [
     CustomLogo,
@@ -16,6 +18,8 @@ const components: any[] = [
     CustomFileUpload,
     CustomAddressCity,
     CustomNode,
+    CustomPaging,
+    CustomCollapse,
 ];
 
 const install = (Vue: any) => {
