@@ -66,8 +66,10 @@
 </template>
 
 <script>
+  import {ApiFactory, Email, UserAccount} from '@/resources';
+
   export default {
-    name: 'selffrom',
+    name: 'RegisterForm',
     data() {
       let validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -91,7 +93,7 @@
       return {
         userDto: {
           userName: '用户名',
-          userPhone: '12345678910',
+          userPhone: '13745678910',
           userEmail: '2815443705@qq.com',
           userPassword: '123456',
           checkPass: '123456',
@@ -112,19 +114,14 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let formData = JSON.parse(JSON.stringify(this.userDto));
-            this.$http.post('/api/user/account/add', formData).then(() => {
-              this.$notify.success({
-                duration: 2000,
-                name: '成功',
-                message: '注册成功'
+            ApiFactory.getApi(UserAccount).register(formData).then((res) => {
+              this.$notify({
+                title: '提示',
+                type: 'success',
+                message: res.data ? res.date : '注册成功'
               });
               this.$emit('right-close');
-            }).catch(() => {
-              this.$notify.error({
-                duration: 2000,
-                message: '注册失败'
-              });
-            });
+            })
           } else {
             return false;
           }
@@ -134,11 +131,13 @@
         this.$refs[formName].resetFields();
       },
       getCode() {
-        this.$notify({
-          type: 'success',
-          name: '提示',
-          message: '注册码已成功发到邮箱:'+ this.userDto.userEmail
-        });
+        ApiFactory.getApi(Email).getCode({receive: this.userDto.userEmail}).then(res => {
+          this.$notify({
+            title: '提示',
+            type: 'success',
+            message: res.data ? res.date : '验证码已成功发到邮箱'
+          })
+        })
       },
       closePage(){
         this.$emit('right-close');

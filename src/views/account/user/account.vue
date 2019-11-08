@@ -1,26 +1,5 @@
 <template>
   <div>
-    <el-header style="border: 1px solid #e6e6e6;" align="right">
-      <div style="margin-top: 10px; display: inline-block;">
-        <div style="display: inline-block" v-show="showSearchInputTwo">
-          <el-input v-model="searchTextTwo" placeholder="请输入关键字搜索"></el-input>
-        </div>
-        <el-button class="mg-r10" @click="showSearchInputTwo = !showSearchInputTwo" size="small" type="primary" plain
-                   icon="el-icon-search" circle></el-button>
-      </div>
-      <custom-perm :label="'add-user-manage'">
-        <el-tooltip class="item" effect="dark" content="新增账户" placement="top" style="margin-top: 10px">
-          <el-button class="mg-r10" size="small" type="primary" icon="el-icon-circle-plus-outline" plain circle
-                     @click.stop.prevent="addAccount"></el-button>
-        </el-tooltip>
-      </custom-perm>
-      <custom-perm :label="'export-user-manage'">
-        <el-tooltip class="item" effect="dark" content="导出用户" placement="top" style="margin-top: 10px">
-          <el-button size="small" type="primary" icon="el-icon-download" plain circle
-                     @click.stop.prevent="exportAccount"></el-button>
-        </el-tooltip>
-      </custom-perm>
-    </el-header>
     <div class="el-container">
       <div class="el-aside" :style="'width: 200px ; border: 1px solid #e6e6e6; height: '+ defaultHeight +'px;'">
         <div class="text-align-center">
@@ -49,9 +28,34 @@
           </custom-list-item>
         </div>
       </div>
-      <div class="el-main" style="padding: 0; border-bottom: 1px solid #e6e6e6;">
+      <div class="el-main" style="padding: 0">
         <div style="width: 100%;">
-          <el-table :data="accountUser" :height="tableDefaultHeight" v-loading="departmentLoading">
+          <custom-collapse :searchFlag="false">
+            <div style="text-align: right">
+              <div style="display: inline-block;">
+                <div style="display: inline-block" v-show="showSearchInputTwo">
+                  <el-input size="small" v-model="searchTextTwo" placeholder="请输入关键字搜索"></el-input>
+                </div>
+                <el-button class="mg-r10" @click="showSearchInputTwo = !showSearchInputTwo" size="small" type="primary" plain
+                           icon="el-icon-search" circle></el-button>
+              </div>
+              <custom-perm :label="'add-user-manage'">
+                <el-tooltip class="item" effect="dark" content="新增账户" placement="top">
+                  <el-button class="mg-r10" size="small" type="primary" icon="el-icon-circle-plus-outline" plain circle
+                             @click.stop.prevent="addAccount"></el-button>
+                </el-tooltip>
+              </custom-perm>
+              <custom-perm :label="'export-user-manage'">
+                <el-tooltip class="item" effect="dark" content="导出用户" placement="top">
+                  <el-button size="small" type="primary" icon="el-icon-download" plain circle
+                             @click.stop.prevent="exportAccount"></el-button>
+                </el-tooltip>
+              </custom-perm>
+            </div>
+          </custom-collapse>
+          <el-table :data="accountUser" :header-cell-style="$tableCellHeader"
+                    :height="tableDefaultHeight" v-loading="departmentLoading">
+            <el-table-column type="index" width="50" :index="$indexMethod(page)"></el-table-column>
             <el-table-column prop="userName" label="用户姓名">
               <template slot-scope="scope">
                 <div>
@@ -62,6 +66,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="userRoleName" label="用户角色"></el-table-column>
+            <el-table-column prop="userDepartmentName" label="用户部门"></el-table-column>
             <el-table-column prop="userPhone" label="电话号码"></el-table-column>
             <el-table-column prop="userEmail" label="电子邮箱"></el-table-column>
             <el-table-column prop="userLoginNumber" label="登录次数">
@@ -72,8 +77,8 @@
               </template>
             </el-table-column>
             <el-table-column prop="userCreateTime" label="创建时间" show-overflow-tooltip
-                             :formatter="setTime"></el-table-column>
-            <el-table-column label="操作" width="320px">
+                             :formatter="$formatDateTime"></el-table-column>
+            <el-table-column label="操作" width="320px" align="center">
               <template slot-scope="scope">
                 <custom-perm :label="'select-user-manage'">
                   <span @click="queryAccount(scope.row)">
@@ -100,19 +105,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <el-footer align="center">
-            <div class="block">
-              <el-pagination
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
-                  :current-page="pager.current"
-                  :page-sizes="[10, 20]"
-                  :page-size="10"
-                  layout="total, sizes, prev, pager, next, jumper"
-                  :total="pager.total">
-              </el-pagination>
-            </div>
-          </el-footer>
+          <custom-paging :page="page" @size-change="handleSizeChange" @start-change="handleCurrentChange"></custom-paging>
         </div>
       </div>
     </div>
@@ -124,27 +117,22 @@
       <department-form :department="depart" :action="departAction" @rightClose="rightClose"
                        @right-Close="rightCloseRoad"></department-form>
     </custom-drawer>
-    <div class="page-right-wrap" v-show="showInfo" @click="rightClose">
-      <div class="page-right-part lightBox" @click.stop="" ref="pageRightPart" style="width: 70%">
-        <div class="page-right-main"
-             :style="'background-image: url(' + $REPLACEURL(user.userAvatar) +'); height: '+ infoHeight +'px;'">
-        </div>
-        <user-info :userId="userId"></user-info>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
   import {ApiFactory, UserDepartment, UserAccount} from '@/resources';
-  import {DateUtils} from '@/utils/common-utils';
   import accountForm from './account-from';
   import userInfo from './info/user-Info';
   import DepartmentForm from './department/department-form';
   import CustomListItem from '../../../components/custom-list-item';
+  import CustomCollapse from '../../../components/custom/custom-collapse';
+  import CustomPaging from '../../../components/custom/custom-paging';
 
   export default {
     components: {
+      CustomPaging,
+      CustomCollapse,
       CustomListItem,
       DepartmentForm,
       accountForm,
@@ -158,7 +146,6 @@
         showSearchInput: false,
         showSearchInputTwo: false,
         departmentLoading: true,
-        flag: '',
         searchText: '',
         searchTextTwo: '',
         action: '',
@@ -174,21 +161,26 @@
         response: [],
         department: [],
         accountUser: [],
-        condition: {},
-        pager: {
+        page: {
           size: 10,
-          current: 1,
+          start: 1,
           total: 0
+        },
+        condition: {
+          size: 10,
+          start: 1,
+          keyWord: '',
+          orderBy: ''
         },
         departmentPerms: ['add-user-manage']
       };
     },
     watch: {
       searchText(val) {
-        this.department = this.$filterListOfObj(this.department, 'userDepartment', ['departmentName', 'departmentNumber'], val);
       },
       searchTextTwo(val) {
-        this.accountUser = this.$filterListOfString(this.accountUser, ['userName', 'userRoleName', 'userPhone', 'userEmail', this.flag], val);
+        this.condition.keyWord = val;
+        this.setUserAccountList(this.depart)
       }
     },
     mounted() {
@@ -196,36 +188,41 @@
     },
     methods: {
       handleSizeChange(val) {
-        this.pager.size = val;
+        this.page.size = val;
+        this.condition.size = val;
         this.getUserAccountList();
       },
       handleCurrentChange(val) {
-        this.pager.current = val;
+        this.page.start = val;
+        this.condition.start = val;
         this.getUserAccountList();
       },
       getUserAccountList() {
         this.departmentLoading = true;
-        let formData = JSON.parse(JSON.stringify(this.condition));
-        ApiFactory.getApi(UserDepartment).queryAllUserByDepartment(formData).then((res) => {
-          this.response = res.data;
-          this.response.forEach(v => {
-            this.department.push(v.userDepartment);
+        ApiFactory.getApi(UserDepartment).query({}).then((res) => {
+          this.department = res.data;
+          this.department.unshift({
+            departmentId: '',
+            departmentName: '全部',
+            departmentNumber: 'department'
           });
-          this.setUserAccountList(this.department[0]);
+          if (this.department.length > 0) {
+            this.setUserAccountList(this.department[0]);
+          } else {
+            this.accountUser = []
+          }
           this.departmentLoading = false;
         });
       },
       setUserAccountList(item) {
         this.depart = item;
-        let temp = this.response.filter(value => {
-          return Object.is(value.userDepartment.departmentId, item.departmentId)
-        });
-        this.accountUser = temp.length ? temp[0].userAccounts : [];
-        this.pager.total = this.accountUser.length;
-        this.flag = item.departmentId;
-      },
-      setTime(row) {
-        return DateUtils.formatStringToDateTime(row.userCreateTime);
+        let params = Object.assign({}, this.condition,
+            {userDepartment: item.departmentId});
+        let formData = JSON.parse(JSON.stringify(params));
+        ApiFactory.getApi(UserAccount).queryPager(formData).then(res => {
+          this.accountUser = res.data.list;
+          this.page.total = res.data.total;
+        })
       },
       addAccountDepartment() {
         this.departAction = 'add';
