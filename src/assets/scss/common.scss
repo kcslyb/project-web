@@ -2,6 +2,8 @@
 $active-background-color: #EEF5FE;
 $default-background-color: #449EFF;
 $system-background-color: #282b5e;
+$system-collapse-color: #f9f9f9;
+$system-border-color: #e6e6e6;
 $system-is-select-color: #e8bf6a;
 $default-border-color: #449EFF;
 $black-color: #000000;
@@ -110,4 +112,8 @@ article[role="main"] {
 .active {
   //color: $default-background-color;
   background-color: #EEF5FE;
+}
+
+.label {
+  padding: 0 10px;
 }

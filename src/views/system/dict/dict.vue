@@ -2,7 +2,7 @@
   <el-container>
     <el-aside width="200px" class="border mg-10" :style="'height:' + defaultHeight+ 'px'">
       <div>
-        <el-button style="width: 100%; margin: 5px 0" type="primary" plain @click="addDictGroup">ADDDICTGROUP
+        <el-button style="width: 100%; margin: 5px 0" type="primary" plain @click="addDictGroup">ADD DICT GROUP
         </el-button>
       </div>
       <el-input v-model="keyWord" placeholder="输入关键字搜索字典组"></el-input>
@@ -15,15 +15,16 @@
           @update-click="updateDictGroup"
           @remove-click="removeDictGroup">
       </list-item>
+      <el-button style="width: 100%;" type="primary" plain @click="LoadingMoreDictGroup">more>></el-button>
     </el-aside>
     <div class="border table-lamp mg-10" :style="'height:' + defaultHeight+ 'px'">
-      <div style="display: block; padding: 10px;">
-        <el-button style="float: right" type="primary" plain size="small" @click="addDict">ADDDICT</el-button>
+      <custom-collapse>
+        <el-button style="float: right" type="primary" plain size="small" @click="addDict">ADD DICT</el-button>
         <el-input v-model="dictKeyWord" plain size="small" placeholder="输入关键字搜索字典"
                   style="display: block; width: 200px">
         </el-input>
-      </div>
-      <el-table border :data="dictList" stripe :max-height="defaultHeight-50">
+      </custom-collapse>
+      <el-table border :data="dictList" stripe :max-height="defaultHeight-50" :header-cell-style="$tableCellHeader">
         <el-table-column prop="label" label="字典标题" align="center"></el-table-column>
         <el-table-column prop="key" label="字典值" align="center"></el-table-column>
         <el-table-column prop="sort" label="排序" align="center"></el-table-column>
@@ -53,9 +54,10 @@
     import {ApiFactory, Dict, DictGroup} from '@/resources';
     import DictForm from '@/views/system/dict/dict-form.vue';
     import DictGroupForm from '@/views/system/dict/group/dict-group-form.vue';
+    import CustomCollapse from '@/components/custom/custom-collapse.vue';
 
     @Component({
-        components: {DictGroupForm, DictForm, ListItem}
+        components: {CustomCollapse, DictGroupForm, DictForm, ListItem}
     })
     export default class DictView extends Vue {
         public name: string = 'Dict';
@@ -80,6 +82,9 @@
 
         @Provide()
         public defaultHeight: number = 0;
+
+        @Provide()
+        public DictGroupPageSize: number = 10;
 
         @Provide()
         public dictGroupList: any[] = [];
@@ -112,7 +117,13 @@
 
         public dataInit() {
             this.defaultHeight = window.innerHeight - 150;
-            ApiFactory.getApi(DictGroup).query({deleteFlag: '0', keyWord: this.keyWord}).then(res => {
+            let params = {
+                deleteFlag: '0',
+                keyWord: this.keyWord,
+                start: 1,
+                size: this.DictGroupPageSize
+            };
+            ApiFactory.getApi(DictGroup).query(params).then(res => {
                 this.dictGroupList = res.data;
                 let dictGroup = this.dictGroupList[0] ? this.dictGroupList[0] : [];
                 this.setDictList(dictGroup.id ? dictGroup.id : '');
@@ -124,7 +135,11 @@
             if (this.dictGroupList.length === 0) {
                 this.dictList = [];
             } else {
-                let params = {groupId: groupId, deleteFlag: '0', keyWord: this.dictKeyWord};
+                let params = {
+                    deleteFlag: '0',
+                    groupId: groupId,
+                    keyWord: this.dictKeyWord,
+                };
                 ApiFactory.getApi(Dict).query(params).then(res => {
                     this.dictList = res.data;
                 });
@@ -143,6 +158,11 @@
         public addDictGroup() {
             this.showDictGroupForm = true;
             this.dictGroup = {};
+        }
+
+        LoadingMoreDictGroup() {
+            this.DictGroupPageSize = this.DictGroupPageSize + 10;
+            this.dataInit();
         }
 
         public updateDict(item: {}) {

@@ -3,8 +3,7 @@
     <el-header class="main-header">
       <el-row :gutter="24" style="margin: 0">
         <el-col :span="1">
-          <div style="display: flex; align-items: center;justify-content: center; height: 60px">
-<!--            <custom-logo :width="40"></custom-logo>-->
+          <div class="blog">
             <span>BLOG</span>
           </div>
         </el-col>
@@ -27,7 +26,8 @@
         <el-col :span="2">
           <el-row :gutter="24">
             <el-col :span="12">
-              <div style="height: 60px; display: flex; align-items: center; justify-content: center; color: #449EFF;">
+              <div
+                  style="height: 60px; font-size: 1rem; font-weight: bold; display: flex; align-items: center; justify-content: center; color: #449EFF;">
                 {{$store.state.user.userName}}
               </div>
             </el-col>
@@ -91,7 +91,7 @@
                 routers = value.children;
                 return false;
               }
-            })
+            });
           }
         });
         this.routers = routers;
@@ -108,7 +108,8 @@
       routeChange(path) {
         let currentPath = this.$route.path;
         if (path !== currentPath) {
-          this.$router.push({path: path}).catch(() =>{});
+          this.$router.push({path: path}).catch(() => {
+          });
         }
       },
       logout() {
@@ -124,5 +125,14 @@
   .main-header {
     padding: 0;
     background-color: #EEF5FE !important;
+  }
+
+  .blog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    color: $default-background-color;
+    font-weight: bold;
   }
 </style>

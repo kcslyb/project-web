@@ -8,6 +8,7 @@ declare module 'vue/types/vue' {
   interface Vue extends vue{
     $notify: any;
     $https: any;
+    $getDict: any;
     $formatDateTime: string;
   }
   export default Vue;

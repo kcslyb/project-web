@@ -41,8 +41,15 @@ http.interceptors.response.use(
     },
     (error: any) => {
         loading.close();
-        const data: boolean = error.response.data && typeof (error.response.data) === 'string';
-        const msg: string = data ? EncryptHelper.aesDecrypt(error.response.data) : error.message;
+        let isDecrypt: boolean = error.response.data && typeof (error.response.data) === 'string';
+        let msg: string = error.message;
+        if (isDecrypt) {
+            try {
+                msg = EncryptHelper.aesDecrypt(error.response.data);
+            } catch (e) {
+                msg = error.response.data;
+            }
+        }
         Message.error({
             type: 'error',
             message: msg,

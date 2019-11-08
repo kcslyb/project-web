@@ -1,42 +1,34 @@
 <template>
   <div v-loading="loading">
-    <el-header>
+    <custom-collapse :searchFlag="false">
       <el-row :gutter="24">
-        <el-col :offset="18" :span="4">
+        <el-col :span="4">
           <custom-perm label="upload-file-manage">
-            <div style="margin-top: 20px">
-              <el-upload
-                  class="upload-demo"
-                  ref="upload"
-                  :action="$HOSTURL('http://127.0.0.1:8018/api/file/upload')"
-                  :on-success ="uploadSuccess"
-                  :before-upload="beforeAvatarUpload"
-                  :file-list = "fileList"
-                  :auto-upload="false">
-                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-              </el-upload>
-            </div>
+            <el-upload
+                class="upload-demo"
+                ref="upload"
+                :action="$HOSTURL('http://127.0.0.1:8018/api/file/upload')"
+                :on-success ="uploadSuccess"
+                :before-upload="beforeAvatarUpload"
+                :file-list = "fileList"
+                :auto-upload="false">
+              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            </el-upload>
           </custom-perm>
         </el-col>
         <el-col :span="2">
-          <div style="margin-top: 20px">
-            <custom-perm label="upload-file-manage">
-              <el-button style="margin-top: -60px" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-            </custom-perm>
-          </div>
+          <custom-perm label="upload-file-manage">
+            <el-button size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          </custom-perm>
+        </el-col>
+        <el-col :offset="16" :span="2">
+          <custom-perm label="download-file-manage">
+            <el-button size="small" type="primary" @click="batchDownload">批量下载</el-button>
+          </custom-perm>
         </el-col>
       </el-row>
-    </el-header>
-    <el-row :gutter="24">
-      <el-col :offset="22" :span="2">
-        <div style="margin-top: 15px">
-          <custom-perm label="download-file-manage">
-            <el-button style="margin-top: -60px" size="small" type="primary" @click="batchDownload">批量下载</el-button>
-          </custom-perm>
-        </div>
-      </el-col>
-    </el-row>
-    <el-table :data="list" stripe style="width: 100%" align="center" :row-class-name="tableRowClassName" @selection-change="handleSelectionChange">
+    </custom-collapse>
+    <el-table :data="list" stripe :header-cell-style="$tableCellHeader">
       <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column type="index"
                        :index="updateIndex"
@@ -77,8 +69,10 @@
 <script>
   import {ApiFactory, File} from '@/resources';
   import {DateUtils} from '@/utils/common-utils';
+  import CustomCollapse from '../../components/custom/custom-collapse';
   export default {
     name: 'file',
+    components: {CustomCollapse},
     data () {
       return {
         loading: true,

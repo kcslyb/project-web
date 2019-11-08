@@ -15,7 +15,7 @@ export default new Router({
             children: [
                 {
                     path: '/home',
-                    component: () => import('@/views/index/404.vue'),
+                    component: () => import('@/views/system/logger/log-list.vue'),
                     meta: {moduleId: 'home', title: '通知', perm: 'system-main-manage'}
                 },
             ]

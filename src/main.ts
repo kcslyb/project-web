@@ -9,6 +9,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import CustomComponents from '@/components/custom/custom.ts';
 import moment from 'moment';
+import {ApiFactory, Dict} from '@/resources';
 
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
@@ -66,6 +67,31 @@ Vue.prototype.$formatDate = (formatString: string): string => {
         return '';
     }
 };
+
+Vue.prototype.$tableCellHeader = {
+    'color': '#409EFF',
+    'background': '#eef5fe'
+};
+
+Vue.prototype.$indexMethod = (page: {start: number, size: number})  => {
+    return ((page.start - 1) * page.size) + 1;
+};
+
+Vue.prototype.$getDict = async function(groupName: string) {
+    if (!groupName) {
+        return [];
+    }
+    const state = this.$store.state.common;
+    if (state.dict[groupName]) {
+        return state.dict[groupName];
+    } else {
+        ApiFactory.getApi(Dict).query({deleteFlag: '0'}).then((res) => {
+            this.$store.commit('initDict', {groupName: res.data});
+            return res.data;
+        });
+    }
+};
+
 new Vue({
     router,
     store,

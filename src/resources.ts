@@ -42,6 +42,15 @@ export class User extends BaseApi {
 }
 
 // tslint:disable-next-line:max-classes-per-file
+export class Email extends BaseApi {
+    public url: string = 'api/mail';
+
+    public getCode(params: object) {
+        return http.post('api/mail', params);
+    }
+}
+
+// tslint:disable-next-line:max-classes-per-file
 export class Role extends BaseApi {
     public url: string = 'api/role';
 
@@ -64,6 +73,10 @@ export class UserAccount extends BaseApi {
 
     public exportUserExcel() {
         return http.get(this.url + '/query/export');
+    }
+
+    public register(params: object) {
+        return http.post(this.url + '/add', params);
     }
 }
 
@@ -111,4 +124,9 @@ export class Dict extends BaseApi {
 // tslint:disable-next-line:max-classes-per-file
 export class DictGroup extends BaseApi {
     public url: string = 'api/dictGroup';
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class Logger extends BaseApi {
+    public url: string = 'api/logger';
 }
