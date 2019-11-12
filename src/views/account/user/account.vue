@@ -55,7 +55,7 @@
           </custom-collapse>
           <el-table :data="accountUser" :header-cell-style="$tableCellHeader"
                     :height="tableDefaultHeight" v-loading="departmentLoading">
-            <el-table-column type="index" width="50" :index="$indexMethod(page)"></el-table-column>
+            <el-table-column type="index" width="50" label="序号" :index="$indexMethod(page)"></el-table-column>
             <el-table-column prop="userName" label="用户姓名">
               <template slot-scope="scope">
                 <div>

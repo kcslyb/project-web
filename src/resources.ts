@@ -119,6 +119,10 @@ export class Note extends BaseApi {
 // tslint:disable-next-line:max-classes-per-file
 export class Dict extends BaseApi {
     public url: string = 'api/dict';
+
+    public queryDictByGroupLabel(label: string) {
+        return http.get('/api/dict/query/' + label);
+    }
 }
 
 // tslint:disable-next-line:max-classes-per-file
@@ -129,4 +133,9 @@ export class DictGroup extends BaseApi {
 // tslint:disable-next-line:max-classes-per-file
 export class Logger extends BaseApi {
     public url: string = 'api/logger';
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class Memo extends BaseApi {
+    public url: string = 'api/memo';
 }

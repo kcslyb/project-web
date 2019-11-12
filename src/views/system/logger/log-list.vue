@@ -36,7 +36,7 @@
       </custom-collapse>
     </div>
     <el-table border :data="loggerList" stripe :header-cell-style="$tableCellHeader">
-      <el-table-column type="index" width="50" :index="$indexMethod(page)"></el-table-column>
+      <el-table-column type="index" width="50" label="序号" :index="$indexMethod(page)"></el-table-column>
       <el-table-column prop="logUserId" label="访问者" align="center"></el-table-column>
       <el-table-column prop="logRequestRemoteIp" label="访问者IP" align="center"></el-table-column>
       <el-table-column prop="logRequestDescribe" label="访问URL" align="center"></el-table-column>

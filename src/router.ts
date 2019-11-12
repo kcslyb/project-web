@@ -64,6 +64,11 @@ export default new Router({
                     component: () => import('@/views/system/notify/notify.vue'),
                     meta: {moduleId: 'system', title: '系统通知', perm: 'system-notify-manage'}
                 },
+                {
+                    path: '/system/memo',
+                    component: () => import('@/views/memo/memo-list.vue'),
+                    meta: {moduleId: 'system', title: '备忘录', perm: 'system-notify-manage'}
+                },
             ]
         },
         {

@@ -53,6 +53,15 @@ Vue.prototype.$REPLACEURL = (url: string): string => {
     return url;
 };
 
+Vue.prototype.$formatDateTime = (row: any, column: any): string => {
+    let formatString = row[column.property];
+    if (formatString) {
+        return moment(formatString).format('YYYY-MM-DD HH:mm:ss');
+    } else {
+        return '';
+    }
+};
+
 Vue.prototype.$formatDateTime = (formatString: string): string => {
     if (formatString) {
         return moment(formatString).format('YYYY-MM-DD HH:mm:ss');

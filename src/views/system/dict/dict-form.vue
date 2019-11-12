@@ -11,7 +11,7 @@
         <el-input v-model="formItem.sort"></el-input>
       </el-form-item>
       <el-form-item label="备注" prop="remarks">
-        <el-input type="text" v-model="formItem.remarks"></el-input>
+        <el-input type="textarea" :rows="2" v-model="formItem.remarks"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('formItem')" size="mini">提交</el-button>
@@ -34,7 +34,7 @@
         public rules: {} = {
             label: [
                 {required: true, message: '请输入字典组标题', trigger: 'blur'},
-                {min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur'}
+                {min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur'}
             ],
             key: [
                 {required: true, message: '请输入字典组值', trigger: 'blur'},
