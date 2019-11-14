@@ -20,13 +20,10 @@ Vue.config.productionTip = false;
 /**
  * 替换url
  */
-Vue.prototype.$HOSTURL = (url: string): string => {
-    if (url && url.length > 0) {
-        const arrUrl = url.split('//');
-        const start = arrUrl[1].indexOf('/');
-        const relUrl = arrUrl[1].substring(start);
-        const hostUrl = window.location.origin;
-        return hostUrl + relUrl;
+Vue.prototype.$URLREPLACEHOST = (url: string): string => {
+    let regex = /\/\/([^]*)\/api/;
+    if (regex.test(url)) {
+        url.replace(RegExp.$1, window.location.host);
     }
     return url;
 };
@@ -34,23 +31,35 @@ Vue.prototype.$HOSTURL = (url: string): string => {
 /**
  * 替换url
  */
-Vue.prototype.$REPLACEURL = (url: string): string => {
-    if (url && url.length > 0) {
-        const start = url.indexOf('static');
-        const relUrl = url.substring(start, url.length - 4);
-        const type = url.substring(url.length - 4);
-        switch (type) {
-            case '.jpg':
-                // return url.substring(start);
-                return require('@/assets/' + relUrl + '.jpg');
-            case '.png':
-                // return url.substring(start);
-                return require('@/assets/' + relUrl + '.png');
-            default:
-                return url;
-        }
+Vue.prototype.$URLREQUIRE = (url: string): any => {
+    let regex = /[^]*(\/static\/[^]*)/;
+    let regexType = /([^]*)\.\w{0,2}|\w{0,3}g/;
+    let temp = '';
+    if (url && regexType.test(url) && regex.test(url)) {
+        temp = RegExp.$1;
     }
-    return url;
+    try {
+        return require('@/assets' + temp);
+    } catch (e) {
+        return url;
+    }
+
+};
+
+Vue.prototype.$getDict = function(groupName: string) {
+    if (!groupName) {
+        return;
+    }
+    const state = this.$store.state.common;
+    if (state.dict[groupName]) {
+        return state.dict[groupName];
+    } else {
+        ApiFactory.getApi(Dict).queryDictByGroupLabel(groupName).then((res: any) => {
+            state.dict[groupName] = res.data;
+            this.$store.commit('initDict', state.dict);
+            return state.dict[groupName];
+        });
+    }
 };
 
 Vue.prototype.$formatDateTime = (row: any, column: any): string => {
@@ -78,11 +87,11 @@ Vue.prototype.$formatDate = (formatString: string): string => {
 };
 
 Vue.prototype.$tableCellHeader = {
-    'color': '#409EFF',
-    'background': '#eef5fe'
+    color: '#409EFF',
+    background: '#eef5fe'
 };
 
-Vue.prototype.$indexMethod = (page: {start: number, size: number})  => {
+Vue.prototype.$indexMethod = (page: { start: number, size: number }) => {
     return ((page.start - 1) * page.size) + 1;
 };
 
