@@ -2,23 +2,9 @@
   <div v-loading="loading">
     <custom-collapse :searchFlag="false">
       <el-row :gutter="24">
-        <el-col :span="4">
+        <el-col :span="6">
           <custom-perm label="upload-file-manage">
-            <el-upload
-                class="upload-demo"
-                ref="upload"
-                :action="$HOSTURL('http://127.0.0.1:8018/api/file/upload')"
-                :on-success ="uploadSuccess"
-                :before-upload="beforeAvatarUpload"
-                :file-list = "fileList"
-                :auto-upload="false">
-              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            </el-upload>
-          </custom-perm>
-        </el-col>
-        <el-col :span="2">
-          <custom-perm label="upload-file-manage">
-            <el-button size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+            <custom-file-upload :on-success="uploadSuccess"></custom-file-upload>
           </custom-perm>
         </el-col>
         <el-col :offset="16" :span="2">
@@ -70,9 +56,11 @@
   import {ApiFactory, File} from '@/resources';
   import {DateUtils} from '@/utils/common-utils';
   import CustomCollapse from '../../components/custom/custom-collapse';
+  import CustomFileUpload from '../../components/custom/custom-file-upload';
+
   export default {
     name: 'file',
-    components: {CustomCollapse},
+    components: {CustomFileUpload, CustomCollapse},
     data () {
       return {
         loading: true,
@@ -103,35 +91,15 @@
         }
         return '';
       },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
       updateIndex(index) {
         return index + (this.condition.offset-1) * this.condition.limit + 1;
       },
       setTime (row) {
         return DateUtils.formatStringToDateTime(row.fileCreateTime);
       },
-      submitUpload() {
-        this.$refs.upload.submit();
-      },
       uploadSuccess () {
         this.list=[];
         this.getFileList();
-      },
-      beforeAvatarUpload(file) {
-        // const isJPG = file.type === 'image/jpeg';
-        // const isPNG = file.type === 'image/png';
-        const isLt5M = file.size / 1024 / 1024 < 5;
-        // if (!isJPG && !isPNG) {
-        //   this.$message.error('上传图片只能是 JPG 格式 或 PNG 格式!');
-        //   return false;
-        // }
-        if (!isLt5M) {
-          this.$message.error('上传图片大小不能超过 5MB!');
-          return false;
-        }
-        return file;
       },
       handleSizeChange(val) {
         this.condition.limit = val;

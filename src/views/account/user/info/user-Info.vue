@@ -2,7 +2,7 @@
   <div :style="'height: '+ defaultHeight +'px; background-color: rgba(0, 0, 0, 0.4)'">
     <div id="content">
       <div id="user-avatar">
-        <img :src="$REPLACEURL(user.userAvatar)">
+        <img :src="$URLREQUIRE(user.userAvatar)">
       </div>
       <h3 class="user-tile">{{user.userName}}</h3>
       <ul class="user-ul">
@@ -26,6 +26,7 @@
 </template>
 <script>
   import selfFrom from './user-Info-from.vue';
+
   export default {
     components: {
       selfFrom: selfFrom,

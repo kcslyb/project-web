@@ -88,7 +88,8 @@
 </template>
 
 <script>
-  import {ApiFactory, UserAccount, Role, UserDepartment} from '@/resources';
+  import {ApiFactory, Role, UserAccount, UserDepartment} from '@/resources';
+
   export default {
     name: 'from',
     props: {
@@ -105,7 +106,7 @@
       user(u) {
         this.fileList = [];
         if (u.userAvatar) {
-          this.fileList.push({name: u.userName + ' avatar', url: this.$REPLACEURL(u.userAvatar)});
+          this.fileList.push({name: u.userName + ' avatar', url: this.$URLREQUIRE(u.userAvatar)});
         }
       }
     },

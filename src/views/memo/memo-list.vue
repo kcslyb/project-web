@@ -2,45 +2,19 @@
   <div>
     <div>
       <custom-collapse>
-        <div style="float: right"><el-button type="primary" plain size="mini" @click="addMemo">添加</el-button></div>
-        <div style="clear: right"></div>
-        <el-row :gutter="24">
-          <el-col :offset="3" :span="8">
-            <span class="label">访问者:</span>
-            <el-select v-model="condition.logUserId" style="width: 80%"
-                       remote
-                       filterable
-                       :remote-method="filterMemoType"
-                       clearable placeholder="输入关键字搜索类型">
-              <el-option
-                  v-for="item in memoTypeList"
-                  :key="item.id"
-                  :label="item.key + '-' + item.label"
-                  :value="item.key">
-              </el-option>
-            </el-select>
-          </el-col>
-          <el-col :span="8">
-            <span class="label">时间段:</span>
-            <el-date-picker
-                v-model="condition.endTime"
-                type="datetimerange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期">
-            </el-date-picker>
-          </el-col>
-          <el-col :span="4">
-            <el-button type="primary" plain @click="searchMemo">搜索</el-button>
-            <el-button type="info" plain @click="resetSearchMemo">重置</el-button>
-          </el-col>
-        </el-row>
+        <div style="text-align: right">
+          <el-button @click="addMemo" plain size="mini" type="primary">添加</el-button>
+        </div>
       </custom-collapse>
     </div>
     <el-table border :data="memoList" stripe :header-cell-style="$tableCellHeader">
       <el-table-column type="index" width="50" label="序号" :index="$indexMethod(page)"></el-table-column>
       <el-table-column prop="title" label="标题" align="center"></el-table-column>
-      <el-table-column prop="type" label="类型" align="center"></el-table-column>
+      <el-table-column align="center" label="类型" prop="type">
+        <template slot-scope="scope">
+          <custom-dict :dictValue="scope.row.type" dictGroup="memoType"></custom-dict>
+        </template>
+      </el-table-column>
       <el-table-column prop="overhead" label="开销" align="center"></el-table-column>
       <el-table-column prop="remake" label="备注" align="center"></el-table-column>
       <el-table-column prop="happenTime" label="发生时间" align="center" :formatter="$formatDateTime"></el-table-column>
@@ -66,8 +40,10 @@
     import {ApiFactory, Memo} from '@/resources';
     import CustomDrawer from '@/components/custom/custom-drawer.vue';
     import MemoForm from '@/views/memo/memo-form.vue';
+    import CustomDict from '@/components/custom/custom-dict.vue';
+
     @Component({
-        components: {MemoForm, CustomDrawer}
+        components: {CustomDict, MemoForm, CustomDrawer}
     })
     export default class MemoList extends Vue {
         @Provide() public name: string = 'MemoList';
@@ -108,7 +84,7 @@
         }
 
         public deleteDict(item: any) {
-            let params = Object.assign({}, item, {deleteFlag: '1'});
+            let params = Object.assign({}, item, {deleteFlag: 'true'});
             ApiFactory.getApi(Memo).put(params).then(() => {
                 this.getDataList();
             });

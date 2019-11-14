@@ -7,7 +7,7 @@
             <span>BLOG</span>
           </div>
         </el-col>
-        <el-col :span="21">
+        <el-col :span="20">
           <el-menu class="el-menu-demo main-menu"
                    background-color="#EEF5FE"
                    text-color="#000"
@@ -23,11 +23,11 @@
             </template>
           </el-menu>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="3">
           <el-row :gutter="24">
             <el-col :span="12">
-              <div
-                  style="height: 60px; font-size: 1rem; font-weight: bold; display: flex; align-items: center; justify-content: center; color: #449EFF;">
+              <div style="height: 60px; font-size: 1rem; float: right; font-weight: bold; display: flex;
+                   align-items: center; justify-content: center; color: #449EFF;">
                 {{$store.state.user.userName}}
               </div>
             </el-col>
@@ -35,7 +35,7 @@
               <div class="block" style="height: 60px; display: flex; align-items: center; justify-content: center;">
                 <el-dropdown>
                 <span class="el-dropdown-link">
-                  <el-avatar size="medium" :src="$REPLACEURL($store.state.user.avatar)"></el-avatar>
+                  <el-avatar :src="$URLREQUIRE($store.state.user.avatar)" size="medium"></el-avatar>
                 </span>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>
