@@ -42,9 +42,7 @@
         this.$emit('on-remove', file, fileList);
       },
       uploadSuccess(response) {
-        console.info(response);
         this.file = EncryptHelper.aesDecrypt(response);
-        console.info(this.file);
         let data = this.file.hasOwnProperty('data') ? this.file.data : this.file;
         this.$emit('on-success', data);
       },

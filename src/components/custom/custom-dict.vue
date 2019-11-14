@@ -30,7 +30,6 @@
             let temp = '';
             data.forEach((value: any) => {
                 if (Object.is(value.key, this.dictValue)) {
-                    console.info(value.label);
                     temp = value.label;
                 }
             });

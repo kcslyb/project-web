@@ -25,7 +25,7 @@
             <div style="clear: right"></div>
             <div class="notify-title">
               <div class="item-block item-title">{{item.noteTitle}}</div>
-              <div class="item-block item-float-right">{{$formatDateTime(item.noteModifyTime)}}</div>
+              <div class="item-block item-float-right">{{$formatDateTimeString(item.noteModifyTime)}}</div>
             </div>
             <div class="notify">
               <div class="notify-releases">
