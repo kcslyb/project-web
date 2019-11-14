@@ -1,31 +1,40 @@
 <template>
-<span>{{value}}</span>
+  <span>{{value}}</span>
 </template>
 
-<script>
-  export default {
-    name: 'CustomDict',
-    props: {
-      dictGroup: {
-        type: String,
-        default: ''
-      },
-      dictValue: {
-        type: String,
-        default: ''
-      }
-    },
-    compute: {
-      value: () => {
-        this.$getDictionaryByGroup(this.dictGroup).then((res) => {
-          let result = res ? res.filter(value => {
-            return value.dictionaryKey === this.dictValue;
-          }) : [];
-          return result.length > 0 ? result[0].dictionaryLabel : '不存在该字典';
-        })
-      }
-    }
-  };
+<script lang="ts">
+    import {Component, Prop, Provide, Vue} from 'vue-property-decorator';
+    import {ApiFactory, Dict} from '@/resources';
+
+    @Component
+    export default class CustomDict extends Vue {
+        @Provide() public name: string = 'CustomDict';
+        @Provide() public data: any[] = [];
+        @Prop({default: ''}) public dictGroup!: string;
+        @Prop({default: ''}) private dictValue!: string;
+
+        mounted() {
+            ApiFactory.getApi(Dict).queryDictByGroupLabel(this.dictGroup).then((res: any) => {
+                this.data = res.data;
+                console.info(res.data);
+            });
+        }
+
+        get value() {
+            if (this.data.length) {
+                return this.getLabel(this.data);
+            }
+            return '不存在该字典';
+        }
+
+        getLabel(data: any[]) {
+            data.forEach((value: any) => {
+                if (Object.is(value.key, this.dictValue)) {
+                    return value.label;
+                }
+            });
+        }
+    };
 </script>
 
 <style scoped>

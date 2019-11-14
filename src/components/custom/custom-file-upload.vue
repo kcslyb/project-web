@@ -1,20 +1,20 @@
 <template>
   <div>
     <el-upload
-      class="upload-demo"
-      :action="$HOSTURL(uploadPath)"
-      :on-success ="uploadSuccess"
-      :on-remove="handleRemove"
-      :before-upload="beforeAvatarUpload"
-      :file-list = "fileList"
-      :list-type="checkType ? 'picture' : 'text'">
+        class="upload-demo"
+        :action="$URLREPLACEHOST(uploadPath)"
+        :on-success ="uploadSuccess"
+        :on-remove="handleRemove"
+        :before-upload="beforeAvatarUpload"
+        :file-list = "fileList"
+        :list-type="checkType ? 'picture' : 'text'">
       <el-button size="small" class="el-icon-upload" type="primary">点击上传</el-button>
     </el-upload>
   </div>
 </template>
 
 <script>
-  import {aesDecrypt} from '@/utils/encryption-util';
+  import EncryptHelper from '@/utils/encryption-util';
 
   export default {
     name: 'CustomFileUpload',
@@ -39,12 +39,14 @@
     },
     methods: {
       handleRemove (file, fileList) {
-        this.$emit('handleRemove', file, fileList);
+        this.$emit('on-remove', file, fileList);
       },
       uploadSuccess(response) {
-        this.file = aesDecrypt(response);
+        console.info(response);
+        this.file = EncryptHelper.aesDecrypt(response);
+        console.info(this.file);
         let data = this.file.hasOwnProperty('data') ? this.file.data : this.file;
-        this.$emit('callback', data);
+        this.$emit('on-success', data);
       },
       beforeAvatarUpload(file) {
         if (this.checkType) {
