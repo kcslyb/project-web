@@ -71,7 +71,7 @@ Vue.prototype.$formatDateTime = (row: any, column: any): string => {
     }
 };
 
-Vue.prototype.$formatDateTime = (formatString: string): string => {
+Vue.prototype.$formatDateTimeString = (formatString: string): string => {
     if (formatString) {
         return moment(formatString).format('YYYY-MM-DD HH:mm:ss');
     } else {

@@ -16,7 +16,6 @@
         mounted() {
             ApiFactory.getApi(Dict).queryDictByGroupLabel(this.dictGroup).then((res: any) => {
                 this.data = res.data;
-                console.info(res.data);
             });
         }
 
@@ -28,11 +27,14 @@
         }
 
         getLabel(data: any[]) {
+            let temp = '';
             data.forEach((value: any) => {
                 if (Object.is(value.key, this.dictValue)) {
-                    return value.label;
+                    console.info(value.label);
+                    temp = value.label;
                 }
             });
+            return temp;
         }
     };
 </script>

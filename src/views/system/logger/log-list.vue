@@ -21,8 +21,9 @@
           <el-col :span="8">
             <span class="label">时间段:</span>
             <el-date-picker
-                v-model="condition.endTime"
+                v-model="periodTime"
                 type="datetimerange"
+                value-format=""
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
@@ -59,6 +60,7 @@
     })
     export default class LogList extends Vue {
         @Provide() name: string = 'LogList';
+        @Provide() periodTime: string[] = [];
         @Provide() public loggerList: any[] = [];
         @Provide() public visitorList: any[] = [];
         @Provide() public page: {
@@ -77,6 +79,10 @@
         }
 
         public getDataList() {
+            if (this.periodTime) {
+                this.condition.startTime = this.periodTime[0];
+                this.condition.endTime = this.periodTime[1];
+            }
             let params = Object.assign({}, this.condition);
             ApiFactory.getApi(Logger).queryPager(params).then(res => {
                 this.loggerList = res.data.list;
@@ -86,9 +92,6 @@
 
         filterVisitor(query: string) {
             this.visitorList = [];
-            if (!query) {
-                return;
-            }
             ApiFactory.getApi(UserAccount).queryPager({start: 0, size: 10, keyWord: query}).then(res => {
                 this.visitorList = res.data.list;
             });

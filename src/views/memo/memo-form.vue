@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-    import {Component, Provide, Prop, Vue} from 'vue-property-decorator';
+    import {Component, Prop, Provide, Vue} from 'vue-property-decorator';
     import {ApiFactory, Dict, Memo} from '@/resources';
 
     @Component
@@ -71,6 +71,12 @@
                 {required: true, message: '请选择发生时间', trigger: 'blur'},
             ]
         };
+
+        mounted() {
+            ApiFactory.getApi(Dict).queryDictByGroupLabel('memoType').then((res) => {
+                this.memoType = res.data;
+            });
+        }
 
         public editMemo(formItem: any) {
             if (formItem.id) {
@@ -101,16 +107,13 @@
         }
 
         public filterMemoType(query: string) {
-            if (!this.memoType.length) {
-                ApiFactory.getApi(Dict).queryDictByGroupLabel('memoType').then((res) => {
-                    this.memoType = res.data;
-                });
-            }
-            if (!query) {
-                this.memoType = this.memoType.filter(value => {
+            let temp = [];
+            if (query) {
+                temp = this.memoType.filter(value => {
                     return value.label.includes(query) && value.remarks.includes(query)
                 });
             }
+            return temp;
         }
     };
 </script>
