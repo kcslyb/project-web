@@ -1,68 +1,11 @@
 <template>
-  <custom-table
-      :columns="[{id: id, label: '唯一标示'}, {name: id, label: '唯一标示'}, {sex: id, label: '唯一标示'}]"
-      :condition="condition"
-      :data="parent"
-      :page="page"
-      isIndex="true"
-      isOperation="true"
-      isSelection="true">
-    <template slot="search">
-      <div style="float: right">
-        <el-button @click="addMemo" plain size="mini" type="primary">添加</el-button>
-      </div>
-      <div style="clear: right"></div>
-      <el-row :gutter="24">
-        <el-col :offset="3" :span="8">
-          <span class="label">访问者:</span>
-          <el-select :remote-method="filterMemoType" clearable
-                     filterable
-                     placeholder="输入关键字搜索类型"
-                     remote
-                     style="width: 80%" v-model="condition.logUserId">
-            <el-option
-                :key="item.id"
-                :label="item.key + '-' + item.label"
-                :value="item.key"
-                v-for="item in memoTypeList">
-            </el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="8">
-          <span class="label">时间段:</span>
-          <el-date-picker
-              end-placeholder="结束日期"
-              range-separator="至"
-              start-placeholder="开始日期"
-              type="datetimerange"
-              v-model="condition.endTime">
-          </el-date-picker>
-        </el-col>
-        <el-col :span="4">
-          <el-button @click="searchMemo" plain type="primary">搜索</el-button>
-          <el-button @click="resetSearchMemo" plain type="info">重置</el-button>
-        </el-col>
-      </el-row>
-    </template>
-    <template slot="operation" slot-scope="slotProps">
-      <custom-perm :label="memoPerms">
-        <el-button @click="updateDict(slotProps.row)" plain size="mini" type="primary">update</el-button>
-        <el-button @click="deleteDict(slotProps.row)" plain size="mini" type="danger">delete</el-button>
-      </custom-perm>
-    </template>
-  </custom-table>
-  <!--  <div>-->
-  <!--    <custom-node-->
-  <!--        :space="100"-->
-  <!--        :self="self"-->
-  <!--        :parent="parent"-->
-  <!--        :brother="brother"-->
-  <!--        :children="children">-->
-  <!--    </custom-node>-->
-  <!--  </div>-->
+    <div>
+        <div ref="chart" style="height: 500px"></div>
+    </div>
 </template>
 
 <script lang="ts">
+    import echarts from 'echarts';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import CustomTable from '@/components/custom-table.vue';
 
@@ -72,61 +15,58 @@
     export default class Test extends Vue {
         @Provide()
         public show: boolean = false;
-        @Provide()
-        public self: object = {
-            id: 'id-self',
-            name: 'name-0',
-            sex: 'sex-0'
+        public option: any = {
+            //标题
+            title: {
+                text: '基础雷达图'
+            },
+            tooltip: {},
+            legend: {
+                data: ['预算分配（Allocated Budget）', '实际开销（Actual Spending）']
+            },
+            radar: {
+                name: {
+                    textStyle: {
+                        color: '#fff',
+                        backgroundColor: '#999',
+                        borderRadius: 3,
+                        padding: [3, 5]
+                    }
+                },
+                indicator: [
+                    { name: '销售（sales）', max: 6500},
+                    { name: '管理（Administration）', max: 16000},
+                    { name: '信息技术（Information Techology）', max: 30000},
+                    { name: '客服（Customer Support）', max: 38000},
+                    { name: '研发（Development）', max: 52000},
+                    { name: '市场（Marketing）', max: 25000}
+                ]
+            },
+            series: [{
+                name: '预算 vs 开销（Budget vs spending）',
+                type: 'radar',
+                data : [
+                    {
+                        value : [4300, 10000, 28000, 35000, 50000, 19000],
+                        name : '预算分配（Allocated Budget）'
+                    },
+                    {
+                        value : [5000, 14000, 28000, 31000, 42000, 21000],
+                        name : '实际开销（Actual Spending）'
+                    }
+                ]
+            }]
         };
-        @Provide()
-        public parent: object[] = [{
-            id: 'id-1',
-            name: 'name-2',
-            sex: 'sex-2'
-        }, {
-            id: 'id-3',
-            name: 'name-3',
-            sex: 'sex-3'
-        }]
-        ;
-        @Provide()
-        public brother: object[] = [{
-            id: 'id-4',
-            name: 'name-4',
-            sex: 'sex-4'
-        }, {
-            id: 'id-5',
-            name: 'name-5',
-            sex: 'sex-5'
-        }, {
-            id: 'id-5',
-            name: 'name-5',
-            sex: 'sex-5'
-        }, {
-            id: 'id-5',
-            name: 'name-5',
-            sex: 'sex-5'
-        }];
-        @Provide()
-        public children: object[] = [{
-            id: 'id-6',
-            name: 'name-6',
-            sex: 'sex-6'
-        }, {
-            id: 'id-7',
-            name: 'name-7',
-            sex: 'sex-7'
-        }, {
-            id: 'id-7',
-            name: 'name-7',
-            sex: 'sex-7'
-        }];
-
+        mounted() {
+            this.initChart();
+        }
+        public initChart() {
+            const chart: any = echarts.init(this.$refs.chart as HTMLCanvasElement);
+            chart.setOption(this.option);
+        }
     }
 </script>
 
 <style scoped lang="scss">
-  .logo-item {
-    padding: 5px;
-  }
+
 </style>

@@ -75,7 +75,7 @@ export default new Router({
             path: '/test',
             name: 'test',
             meta: {moduleId: 'home', title: 'test', icon: 'el-icon-s-home', perm: 'system-manage'},
-            component: () => import('@/views/system/dict/dict.vue'),
+            component: () => import('@/views/index/test.vue'),
         },
         {
             path: '/*',
