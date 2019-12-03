@@ -1,6 +1,18 @@
 <template>
     <div>
-        <div ref="chart" style="height: 500px"></div>
+        <custom-collapse>
+            <template slot="tools">
+                <el-button type="primary" plain size="mini">添加</el-button>
+                <el-button type="primary" plain size="mini">添加</el-button>
+                <el-button type="primary" plain size="mini">添加</el-button>
+            </template>
+            <template slot="content">
+                <el-input></el-input>
+            </template>
+        </custom-collapse>
+        <div>
+            <div ref="chart" style="height: 500px"></div>
+        </div>
     </div>
 </template>
 
@@ -8,9 +20,10 @@
     import echarts from 'echarts';
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import CustomTable from '@/components/custom-table.vue';
+    import CustomCollapse from "@/components/custom/custom-collapse.vue";
 
     @Component({
-        components: {CustomTable}
+        components: {CustomCollapse, CustomTable}
     })
     export default class Test extends Vue {
         @Provide()
