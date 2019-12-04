@@ -78,6 +78,12 @@ export default new Router({
             component: () => import('@/views/index/test.vue'),
         },
         {
+            path: '/store',
+            name: 'store',
+            meta: {moduleId: 'store', title: 'store', icon: 'el-icon-s-home', perm: 'system-manage'},
+            component: () => import('@/views/store/index.vue'),
+        },
+        {
             path: '/*',
             name: 'not-found',
             meta: {moduleId: 'home', title: '404', icon: 'el-icon-s-home', perm: 'system-manage'},

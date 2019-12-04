@@ -35,7 +35,7 @@
         public show: boolean = false;
         public option: any = {
             title: {
-                text: '极坐标双数值轴'
+                text: ''
             },
             legend: {
                 data: ['line']
