@@ -2,13 +2,18 @@
     <div>
         <custom-collapse>
             <template slot="tools">
-                <el-button type="primary" plain size="mini">添加</el-button>
-                <el-button type="primary" plain size="mini">添加</el-button>
-                <el-button type="primary" plain size="mini">添加</el-button>
+                <el-button type="primary" plain size="mini">1</el-button>
+                <el-button type="primary" plain size="mini">2</el-button>
+                <el-button type="primary" plain size="mini">3</el-button>
             </template>
             <template slot="content">
                 <el-input></el-input>
+                <el-input></el-input>
             </template>
+            <template slot="operate">
+                <el-button type="primary" plain size="mini">添加</el-button>
+            </template>
+            <h1>custom-collapse</h1>
         </custom-collapse>
         <div>
             <div ref="chart" style="height: 500px"></div>

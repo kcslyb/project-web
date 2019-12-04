@@ -3,12 +3,14 @@
         <div class="custom-collapse-warp">
             <div class="custom-collapse-header">
                 <el-row :gutter="24">
-                    <el-col :span="22">
+                    <el-col :xs="19" :sm="20" :md="21" :lg="22" :xl="22">
                         <div class="tools">
-                            <slot name="tools"></slot>
+                            <div v-show="flag">
+                                <slot name="tools"></slot>
+                            </div>
                         </div>
                     </el-col>
-                    <el-col :span="2">
+                    <el-col :xs="5" :sm="4" :md="3" :lg="2" :xl="2">
                         <span @click="flag = !flag">{{flag?'隐藏':'展开'}}搜索</span>
                         <i :class="flag ? 'el-icon-arrow-down': 'el-icon-arrow-right'" @click="flag = !flag"></i>
                     </el-col>
@@ -17,12 +19,17 @@
             <div v-if="flag" class="custom-collapse-content">
                 <slot name="content"></slot>
                 <el-row :gutter="24" v-if="$scopedSlots.hasOwnProperty('content')">
-                    <el-col :offset="20" :span="4" class="tools">
+                    <el-col :span="24" class="tools">
+                        <slot name="operate"></slot>
                         <el-button type="primary" plain size="mini" @click="searchSubmit">查询</el-button>
                         <el-button type="info" plain size="mini" @click="searchReset">重置</el-button>
                     </el-col>
                 </el-row>
+                <div>
+                    <slot></slot>
+                </div>
             </div>
+
             <div style="clear: right"></div>
         </div>
     </div>
@@ -58,6 +65,7 @@
     }
 
     .tools {
+        width: 100%;
         text-align: right;
         padding: 5px 0;
     }
