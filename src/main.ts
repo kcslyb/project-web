@@ -87,7 +87,7 @@ Vue.prototype.$formatDate = (formatString: string): string => {
 };
 
 Vue.prototype.$tableCellHeader = {
-    color: '#409EFF',
+    color: '#000',
     background: '#eef5fe'
 };
 
