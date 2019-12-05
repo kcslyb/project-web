@@ -2,7 +2,7 @@
     <div class="custom-collapse">
         <div class="custom-collapse-warp">
             <div class="custom-collapse-header">
-                <el-row :gutter="24">
+                <el-row :gutter="24" style="margin: 0">
                     <el-col :xs="19" :sm="20" :md="21" :lg="22" :xl="22">
                         <div class="tools">
                             <div v-show="flag">

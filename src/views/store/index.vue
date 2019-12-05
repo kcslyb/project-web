@@ -1,16 +1,16 @@
 <template>
 <div>
     <div>
-<!--        <el-carousel :interval="4000" type="card" height="300px">-->
-<!--            <el-carousel-item v-for="item in 6" :key="item">-->
-<!--                <h3 class="medium">{{ item }}</h3>-->
-<!--            </el-carousel-item>-->
-<!--        </el-carousel>-->
+        <el-carousel :interval="4000" type="card" height="300px">
+            <el-carousel-item v-for="item in 6" :key="item">
+                <h3 class="medium">{{ item }}</h3>
+            </el-carousel-item>
+        </el-carousel>
     </div>
     <div>
-<!--        <el-divider content-position="left">类别</el-divider>-->
+        <el-divider content-position="left">类别</el-divider>
         <div>
-<!--            <el-link v-for="item in 10" :underline="false">主要链接{{item}}</el-link>-->
+            <el-link v-for="item in 10" :underline="false">主要链接{{item}}</el-link>
         </div>
     </div>
 </div>
