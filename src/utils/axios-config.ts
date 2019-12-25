@@ -1,31 +1,65 @@
-import router from '@/router';
-import store from '@/store/index';
-import NProgress from 'nprogress';
-import 'nprogress/nprogress.css';
-import {getToken} from '@/utils/auth';
-import {Route} from 'vue-router';
-const whiteList = ['/login', '/test', '/store'];
-router.beforeEach((to: Route, from: Route, next: any) => {
-  NProgress.start();
-  if (getToken() === 'JSESSIONID') { // 已经登录
-    if (!store.getters.role) {
-      store.dispatch('GetInfo').then(() => {
-        next({...to});
-      }).catch(() => {
-        next({path: '/login'});
-        NProgress.done();
-      });
+import * as axios from 'axios';
+import {AxiosResponse, AxiosRequestConfig} from 'axios';
+import {Loading, Message} from 'element-ui';
+import EncryptHelper from '@/utils/encryption-util';
+import {ElLoadingComponent} from 'element-ui/types/loading';
+import {removeToken} from '@/utils/auth';
+
+const http = axios.default.create({
+    baseURL: process.env.BASE_URL,
+    timeout: 15000,
+});
+// request拦截器
+let loading: ElLoadingComponent;
+http.interceptors.request.use(
+    (config: AxiosRequestConfig) => {
+        loading = Loading.service({fullscreen: true});
+        // 对请求方式为post，put的请求进行加密
+        if (config.method === 'post' || config.method === 'put') {
+            config.data = EncryptHelper.aesEncrypt(JSON.stringify(config.data));
+        }
+        config.headers = {'Content-Type': 'application/json;charset=utf-8'};
+        return config;
+    },
+    (error: any) => {
+        Message.error({
+            message: '加载超时',
+        });
+        loading.close();
+        return Promise.reject(error);
     }
-    next();
-    NProgress.done();
-  } else if (whiteList.includes(to.path)) {// 如果前往的路径是白名单内的,就可以直接前往
-    next();
-    NProgress.done();
-  } else {// 如果路径不是白名单内的,而且又没有登录,就跳转登录页面
-    next({path: '/login'});
-    NProgress.done();
-  }
-});
-router.afterEach(() => {
-  NProgress.done();
-});
+);
+// response拦截器
+http.interceptors.response.use(
+    (response: AxiosResponse) => {
+        loading.close();
+        // 对进行加密过的string进行解密
+        if (response.data && typeof (response.data) === 'string') {
+            response.data = EncryptHelper.aesDecrypt(response.data);
+        }
+        return response;
+    },
+    (error: any) => {
+        loading.close();
+        let isDecrypt: boolean = error.response.data && typeof (error.response.data) === 'string';
+        let msg: string = error.message;
+        if (isDecrypt) {
+            try {
+                msg = EncryptHelper.aesDecrypt(error.response.data);
+            } catch (e) {
+                msg = error.response.data;
+            }
+        }
+        Message.error({
+            type: 'error',
+            message: msg,
+        });
+        const flag = error.response.config.url !== '/api/login';
+        if (error.response.status === 401 && flag) {
+            removeToken();
+            location.reload();
+        }
+        return Promise.reject(error);
+    }
+);
+export default http;

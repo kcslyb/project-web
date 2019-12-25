@@ -14,8 +14,18 @@
         </div>
         <div class="content">
             <div class="content-menu">
-                <div class="content-menu-left"></div>
-                <div class="content-menu-right"></div>
+                <div class="content-menu-left">
+                    <el-carousel :interval="4000" type="card" height="300px">
+                        <el-carousel-item v-for="item in 6" :key="item">
+                            <h3 class="medium">{{ item }}</h3>
+                        </el-carousel-item>
+                    </el-carousel>
+                </div>
+                <div class="content-menu-right">
+                    <div>
+                        <h1>2342</h1>
+                    </div>
+                </div>
             </div>
             <el-divider content-position="left">类别</el-divider>
             <div class="content-link">
@@ -34,7 +44,7 @@
         </div>
         <div class="footer">
             <div>Copyright © 2019 - 2019 kcs. All Rights Reserved.</div>
-            <div>个人 版权所有</div>
+            <div>@kcs个人 版权所有</div>
         </div>
     </div>
 </template>
@@ -75,11 +85,11 @@
     .content-menu{
         width: 100%;
         height: 300px;
-        padding: 20px 50px;
+        padding: 20px;
         box-sizing: border-box;
     }
     .content-menu-left {
-        width: 70%;
+        width: 100%;
         height: 100%;
         display: inline-block;
         box-sizing: border-box;
@@ -87,6 +97,8 @@
     .content-menu-right {
         width: 30%;
         height: 100%;
+        float: right;
+        z-index: 2;
         display: inline-block;
         box-sizing: border-box;
     }
@@ -143,5 +155,20 @@
         clear: both;
         display: block;
         visibility: hidden;
+    }
+    .el-carousel__item h3 {
+        color: #475669;
+        font-size: 14px;
+        opacity: 0.75;
+        line-height: 200px;
+        margin: 0;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n+1) {
+        background-color: #d3dce6;
     }
 </style>

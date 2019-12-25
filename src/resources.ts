@@ -1,4 +1,4 @@
-import http from '@/utils/http-config';
+import http from '@/utils/axios-config';
 import {AxiosResponse} from 'axios';
 
 class BaseApi {

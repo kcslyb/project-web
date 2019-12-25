@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import store from '@/store/index';
 import {removeToken, setToken} from '@/utils/auth';
-import http from '@/utils/http-config';
+import http from '@/utils/axios-config';
 
 Vue.use(Vuex);
 

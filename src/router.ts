@@ -81,8 +81,13 @@ export default new Router({
             path: '/store',
             name: 'store',
             meta: {moduleId: 'store', title: 'store', icon: 'el-icon-s-home', perm: 'system-manage'},
-            component: () => import('@/views/store/i' +
-            'ndex.vue'),
+            component: () => import('@/views/store/index.vue'),
+        },
+        {
+            path: '/product',
+            name: 'product',
+            meta: {moduleId: 'product', title: 'product', icon: 'el-icon-s-home', perm: 'system-manage'},
+            component: () => import('@/views/store/product.vue'),
         },
         {
             path: '/*',
