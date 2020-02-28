@@ -3,7 +3,7 @@
     <div>
       <custom-collapse>
         <el-row :gutter="24">
-          <el-col :offset="3" :span="8">
+          <el-col :offset="2" :span="8">
             <span class="label">访问者:</span>
             <el-select v-model="condition.logUserId" style="width: 80%"
                        remote
@@ -18,7 +18,7 @@
               </el-option>
             </el-select>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="9">
             <span class="label">时间段:</span>
             <el-date-picker
                 v-model="periodTime"

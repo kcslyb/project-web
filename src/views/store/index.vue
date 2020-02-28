@@ -3,8 +3,14 @@
         <div class="header">
             <div>
                 <template v-for="item in 3">
-                    <el-button size="small">link{{item}}</el-button>
+                    <el-button size="small" type="primary">link{{item}}</el-button>
                 </template>
+                <div style="display: inline-block; margin-left: 10px">
+                    <el-input size="small"></el-input>
+                </div>
+                <div style="display: inline-block;">
+                    <el-button size="small">搜索</el-button>
+                </div>
             </div>
             <div>
                 <template v-for="item in 5">
@@ -15,29 +21,30 @@
         <div class="content">
             <div class="content-menu">
                 <div class="content-menu-left">
-                    <el-carousel :interval="4000" type="card" height="300px">
-                        <el-carousel-item v-for="item in 6" :key="item">
-                            <h3 class="medium">{{ item }}</h3>
-                        </el-carousel-item>
-                    </el-carousel>
+                    <el-image class="image" src=""></el-image>
                 </div>
                 <div class="content-menu-right">
-                    <div>
-                        <h1>2342</h1>
-                    </div>
+                    <template v-for="item in 6">
+                        <el-button type="text" style="color: #fff; padding: 0 10px; height: 60px">link{{item}}</el-button><br/>
+                    </template>
                 </div>
             </div>
-            <el-divider content-position="left">类别</el-divider>
             <div class="content-link">
-                <template v-for="item in 10">
-                    <a class="menu-link">link{{item}}</a>
-                </template>
+                <div>
+                    <template v-for="item in 10">
+                        <a class="menu-link">link{{item}}</a>
+                    </template>
+                </div>
+                <div>
+                    <template v-for="item in 3">
+                        <el-button type="text">link{{item}}</el-button>
+                    </template>
+                </div>
             </div>
-            <el-divider content-position="left">详情</el-divider>
             <div class="content-type">
                 <template v-for="item in 20">
                     <el-card class="card-image">
-                        <el-image></el-image>
+                        <el-image class="image" src=""></el-image>
                     </el-card>
                 </template>
             </div>
@@ -77,6 +84,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        background-color: #e6e6e6;
     }
     .content {
          width: 100%;
@@ -84,33 +92,38 @@
      }
     .content-menu{
         width: 100%;
-        height: 300px;
-        padding: 20px;
+        height: 400px;
         box-sizing: border-box;
     }
     .content-menu-left {
         width: 100%;
+        height: 400px;
+        overflow: hidden;
+    }
+    .content-menu-left .image {
+        width: 100%;
         height: 100%;
-        display: inline-block;
-        box-sizing: border-box;
     }
     .content-menu-right {
-        width: 30%;
-        height: 100%;
-        float: right;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 20%;
+        height: 400px;
         z-index: 2;
-        display: inline-block;
-        box-sizing: border-box;
+        background-color: rgba(0,0,0,0.3);
     }
     .content-link {
         width: 100%;
-        padding: 20px 50px;
+        padding: 10px 50px;
         border-radius: 10px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         box-sizing: border-box;
+        border-top: 1px solid #e6e6e6;
+        border-bottom: 1px solid #e6e6e6;
     }
     .menu-link {
         width: 80px;
@@ -136,7 +149,12 @@
         justify-content: flex-start;
     }
     .card-image {
+        width: 18%;
         margin: 10px;
+    }
+    .card-image .image {
+        width: 100%;
+        height: auto;
     }
     .footer {
         width: 100%;

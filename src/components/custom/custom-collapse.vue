@@ -10,7 +10,7 @@
                             </div>
                         </div>
                     </el-col>
-                    <el-col :xs="5" :sm="4" :md="3" :lg="2" :xl="2">
+                    <el-col :xs="5" :sm="4" :md="3" :lg="2" :xl="2" style="padding: 0">
                         <span @click="flag = !flag">{{flag?'隐藏':'展开'}}搜索</span>
                         <i :class="flag ? 'el-icon-arrow-down': 'el-icon-arrow-right'" @click="flag = !flag"></i>
                     </el-col>
