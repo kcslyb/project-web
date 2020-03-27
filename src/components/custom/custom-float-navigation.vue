@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: "FloatNavigation",
+  name: "CustomFloatNavigation",
   props: {
     active: {
       type: Number,

@@ -30,10 +30,10 @@
 <script lang="ts">
     import echarts from 'echarts';
     import {Component, Provide, Vue} from 'vue-property-decorator';
-    import CustomTable from '@/components/custom-table.vue';
+    import CustomTable from '@/components/custom/custom-table.vue';
     import CustomCollapse from "@/components/custom/custom-collapse.vue";
     import CustomUpload from "@/components/custom/custom-upload.vue";
-    import FloatNavigation from "@/components/custom/FloatNavigation.vue";
+    import FloatNavigation from "@/components/custom/custom-float-navigation.vue";
 
     @Component({
         components: {FloatNavigation, CustomUpload, CustomCollapse, CustomTable}

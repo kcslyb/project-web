@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-    import ListItem from '@/components/custom-list-item.vue';
+    import ListItem from '@/components/custom/custom-list-item.vue';
     import {Component, Provide, Vue, Watch} from 'vue-property-decorator';
     import {ApiFactory, Dict, DictGroup} from '@/resources';
     import DictForm from '@/views/system/dict/dict-form.vue';

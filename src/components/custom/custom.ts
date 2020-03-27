@@ -8,6 +8,9 @@ import CustomAddressCity from './custom-address-city.vue';
 import CustomNode from './node/self-node.vue';
 import CustomPaging from './custom-paging.vue';
 import CustomCollapse from './custom-collapse.vue';
+import CustomUpload from './custom-upload.vue';
+import CustomTable from "@/components/custom/custom-table.vue";
+import CustomFloatNavigation from "@/components/custom/custom-float-navigation.vue";
 
 const components: any[] = [
     CustomLogo,
@@ -20,6 +23,9 @@ const components: any[] = [
     CustomNode,
     CustomPaging,
     CustomCollapse,
+    CustomFloatNavigation,
+    CustomTable,
+    CustomUpload
 ];
 
 const install = (Vue: any) => {

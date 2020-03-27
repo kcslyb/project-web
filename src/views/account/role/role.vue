@@ -60,7 +60,7 @@
   import permission from './permission';
   import PermissionTree from '@/utils/permission-tree';
   import RoleForm from './role-form';
-  import CustomListItem from '../../../components/custom-list-item';
+  import CustomListItem from '../../../components/custom/custom-list-item';
 
 
   export default {

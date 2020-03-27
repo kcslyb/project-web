@@ -125,7 +125,7 @@
   import accountForm from './account-from';
   import userInfo from './info/user-Info';
   import DepartmentForm from './department/department-form';
-  import CustomListItem from '../../../components/custom-list-item';
+  import CustomListItem from '../../../components/custom/custom-list-item';
   import CustomCollapse from '../../../components/custom/custom-collapse';
   import CustomPaging from '../../../components/custom/custom-paging';
 

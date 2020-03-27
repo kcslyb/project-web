@@ -65,7 +65,7 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../assets/scss/common";
+  @import "../../assets/scss/common";
 
   .hover-show {
     z-index: 10;
