@@ -15,9 +15,15 @@
             </template>
             <h1>custom-collapse</h1>
         </custom-collapse>
-        <div>
-            <div ref="chart" style="height: 500px"></div>
-        </div>
+<!--        <custom-upload></custom-upload>-->
+<!--        <custom-upload :isCheckImgType="true"></custom-upload>-->
+        <custom-upload :btnCss="css" :fileList="fileList"></custom-upload>
+        <custom-upload :isCheckImgType="true" url="https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"></custom-upload>
+<!--        <div>-->
+<!--            <div ref="chart" style="height: 500px"></div>-->
+<!--        </div>-->
+<!--        <custom-table :columns="columns" :data="data" is-selection="true"></custom-table>-->
+        <float-navigation :active="3" :menuList="menuList"></float-navigation>
     </div>
 </template>
 
@@ -26,11 +32,51 @@
     import {Component, Provide, Vue} from 'vue-property-decorator';
     import CustomTable from '@/components/custom-table.vue';
     import CustomCollapse from "@/components/custom/custom-collapse.vue";
+    import CustomUpload from "@/components/custom/custom-upload.vue";
+    import FloatNavigation from "@/components/custom/FloatNavigation.vue";
 
     @Component({
-        components: {CustomCollapse, CustomTable}
+        components: {FloatNavigation, CustomUpload, CustomCollapse, CustomTable}
     })
     export default class Test extends Vue {
+        @Provide()
+        public css: {} = {
+            width: '150px',
+            height: '38px',
+            display: 'block',
+            background: '#00bb88',
+            color: '#ffffff',
+            'font-size': '16px',
+        }
+
+        @Provide()
+        public menuList: any[] = [
+            {index: '1', label: '第一条'},
+            {index: '2', label: '第43条'},
+            {index: '3', label: '第34条'},
+            {index: '4', label: '第二条'}
+        ];
+
+        @Provide()
+        public columns: any[] = [
+            {key: 'key', label: '关键字'},
+            {key: 'label', label: '标签'},
+        ];
+        @Provide()
+        public fileList: any[] = [{
+            name: 'food.jpeg',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        }, {
+            name: 'food2.jpeg',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        }]
+
+        @Provide()
+        public data: any[] = [
+            {key: 'key', label: 'label', title: 'title'},
+            {key: 'key2', label: 'label2', title: 'title2'}
+        ];
+
         @Provide()
         public show: boolean = false;
         public option: any = {
