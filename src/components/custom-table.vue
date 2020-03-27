@@ -7,11 +7,11 @@
     </div>
     <div>
       <el-table :data="data" :header-cell-style="$tableCellHeader" stripe>
-        <el-table-column type="selection" v-if="isSelection" width="50"></el-table-column>
+        <el-table-column type="selection" v-if="isSelection && data.length > 0" width="50"></el-table-column>
         <el-table-column :index="$indexMethod(page)" align="center"
                          label="序号" type="index" v-if="isIndex" width="50">
         </el-table-column>
-        <template v-if="columns.length">
+        <template v-if="data.length > 0 && columns.length > 0">
           <template v-for="column of columns">
             <el-table-column :formatter="$formatDateTime" :label="column.label" :prop="column.key"
                              v-if="isTime(column.key)"></el-table-column>
@@ -30,7 +30,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <custom-paging :page="page" @size-change="handleSizeChange" @start-change="handleCurrentChange"
+      <custom-paging :page="page" :page-total="data.length" @size-change="handleSizeChange" @start-change="handleCurrentChange"
                      v-show="data.length"></custom-paging>
     </div>
   </div>
@@ -52,20 +52,26 @@
         public name: string = 'CustomTable';
         @Prop({default: false})
         public isSelection?: boolean;
+
         @Prop({default: false})
         public isIndex?: boolean;
+
         @Prop({default: false})
         public isOperation?: boolean;
+
         @Prop({default: () => []})
         public data?: any[];
+
         @Prop({default: () => []})
         public columns?: Column[];
+
         @Prop({
-            default: {size: 10, start: 1, total: 0}
+            default: function() {return {size: 10, start: 1}}
         })
         public page?: any;
+
         @Prop({
-            default: {size: 10, start: 1}
+            default: () => {return {size: 10, start: 1}}
         })
         public condition?: any;
 

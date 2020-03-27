@@ -29,8 +29,7 @@
                     <slot></slot>
                 </div>
             </div>
-
-            <div style="clear: right"></div>
+            <div style="clear: both"></div>
         </div>
     </div>
 </template>
