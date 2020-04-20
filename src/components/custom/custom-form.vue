@@ -6,19 +6,9 @@
         type: String,
         default: 'formName'
       },
-      model: {
-        type: Object,
-        default: () => {
-        }
-      },
       formItems: {
         type: Array,
         default: () => []
-      },
-      formData: {
-        type: Object,
-        default: () => {
-        }
       },
       labelWidth: {
         type: Number,
@@ -48,7 +38,7 @@
             type={item.type}
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
-            style={item.style ? item.style : 'width: 220px'}
+            style={item.style ? item.style : 'width: 200px'}
             disabled={item.disabled ? item.disabled : false}
             clearable={item.clearable ? item.clearable : true}
             maxlength={item.maxlength ? item.maxlength : 50}
@@ -66,7 +56,7 @@
             rows={item.rows ? item.rows : 3}
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
-            style={item.style ? item.style : 'width: 540px'}
+            style={item.style ? item.style : 'width: 500px'}
             disabled={item.disabled ? item.disabled : false}
             autosize={item.autosize ? item.autosize : false}
             maxlength={item.maxlength ? item.maxlength : 50}
@@ -82,7 +72,7 @@
           <el-select
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
-            style={item.style ? item.style : 'width: 220px'}
+            style={item.style ? item.style : 'width: 200px'}
             multiple={item.multiple ? item.multiple : false}
             disabled={item.disabled ? item.disabled : false}
             clearable={item.clearable ? item.clearable : true}
@@ -113,6 +103,7 @@
             size={item.size ? item.size : 'small'}
             attrs={{value: this.$attrs.value[item.name]}}
             disabled={item.disabled ? item.disabled : false}
+            style={item.style ? item.style : 'width: 200px'}
             value-format={item.valueFormat ? item.valueFormat : 'timestamp'} // 默认时间戳格式
             placeholder={item.placeholder ? item.placeholder : '请选择' + item.label}
             change={item.change}
@@ -131,7 +122,7 @@
             end-placeholder="请选择结束日期"
             start-placeholder="请选择开始日期"
             disabled={item.disabled ? item.disabled : false}
-            style={item.style ? item.style : 'width: 540px'}
+            style={item.style ? item.style : 'width: 500px'}
             value-format={item.valueFormat ? item.valueFormat : 'timestamp'}
             range-separator={item.rangeSeparator ? item.rangeSeparator : '至'}
             change={item.change}
@@ -146,8 +137,10 @@
           <el-cascader
             options={item.options}
             value={this.$attrs.value[item.name]}
+            size={item.size ? item.size : 'small'}
             disabled={item.disabled ? item.disabled : false}
-            style={item.style ? item.style : 'width: 540px'}
+            style={item.style ? item.style : 'width: 200px'}
+            placeholder={item.placeholder ? item.placeholder : '请选择' + item.label}
             change={item.handleChange}/>
         )
       }
@@ -155,7 +148,7 @@
     render() {
       return (
         <el-form ref={this.formName}
-                 attrs={{model: this.formModel}}
+                 attrs={{model: this.$attrs.value}}
                  label-width={this.labelWidth + 'px'}>
           {this.formItems.map((item) => {
             return (
