@@ -24,8 +24,10 @@
 <!--        </div>-->
 <!--        <custom-table :columns="columns" :data="data" is-selection="true"></custom-table>-->
 <!--        <float-navigation :active="3" :menuList="menuList"></float-navigation>-->
-        <custom-form :formItems="fromData" v-model="formModel"></custom-form>
-      <el-button @click="showFormModel">formModel</el-button>
+<!--        <custom-form :formItems="fromData" v-model="formModel"></custom-form>-->
+<!--      <el-button @click="showFormModel">formModel</el-button>-->
+      <custom-table :columns="columns" :data="data" :total="data.length"></custom-table>
+      <custom-table :data="data" :total="data.length"></custom-table>
     </div>
 </template>
 
@@ -60,50 +62,51 @@
             {index: '4', label: '第二条'}
         ];
         @Provide()
-        public formModel: any = {equName: 'equName'}
+        public formModel: any = {key: 'formModelKey'}
         @Provide()
         public fromData: any[] = [
           {
             type: 'input',
-            label: '设备名称',
-            name: 'equName',
+            label: '关键字',
+            name: 'key',
             disabled: false
           }, {
             type: 'input',
-            label: '运行编号',
-            name: 'equCode',
+            label: '编码',
+            name: 'code',
             disabled: false,
           }, {
-            type: 'cascade',
-            label: '运维单位',
-            name: 'maintenanceOrgId',
-            protoLabel: 'maintenanceOrgName',
-            relevance: '',
+            type: 'date',
+            label: '时间',
+            name: 'time',
             disabled: false,
-            props: {}
-          }, {
-            type: 'cascade',
-            label: '运维班组',
-            name: 'maintenanceTeamId',
-            protoLabel: 'maintenanceTeamName',
-            relevance: '',
-            disabled: false,
-            props: {}
           }, {
             type: 'select',
-            label: '所属电站',
+            label: '选项',
             name: 'substationId',
             relevance: 'powerStation',
             disabled: false,
-            dataList: []
+            dataList: [
+              {id: 'key', name: '关键字'},
+              {id: 'label', name: '标签'}
+            ]
           }
         ];
 
         @Provide()
         public columns: any[] = [
-            {key: 'key', label: '关键字'},
-            {key: 'label', label: '标签'},
+            {prop: 'key', label: '关键字'},
+            {prop: 'label', label: '标签'},
+            {prop: 'title', label: '标题'},
         ];
+
+        @Provide()
+        public data: any[] = [
+          {key: 'key', label: 'label', title: 'title'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key3', label: 'label3', title: 'title3'}
+        ];
+
         @Provide()
         public fileList: any[] = [{
             name: 'food.jpeg',
@@ -112,12 +115,6 @@
             name: 'food2.jpeg',
             url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
         }]
-
-        @Provide()
-        public data: any[] = [
-            {key: 'key', label: 'label', title: 'title'},
-            {key: 'key2', label: 'label2', title: 'title2'}
-        ];
 
         @Provide()
         public show: boolean = false;

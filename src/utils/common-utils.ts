@@ -25,6 +25,20 @@ export class DateUtils {
             return '';
         }
     }
+    /**
+     * 格式化时间函数
+     *
+     * @param formatString
+     * @param format
+     * @returns {String}
+     */
+    public static   formatStringToDate(formatString: string, format:string = 'YYYY-MM-DD'): string {
+        if (formatString) {
+            return moment(formatString).format(format);
+        } else {
+            return '';
+        }
+    }
 }
 
 // tslint:disable-next-line:max-classes-per-file
