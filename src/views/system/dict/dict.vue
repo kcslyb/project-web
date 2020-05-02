@@ -2,7 +2,7 @@
   <el-container>
     <el-aside width="200px" class="border mg-10" :style="'height:' + defaultHeight+ 'px'">
       <div>
-        <el-button style="width: 100%; margin: 5px 0" type="primary" plain @click="addDictGroup">ADD DICT GROUP
+        <el-button style="width: 100%; margin: 5px 0" type="primary" plain @click="addDictGroup">添加字典组
         </el-button>
       </div>
       <el-input v-model="keyWord" placeholder="输入关键字搜索字典组"></el-input>
@@ -19,10 +19,12 @@
     </el-aside>
     <div class="border table-lamp mg-10" :style="'height:' + defaultHeight+ 'px'">
       <custom-collapse>
-        <el-button style="float: right" type="primary" plain size="small" @click="addDict">ADD DICT</el-button>
-        <el-input v-model="dictKeyWord" plain size="small" placeholder="输入关键字搜索字典"
-                  style="display: block; width: 200px">
-        </el-input>
+        <div slot="tools">
+          <el-button type="primary" plain size="small" @click="addDict">添加字典项</el-button>
+          <el-input v-model="dictKeyWord" plain size="small" placeholder="输入关键字搜索字典"
+                    style="display: inline-block; margin: 0 20px; width: 200px">
+          </el-input>
+        </div>
       </custom-collapse>
       <el-table border :data="dictList" stripe :max-height="defaultHeight-50" :header-cell-style="$tableCellHeader">
         <el-table-column prop="label" label="字典标题" align="center"></el-table-column>

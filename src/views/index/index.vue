@@ -135,4 +135,7 @@
     color: $default-background-color;
     font-weight: bold;
   }
+  .el-menu.el-menu--horizontal {
+    border-bottom: none !important;
+  }
 </style>

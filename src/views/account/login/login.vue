@@ -124,9 +124,11 @@
               let encrypt = EncryptHelper.aesEncrypt(JSON.stringify(this.user));
               addOrEditLocalStorage('user', encrypt);
             }
-            this.$router.push('/home').catch(() =>{});
+            this.$router.push('/home').catch(() => {
+            });
           }
-        }).catch(() => {});
+        }).catch(() => {
+        });
       },
       addUer() {
         this.isActive = false;
@@ -160,29 +162,29 @@
     margin: auto;
     width: 50%;
     text-align: center;
-    @media (max-width: 1350px){
+    @media (max-width: 1350px) {
       width: 60%;
     }
-    @media (max-width: 1150px){
+    @media (max-width: 1150px) {
       width: 70%;
     }
     @media (max-width: 950px) {
       width: 80%;
     }
-    @media (max-width: 800px){
+    @media (max-width: 800px) {
       width: 90%;
     }
-    @media (max-width: 720px){
+    @media (max-width: 720px) {
       width: 100%;
     }
   }
 
-  .nav-login{
-    margin:auto ;
+  .nav-login {
+    margin: auto;
     text-align: center;
   }
 
-  .border-item{
+  .border-item {
     clear: left;
     width: 100%;
     box-shadow: 0 0 0 1px #e5e5e5;
@@ -201,7 +203,7 @@
   }
 
   .nav-item a {
-    cursor:pointer;
+    cursor: pointer;
     display: block;
     list-style: none;
     font-size: 14px;
@@ -210,16 +212,19 @@
     transition: background-color 100ms linear, color 100ms linear, border 100ms linear;
   }
 
-  .is-active{
+  .is-active {
     border-bottom: 2px solid $purple-color;
+
     a {
       color: #000;
       background-color: #fff;
     }
   }
-  .not-active{
+
+  .not-active {
     background-color: #fafafa;
     border-bottom: 2px solid transparent;
+
     a {
       color: #707070;
       background-color: transparent;
@@ -236,7 +241,7 @@
   .content-container {
     float: left;
     width: 50%;
-    @media (max-width: 650px){
+    @media (max-width: 650px) {
       width: 100%
     }
   }
@@ -252,7 +257,7 @@
     line-height: 1.5;
     color: #2e2e2e;
     text-align: left;
-    @media (max-width: 650px){
+    @media (max-width: 650px) {
       width: 100%
     }
   }
@@ -264,7 +269,7 @@
     margin-bottom: 10px;
     width: 100%;
     display: block;
-    cursor:pointer;
+    cursor: pointer;
     text-align: center;
     border-radius: 4px;
     font-size: 16px;
@@ -283,8 +288,8 @@
   }
 
   .float-right a {
-    cursor:pointer;
-    font-size: 0.1rem;
+    cursor: pointer;
+    font-size: 12px;
     list-style: none;
     color: #007bff;
     text-decoration: none;
@@ -305,6 +310,7 @@
     border-bottom-left-radius: 0.25rem;
     padding: 15px 15px 5px;
   }
+
   label {
     display: inline-block;
     padding-top: 5px;
@@ -316,6 +322,7 @@
     text-align: left;
     background-color: #fff;
   }
+
   .input {
     width: 94%;
     display: block;

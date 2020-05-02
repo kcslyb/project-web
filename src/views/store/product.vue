@@ -5,9 +5,9 @@
                 <el-card class="card-image">
                     <el-image class="image" src=""></el-image>
                     <div>
-                        <di>
+                        <div>
                             <span>公布既布既布既布既既布既布既既布既布既定{{item}}</span>
-                        </di>
+                        </div>
                         <span style="float:right; display:block;">${{item}}</span>
                     </div>
                 </el-card>

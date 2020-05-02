@@ -82,12 +82,26 @@ export default new Router({
             name: 'store',
             meta: {moduleId: 'store', title: 'store', icon: 'el-icon-s-home', perm: 'system-manage'},
             component: () => import('@/views/store/index.vue'),
+            children: [
+                {
+                    path: '/store/main',
+                    component: () => import('@/views/store/main.vue'),
+                    meta: {moduleId: 'store', title: '首页', perm: 'system-notify-manage'}
+                }
+            ]
         },
         {
-            path: '/product',
-            name: 'product',
-            meta: {moduleId: 'product', title: 'product', icon: 'el-icon-s-home', perm: 'system-manage'},
-            component: () => import('@/views/store/product.vue'),
+            path: '/store/manage',
+            name: 'storeManage',
+            meta: {moduleId: 'storeManage', title: 'storeManage', icon: 'el-icon-s-home', perm: 'system-manage'},
+            component: () => import('@/views/store/index.vue'),
+            children: [
+                {
+                    path: '/store/manage/product',
+                    component: () => import('@/views/store/manage/product/product-list.vue'),
+                    meta: {moduleId: 'storeManage', title: '菜品管理', perm: 'system-notify-manage'}
+                }
+            ]
         },
         {
             path: '/*',

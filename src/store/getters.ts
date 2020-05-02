@@ -5,6 +5,8 @@ const getters = {
   role: (state: any) => state.user.roleName,
   permissions: (state: any) => state.user.permissions,
   sysRouters: (state: any) => state.menu.sysRouters,
-  currentRouters: (state: any) => state.menu.currentRouters
+  currentRouters: (state: any) => state.menu.currentRouters,
+  dict: (state: any) => state.common.dict,
+  dictGroup: (state: any) => state.common.dictGroup
 };
 export default getters;

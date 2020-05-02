@@ -4,7 +4,7 @@ declare module '*.vue' {
 }
 
 declare module 'vue/types/vue' {
-  import vue from 'Vue';
+  import vue from 'vue';
   interface Vue extends vue{
     $notify: any;
     $https: any;

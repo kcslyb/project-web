@@ -46,22 +46,6 @@ Vue.prototype.$URLREQUIRE = (url: string): any => {
 
 };
 
-Vue.prototype.$getDict = function(groupName: string) {
-    if (!groupName) {
-        return;
-    }
-    const state = this.$store.state.common;
-    if (state.dict[groupName]) {
-        return state.dict[groupName];
-    } else {
-        ApiFactory.getApi(Dict).queryDictByGroupLabel(groupName).then((res: any) => {
-            state.dict[groupName] = res.data;
-            this.$store.commit('initDict', state.dict);
-            return state.dict[groupName];
-        });
-    }
-};
-
 Vue.prototype.$formatDateTime = (row: any, column: any): string => {
     let formatString = row[column.property];
     if (formatString) {
@@ -93,21 +77,6 @@ Vue.prototype.$tableCellHeader = {
 
 Vue.prototype.$indexMethod = (page: { start: number, size: number }) => {
     return ((page.start - 1) * page.size) + 1;
-};
-
-Vue.prototype.$getDict = async function(groupName: string) {
-    if (!groupName) {
-        return [];
-    }
-    const state = this.$store.state.common;
-    if (state.dict[groupName]) {
-        return state.dict[groupName];
-    } else {
-        ApiFactory.getApi(Dict).query({deleteFlag: '0'}).then((res) => {
-            this.$store.commit('initDict', {groupName: res.data});
-            return res.data;
-        });
-    }
 };
 
 new Vue({

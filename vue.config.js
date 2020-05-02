@@ -27,14 +27,16 @@ module.exports = {
     hotOnly: true, // 热更新
     proxy: process.env.NODE_ENV === 'production' ? { //配置自动启动浏览器
       '/api/*': {
-        target: 'http://127.0.0.1:8088',
+        // target: 'http://127.0.0.1:8088',
+        target: 'http://192.168.0.109:8088',
         changeOrigin: true,
         secure: false,
         ws: true//websocket支持
       }
     } : {
       '/api': {
-        target: 'http://127.0.0.1:8088',
+        // target: 'http://127.0.0.1:8088',
+        target: 'http://192.168.0.109:8088',
         ws: true,
         changeOrigin: true,
         pathRewrite: {

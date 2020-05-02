@@ -1,13 +1,122 @@
 <template>
-  $END$
+  <div class="content">
+    <div class="content-menu">
+      <div class="content-menu-left">
+        <el-image class="image" src=""></el-image>
+      </div>
+      <div class="content-menu-right">
+        <template v-for="item in 6">
+          <el-button type="text" style="color: #fff; padding: 0 10px; height: 60px">link{{item}}</el-button><br/>
+        </template>
+      </div>
+    </div>
+    <div class="content-link">
+      <div>
+        <template v-for="item in 10">
+          <el-button size="mini" type="primary" plain>link{{item}}</el-button>
+        </template>
+      </div>
+      <div>
+        <template v-for="item in 3">
+          <el-button type="text">link{{item}}</el-button>
+        </template>
+      </div>
+    </div>
+    <div class="content-type">
+      <template v-for="item in 20">
+        <el-card class="card-image">
+          <el-image class="image" src=""></el-image>
+        </el-card>
+      </template>
+    </div>
+  </div>
 </template>
 
-<script>
-  export default {
-    name: "main"
+<script lang="ts">
+  import {Component, Provide, Vue} from 'vue-property-decorator';
+
+  @Component
+  export default class StoreMain extends Vue {
+    @Provide()
+    public name: string = 'main';
   }
 </script>
 
 <style scoped>
-
+  .content {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .content-menu{
+    width: 100%;
+    height: 400px;
+    box-sizing: border-box;
+  }
+  .content-menu-left {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+  }
+  .content-menu-left .image {
+    width: 100%;
+    height: 100%;
+  }
+  .content-menu-right {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 20%;
+    height: 400px;
+    z-index: 2;
+    background-color: rgba(0,0,0,0.3);
+  }
+  .content-link {
+    width: 100%;
+    padding: 10px 50px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+  }
+  .menu-link {
+    width: 80px;
+    cursor: pointer;
+    color: #606266;
+    padding: 5px 10px;
+    text-align: center;
+    margin: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid #e6e6e6;
+  }
+  .menu-link:hover {
+    color: #e6e6e6;
+    background-color: #007bff;
+    border-radius: inherit;
+  }
+  .content-type{
+    width: 100%;
+    padding: 0 50px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .card-image {
+    width: 18%;
+    margin: 10px;
+  }
+  .clearFix{
+    zoom: 1; /*IE6*/
+  }
+  .clearFix:after{
+    content: ".";
+    height: 0;
+    clear: both;
+    display: block;
+    visibility: hidden;
+  }
 </style>

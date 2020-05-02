@@ -139,3 +139,7 @@ export class Logger extends BaseApi {
 export class Memo extends BaseApi {
     public url: string = 'api/memo';
 }
+// tslint:disable-next-line:max-classes-per-file
+export class Product extends BaseApi {
+    public url: string = 'api/product';
+}
