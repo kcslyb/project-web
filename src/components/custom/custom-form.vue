@@ -1,4 +1,6 @@
 <script>
+  import {ApiFactory, Dict} from "@/resources";
+
   export default {
     name: "CustomForm",
     props: {
@@ -13,12 +15,23 @@
       labelWidth: {
         type: Number,
         default: 100
+      },
+      rules: {
+        type: Object,
+        default: () => {
+        }
+      },
+      labelPosition: {
+        type: String,
+        default: 'left'
+      },
+      inline: {
+        type: Boolean,
+        default: true
       }
     },
     data() {
       return {}
-    },
-    mounted() {
     },
     methods: {
       processor(item) {
@@ -32,15 +45,28 @@
           return m.toUpperCase();
         });
       },
+      filterMethod(query, item) {
+        if (item.dictGroupId) {
+          let params = {
+            deleteFlag: '0',
+            groupId: item.dictGroupId,
+            keyWord: query,
+          };
+          ApiFactory.getApi(Dict).query(params).then(res => {
+            item.dataList = res.data;
+          });
+        }
+      },
       acquireInput(item) {
         return (
           <el-input
             type={item.type}
+            show-assword={item.showPassword}
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
             style={item.style ? item.style : 'width: 200px'}
             disabled={item.disabled ? item.disabled : false}
-            clearable={item.clearable ? item.clearable : true}
+            clearable={item.clearable ? !item.clearable : true}
             maxlength={item.maxlength ? item.maxlength : 50}
             show-word-limit={item.showWordLimit ? item.showWordLimit : false}
             placeholder={item.placeholder ? item.placeholder : '请输入' + item.label}
@@ -72,13 +98,16 @@
           <el-select
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
+            remote={item.remote ? !item.remote : true}
             style={item.style ? item.style : 'width: 200px'}
             multiple={item.multiple ? item.multiple : false}
             disabled={item.disabled ? item.disabled : false}
-            clearable={item.clearable ? item.clearable : true}
-            filterable={item.multiple ? item.filterable : true}
+            clearable={item.clearable ? !item.clearable : true}
+            filterable={item.multiple ? !item.filterable : true}
             placeholder={item.placeholder ? item.placeholder : '请选择' + item.label}
-            filter-method={item.filterMethod}
+            filter-method={(e) => {
+              item.filterMethod ? item.filterMethod : this.filterMethod(e, item);
+            }}
             onChange={(e) => {
               this.$set(this.$attrs.value, item.name, e);
             }}>
@@ -86,9 +115,9 @@
               [].concat(...item.dataList).map(value => {
                 return (
                   <el-option
-                    key={value.id}
-                    label={value.name}
-                    value={value.id}>
+                    key={value.key}
+                    label={value.label}
+                    value={value.key}>
                   </el-option>
                 )
               })
@@ -147,16 +176,19 @@
     },
     render() {
       return (
-        <el-form ref={this.formName}
-                 attrs={{model: this.$attrs.value}}
-                 label-width={this.labelWidth + 'px'}>
+        <el-form
+          rules={this.rules}
+          ref={this.formName}
+          inline={this.inline}
+          attrs={{model: this.$attrs.value}}
+          label-position={this.labelPosition}
+          label-width={this.labelWidth + 'px'}>
           {this.formItems.map((item) => {
             return (
               <el-form-item
                 label={item.label}
-                style="display: inline-block;"
-                prop={item.name ? item.name : ''}
-                rules={item.rules ? item.rules : []}>
+                rules={item.rules}
+                prop={item.name ? item.name : ''}>
                 {this.processor(item)}
               </el-form-item>
             )

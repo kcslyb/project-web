@@ -6,8 +6,8 @@
     data() {
       return {
         condition: {
-          pageNum: this.page.pageNum,
-          pageSize: this.page.pageSize
+          limit: this.page.limit,
+          offset: this.page.offset
         }
       }
     },
@@ -42,8 +42,8 @@
         type: Object,
         default: () => {
           return {
-            pageNum: 1,
-            pageSize: 10
+            limit: 1,
+            offset: 10
           }
         }
       },
@@ -70,7 +70,7 @@
     },
     methods: {
       indexMethod(index) {
-        return ((this.page.pageNum - 1) * this.page.pageSize) + 1 + index;
+        return ((this.condition.offset - 1) * this.condition.limit) + 1 + index;
       },
       rowDblclick(row, column, event) {
         this.$emit('rowDblclick', row, column, event);
@@ -88,24 +88,24 @@
         this.$emit('selectionChange', selection);
       },
       handleSizeChange(val) {
-        this.condition = Object.assign({}, this.page, {pageSize: val, pageNum: 1});
+        this.condition = Object.assign({}, this.page, {limit: val, offset: 1});
         this.$emit('pageChange', this.condition);
       },
       handleCurrentChange(val) {
-        this.condition = Object.assign({}, this.page, {pageNum: val});
+        this.condition = Object.assign({}, this.page, {offset: val});
         this.$emit('pageChange', this.condition);
       },
       isSequenceFlagMeth() {
-        if (this.isSequenceFlag && this.data.length > 0) {
+        if (this.isSequenceFlag && (this.columns.length > 0 || this.data.length > 0)) {
           return (
-            <el-table-column fixed align="center" label="序号" type="index" index={this.indexMethod} width="50"/>
+            <el-table-column fixed={true} align="center" label="序号" type="index" index={this.indexMethod} width="50"/>
           )
         }
       },
       isSelectFlagMeth() {
-        if (this.isSelectFlag && this.data.length > 0) {
+        if (this.isSelectFlag && (this.columns.length > 0 || this.data.length > 0)) {
           return (
-            <el-table-column fixed type="selection" width="40"/>
+            <el-table-column fixed={true} type="selection" width="40"/>
           )
         }
       },
@@ -116,9 +116,9 @@
               <el-pagination
                 onSize-change={this.handleSizeChange}
                 onCurrent-change={this.handleCurrentChange}
-                current-page={this.page.pageNum}
+                current-page={this.page.limit}
                 page-sizes={this.pageSizeArray}
-                page-size={this.page.pageSize}
+                page-size={this.page.offset}
                 layout="total, sizes, prev, pager, next, jumper"
                 total={this.total}>
               </el-pagination>
@@ -151,18 +151,28 @@
               )
             })
           )
-        } else {
-          let temp = Object.keys(this.data[0])
+        } else if (this.data.length > 0){
+          let temp = Object.keys(this.data[0]);
           return (
             temp.map(value => {
+              if (value.indexOf('Id') > -1) {
+                return ;
+              }
               return (
                 <el-table-column
                   prop={value}
                   label={value}
+                  width={value.length * 12}
                   show-overflow-tooltip={true}
+                  sortable={value.sortable ? !value.sortable : true}
                   {...{
                     scopedSlots: {
                       default: props => {
+                        if (value.indexOf('Time') > -1) {
+                          return (
+                            this.processor(props, {prop: value, type: 'dateTime'})
+                          )
+                        }
                         return (
                           this.processor(props, {prop: value})
                         )
@@ -181,13 +191,22 @@
           let type = this.replaceStr(value.type);
           return self['acquire' + type](props, value); // 拼接方法
         }
-        return props.row[value.prop]
+        if (value.appendText) {
+          return props.row[value.prop] + value.appendText;
+        }
+        return props.row[value.prop];
       },
       replaceStr(str) {
         let reg = /\b(\w)|\s(\w)/g;
         return str.replace(reg, function (m) {
           return m.toUpperCase();
         });
+      },
+      // 返回格式化data
+      acquireDict(props, item) {
+        return (
+          <custom-dict dictValue={props.row[item.prop]} dictGroup={item.dictGroup}/>
+        )
       },
       // 返回格式化data
       acquireDate(props, item) {
@@ -205,13 +224,13 @@
       acquireOptButton(props, item) {
         return (
           <div>
-            <el-button size={item.size ? item.size : 'small'} onClick={
+            <el-button size={item.size ? item.size : 'mini'} type="warning" plain={true} onClick={
               () => {
                 this.$emit('buttonEditClick', props.row, item)
               }
             }><i class={item.icon ? item.icon : 'el-icon-edit'}>编辑</i>
             </el-button>
-            <el-button size={item.size ? item.size : 'small'} onClick={
+            <el-button size={item.size ? item.size : 'mini'} type="danger" plain={true} onClick={
               () => {
                 this.$emit('buttonDeleteClick', props.row, item)
               }
@@ -236,7 +255,7 @@
             onSelection-change={this.selectionChange}
             highlight-current-row={true}
             data={this.data}
-            header-cell-style={$tableCellHeader}
+            header-cell-style={this.$tableCellHeader}
             style="width: 100%">
             {this.isSequenceFlagMeth()}
             {this.isSelectFlagMeth()}

@@ -73,6 +73,7 @@
         width: 100%;
         text-align: right;
         padding: 5px 0;
+        border-top: 1px solid $system-border-color;
     }
 
     .custom-collapse-warp {
@@ -104,7 +105,7 @@
     }
 
     .custom-collapse-content {
-        padding: 20px;
+        padding: 20px 20px 0;
         margin: 0 10px;
         font-size: 0.8rem;
         color: $black-color;

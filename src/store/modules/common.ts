@@ -1,11 +1,18 @@
 const common = {
     state: {
         fileUploadPath: 'http://127.0.0.1:8018/api/file/upload',
-        dict: {},
+        dict: [],
+        dictGroup: {}
     },
     mutations: {
         SET_DICT: (state: any, data: any) => {
-            state.dict = Object.assign({}, state.dict, data);
+            if (!state.dict.includes(data)) {
+                state.dict.splice(0, 0, data);
+            }
+        },
+        SET_DICT_GROUP: (state: any, data: any) => {
+            let length = state.dict.length - 1;
+            state.dictGroup[ state.dict[length]] = data;
         }
     },
     actions: {

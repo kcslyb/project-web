@@ -12,18 +12,24 @@
         @Provide() public data: any[] = [];
         @Prop({default: ''}) public dictGroup!: string;
         @Prop({default: ''}) private dictValue!: string;
-
-        mounted() {
-            ApiFactory.getApi(Dict).queryDictByGroupLabel(this.dictGroup).then((res: any) => {
-                this.data = res.data;
-            });
-        }
+        $store: any;
 
         get value() {
-            if (this.data.length) {
-                return this.getLabel(this.data);
-            }
-            return '不存在该字典';
+            let temp = this.$store.getters.dict;
+            if (temp.length > 0 && temp.includes(this.dictGroup)) {
+                let dictGroupObj = this.$store.getters.dictGroup;
+                this.data = dictGroupObj[this.dictGroup];
+            } else {
+                ApiFactory.getApi(Dict).queryDictByGroupLabel(this.dictGroup).then((res: any) => {
+                    this.$store.commit('SET_DICT', this.dictGroup);
+                    this.$store.commit('SET_DICT_GROUP', res.data ? res.data : []);
+                    this.data = res.data ? res.data : [];
+                });
+          }
+          if (this.data.length > 0) {
+            return this.getLabel(this.data);
+          }
+          return '不存在该字典';
         }
 
         getLabel(data: any[]) {
