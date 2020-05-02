@@ -87,6 +87,7 @@
     right: 0;
     overflow: auto;
     background-color: #fff;
+    border: 1px solid #e6e6e6;
   }
   .page-right-main{
     padding: 10px;

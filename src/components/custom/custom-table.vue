@@ -96,16 +96,33 @@
         this.$emit('pageChange', this.condition);
       },
       isSequenceFlagMeth() {
-        if (this.isSequenceFlag) {
+        if (this.isSequenceFlag && this.data.length > 0) {
           return (
             <el-table-column fixed align="center" label="序号" type="index" index={this.indexMethod} width="50"/>
           )
         }
       },
       isSelectFlagMeth() {
-        if (this.isSelectFlag) {
+        if (this.isSelectFlag && this.data.length > 0) {
           return (
             <el-table-column fixed type="selection" width="40"/>
+          )
+        }
+      },
+      isShowPagination() {
+        if (this.isShowPage) {
+          return (
+            <div class="pagination-container">
+              <el-pagination
+                onSize-change={this.handleSizeChange}
+                onCurrent-change={this.handleCurrentChange}
+                current-page={this.page.pageNum}
+                page-sizes={this.pageSizeArray}
+                page-size={this.page.pageSize}
+                layout="total, sizes, prev, pager, next, jumper"
+                total={this.total}>
+              </el-pagination>
+            </div>
           )
         }
       },
@@ -184,7 +201,7 @@
           DateUtils.formatStringToDateTime(props.row[item.prop])
         )
       },
-      // 返回text类型的button
+      // 返回text类型的optButton
       acquireOptButton(props, item) {
         return (
           <div>
@@ -219,22 +236,13 @@
             onSelection-change={this.selectionChange}
             highlight-current-row={true}
             data={this.data}
+            header-cell-style={$tableCellHeader}
             style="width: 100%">
             {this.isSequenceFlagMeth()}
             {this.isSelectFlagMeth()}
             {this.isColumns()}
           </el-table>
-          <div class="pagination-container">
-            <el-pagination
-              onSize-change={this.handleSizeChange}
-              onCurrent-change={this.handleCurrentChange}
-              current-page={this.page.pageNum}
-              page-sizes={this.pageSizeArray}
-              page-size={this.page.pageSize}
-              layout="total, sizes, prev, pager, next, jumper"
-              total={this.total}>
-            </el-pagination>
-          </div>
+          {this.isShowPagination()}
         </el-main>
       )
     }

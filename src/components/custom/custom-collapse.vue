@@ -19,7 +19,7 @@
             <div v-if="flag" class="custom-collapse-content">
                 <slot name="content"></slot>
                 <el-row :gutter="24" v-if="$scopedSlots.hasOwnProperty('content')">
-                    <el-col :span="24" class="tools">
+                    <el-col :span="24" class="operation">
                         <slot name="operate"></slot>
                         <el-button type="primary" plain size="mini" @click="searchSubmit">查询</el-button>
                         <el-button type="info" plain size="mini" @click="searchReset">重置</el-button>
@@ -64,6 +64,12 @@
     }
 
     .tools {
+        width: 100%;
+        text-align: left;
+        padding: 5px 0;
+    }
+
+    .operation {
         width: 100%;
         text-align: right;
         padding: 5px 0;
