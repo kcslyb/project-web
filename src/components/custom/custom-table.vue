@@ -95,30 +95,33 @@
         this.condition = Object.assign({}, this.page, {offset: val});
         this.$emit('pageChange', this.condition);
       },
-      isSequenceFlagMeth() {
+      // 是否显示序号
+      isSequenceFlagMethod() {
         if (this.isSequenceFlag && (this.columns.length > 0 || this.data.length > 0)) {
           return (
             <el-table-column fixed={true} align="center" label="序号" type="index" index={this.indexMethod} width="50"/>
           )
         }
       },
-      isSelectFlagMeth() {
+      // 是否需要选择列
+      isSelectFlagMethod() {
         if (this.isSelectFlag && (this.columns.length > 0 || this.data.length > 0)) {
           return (
-            <el-table-column fixed={true} type="selection" width="40"/>
+            <el-table-column fixed={true} type="selection" width="50"/>
           )
         }
       },
       isShowPagination() {
+        // 是否显示分页
         if (this.isShowPage) {
           return (
             <div class="pagination-container">
               <el-pagination
                 onSize-change={this.handleSizeChange}
                 onCurrent-change={this.handleCurrentChange}
-                current-page={this.page.limit}
+                current-page={this.page.offset}
                 page-sizes={this.pageSizeArray}
-                page-size={this.page.offset}
+                page-size={this.page.limit}
                 layout="total, sizes, prev, pager, next, jumper"
                 total={this.total}>
               </el-pagination>
@@ -126,7 +129,7 @@
           )
         }
       },
-      isColumns() {
+      isColumns() {  // 是否有传入显示列json
         if (this.columns.length > 0) {
           return(
             this.columns.map(value => {
@@ -202,7 +205,7 @@
           return m.toUpperCase();
         });
       },
-      // 返回格式化data
+      // 返回字典
       acquireDict(props, item) {
         return (
           <custom-dict dictValue={props.row[item.prop]} dictGroup={item.dictGroup}/>
@@ -246,19 +249,19 @@
           <el-table
             ref={'customTable'}
             fit={this.fit}
+            data={this.data}
             border={this.border}
             stripe={this.stripe}
+            highlight-current-row={true}
             onSelect={this.select}
             onRow-click={this.rowClick}
             onSelect-all={this.selectAll}
             onRow-dblclick={this.rowDblclick}
             onSelection-change={this.selectionChange}
-            highlight-current-row={true}
-            data={this.data}
             header-cell-style={this.$tableCellHeader}
             style="width: 100%">
-            {this.isSequenceFlagMeth()}
-            {this.isSelectFlagMeth()}
+            {this.isSequenceFlagMethod()}
+            {this.isSelectFlagMethod()}
             {this.isColumns()}
           </el-table>
           {this.isShowPagination()}

@@ -61,7 +61,7 @@
         return (
           <el-input
             type={item.type}
-            show-assword={item.showPassword}
+            show-password={item.showPassword}
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
             style={item.style ? item.style : 'width: 200px'}
