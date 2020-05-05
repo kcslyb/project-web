@@ -27,16 +27,13 @@
                 </span>
               </div>
               <div class="login-box">
-                <label class="label-bold">Username or email</label>
-                <div>
-                  <input class="input" @keyup.enter.prevent="handleLogin()"
-                         v-model="user.userName" placeholder="Username or email"></input>
-                </div>
-                <label class="label-bold">Password</label>
-                <div>
-                  <input class="input" type="password" @keyup.enter.prevent="handleLogin()"
-                         v-model="user.passWord" placeholder="Password"></input>
-                </div>
+                <custom-form
+                  ref="login"
+                  :form-items="loginItems"
+                  form-name="login"
+                  :rules="userRules"
+                  v-model="user">
+                </custom-form>
                 <div>
                   <div class="remember">
                     <div class="float-left">
@@ -71,10 +68,12 @@
   import ResetForm from './reset-form.vue';
   import EncryptHelper from '@/utils/encryption-util';
   import {addOrEditLocalStorage, getLocalStorage, removeLocalStorageAll} from '@/utils/localstorage-util.ts';
+  import CustomForm from "../../../components/custom/custom-form";
 
   export default {
     name: 'login',
     components: {
+      CustomForm,
       ResetForm,
       EditForm
     },
@@ -90,6 +89,18 @@
           userName: '',
           passWord: ''
         },
+        loginItems: [
+          {type: 'input', name: 'userName', label: '用户名', placeholder: '请输入用户名或邮箱'},
+          {type: 'input', name: 'passWord', label: '密码', showPassword: true, clearable: true}
+        ],
+        userRules: {
+          userName: [
+            { required: true, message: '请输入用户名或邮箱', trigger: 'blur' }
+          ],
+          passWord: [
+            { required: true, message: '请输入密码', trigger: 'blur' }
+          ]
+        }
       };
     },
     mounted() {
@@ -103,32 +114,22 @@
         }
       },
       handleLogin() {
-        if (!this.user.userName) {
-          this.$message({
-            type: 'info',
-            message: 'Please enter the username or email'
-          });
-          return;
-        }
-        if (!this.user.passWord) {
-          this.$message({
-            type: 'info',
-            message: 'Please enter the password'
-          });
-          return;
-        }
-        this.$store.dispatch('Login', this.user).then(res => {
-          if (res) {
-            removeLocalStorageAll();
-            if (this.user.remember) {
-              let encrypt = EncryptHelper.aesEncrypt(JSON.stringify(this.user));
-              addOrEditLocalStorage('user', encrypt);
-            }
-            this.$router.push('/home').catch(() => {
+        this.$refs['login'].$refs['login'].validate((valid) => {
+          if (valid) {
+            this.$store.dispatch('Login', this.user).then(res => {
+              if (res) {
+                removeLocalStorageAll();
+                if (this.user.remember) {
+                  let encrypt = EncryptHelper.aesEncrypt(JSON.stringify(this.user));
+                  addOrEditLocalStorage('user', encrypt);
+                }
+                this.$router.push('/home').catch(() => {
+                });
+              }
+            }).catch(() => {
             });
           }
-        }).catch(() => {
-        });
+        })
       },
       addUer() {
         this.isActive = false;
@@ -240,7 +241,7 @@
 
   .content-container {
     float: left;
-    width: 50%;
+    width: 45%;
     @media (max-width: 650px) {
       width: 100%
     }
@@ -248,7 +249,7 @@
 
   .sign-in-container {
     position: relative;
-    width: 50%;
+    width: 55%;
     padding-right: 15px;
     padding-left: 15px;
     box-sizing: border-box;
