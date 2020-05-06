@@ -23,7 +23,7 @@
       @buttonDeleteClick="buttonDeleteClick"
       @selectionChange="selectChange">
     </custom-table>
-    <custom-drawer title="添加角色" :show="showProductForm" @rightClose="rightClose">
+    <custom-drawer title="添加菜品" :show="showProductForm" @rightClose="rightClose">
       <product-form
         :product="product"
         @close="rightClose">
@@ -31,7 +31,6 @@
     </custom-drawer>
   </div>
 </template>
-
 <script>
   import CustomCollapse from "../../../../components/custom/custom-collapse";
   import CustomTable from "../../../../components/custom/custom-table";
@@ -49,8 +48,7 @@
         showProductForm: false,
         condition: {
           limit: 10,
-          offset: 1,
-          productStatus: '0'
+          offset: 1
         },
         total: 0,
         page: {
@@ -80,6 +78,7 @@
         let param = Object.assign({}, this.condition, this.formItems.data);
         ApiFactory.getApi(Product).queryPager(param).then(res => {
           this.tableData = res.data.list;
+          console.info(this.tableData)
           this.total = res.data.total;
         })
       },
@@ -109,17 +108,17 @@
         this.product = Object.assign({}, row);
         this.showProductForm = true;
       },
-      buttonDeleteClick(row) {
+      buttonDeleteClick(row, action) {
         ApiFactory.getApi(Product).delete(row['productId']).then(() => {
           this.$notify.success({
             title: '提示',
-            message: '删除成功'
+            message: `${action}成功`
           });
           this.rightClose();
         }).catch(() => {
           this.$notify.error({
             title: '提示',
-            message: '删除失败'
+            message: `${action}失败`
           });
         }).catch(() => {
         })

@@ -11,7 +11,11 @@ export const productFormItems = [
     name: 'productDescription',
     label: '简介',
     dataList: []
+  }, {
+    type: 'file',
+    name: 'productFileId',
+    label: '附件'
   }
-]
+];
 export const formRules = [
-]
+];

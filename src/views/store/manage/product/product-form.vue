@@ -7,6 +7,7 @@
       :form-items="formItems"
       form-name="product"
       v-model="productDto"
+      @uploadSuccess="uploadSuccess"
       :rules="rules">
     </custom-form>
     <custom-button-list @submit="submit" @cancel="cancel"></custom-button-list>
@@ -64,14 +65,19 @@
       initData() {
         this.formItems = productFormItems;
       },
+      uploadSuccess(file) {
+        let {fileId, filePath} = file;
+        this.productDto.productFileId = fileId;
+        this.productDto.productFilePath = filePath;
+      },
       submit() {
         this.$refs['product'].$refs['product'].validate(v => {
           if (v) {
             let param = Object.assign({}, this.productDto);
             if (this.productDto.id) {
-              this.add(param);
-            } else {
               this.edit(param);
+            } else {
+              this.add(param);
             }
           }
         })

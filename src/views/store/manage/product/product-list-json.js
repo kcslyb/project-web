@@ -35,7 +35,7 @@ export const tableColumn = [
     label: '简介'
   }, {
     prop: 'productCreateByName',
-    label: '上架人'
+    label: '上传人'
   }, {
     type: 'dateTime',
     prop: 'productCreateTime',
@@ -51,6 +51,21 @@ export const tableColumn = [
     type: 'optButton',
     prop: 'option',
     label: '操作',
-    width: 200
+    width: 200,
+    btnList: [
+      {
+        event: 'buttonEditClick',
+        icon: 'el-icon-edit',
+        type: 'warning',
+        label: '编辑'
+      },
+      {
+        event: ['buttonDeleteClick', 'buttonDeleteClick'],
+        icon: ['el-icon-delete', 'el-icon-delete'],
+        type: ['danger', 'success'],
+        label: ['停用', '启用'],
+        flag: 'productStatus'
+      }
+    ]
   }
-]
+];
