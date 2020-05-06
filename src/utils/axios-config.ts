@@ -41,7 +41,7 @@ http.interceptors.response.use(
     },
     (error: any) => {
         loading.close();
-        let isDecrypt: boolean = error.response.data && typeof (error.response.data) === 'string';
+        let isDecrypt: boolean = error.response && error.response.data && typeof (error.response.data) === 'string';
         let msg: string = error.message;
         if (isDecrypt) {
             try {

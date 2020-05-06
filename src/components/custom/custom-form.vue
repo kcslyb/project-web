@@ -1,8 +1,10 @@
 <script>
   import {ApiFactory, Dict} from "@/resources";
+  import CustomFileUpload from "@/components/custom/custom-file-upload";
 
   export default {
     name: "CustomForm",
+    components: {CustomFileUpload},
     props: {
       formName: {
         type: String,
@@ -37,13 +39,21 @@
       processor(item) {
         let self = this;
         let type = this.replaceStr(item.type);
-        return self['acquire' + type](item); // 拼接方法
+        let functionName = 'acquire' + type;
+        if (Object.prototype.hasOwnProperty.call(self, functionName)) {
+          return self[functionName](item); // 拼接方法
+        } else {
+          throw new Error(`type:${item.type}错误不存在对应的方法:${functionName}`);
+        }
       },
       replaceStr(str) {
         let reg = /\b(\w)|\s(\w)/g;
         return str.replace(reg, function (m) {
           return m.toUpperCase();
         });
+      },
+      uploadSuccess(e) {
+        this.$emit('uploadSuccess', e)
       },
       filterMethod(query, item) {
         if (item.dictGroupId) {
@@ -172,6 +182,13 @@
             placeholder={item.placeholder ? item.placeholder : '请选择' + item.label}
             change={item.handleChange}/>
         )
+      },
+      acquireFile(item) {
+        return (
+          <custom-file-upload checkType={item.checkType ? !item.checkType : true} onOn-success={(e) => {
+            this.uploadSuccess(e);
+          }}/>
+        )
       }
     },
     render() {
@@ -199,6 +216,8 @@
   }
 </script>
 
-<style scoped>
-
+<style>
+  .el-form-item__label{
+    text-align: right !important;
+  }
 </style>

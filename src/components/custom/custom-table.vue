@@ -131,7 +131,7 @@
       },
       isColumns() {  // 是否有传入显示列json
         if (this.columns.length > 0) {
-          return(
+          return (
             this.columns.map(value => {
               return (
                 <el-table-column
@@ -154,12 +154,12 @@
               )
             })
           )
-        } else if (this.data.length > 0){
+        } else if (this.data.length > 0) {
           let temp = Object.keys(this.data[0]);
           return (
             temp.map(value => {
               if (value.indexOf('Id') > -1) {
-                return ;
+                return;
               }
               return (
                 <el-table-column
@@ -225,23 +225,44 @@
       },
       // 返回text类型的optButton
       acquireOptButton(props, item) {
+        if (!Object.prototype.hasOwnProperty.call(item, 'btnList')) {
+          item['btnList'] = [
+            {event: 'buttonEditClick', icon: 'el-icon-edit', type: 'warning', label: '编辑'},
+            {event: 'buttonDeleteClick', icon: 'el-icon-delete', type: 'danger', label: '删除'}
+          ]
+        }
         return (
-          <div>
-            <el-button size={item.size ? item.size : 'mini'} type="warning" plain={true} onClick={
-              () => {
-                this.$emit('buttonEditClick', props.row, item)
-              }
-            }><i class={item.icon ? item.icon : 'el-icon-edit'}>编辑</i>
-            </el-button>
-            <el-button size={item.size ? item.size : 'mini'} type="danger" plain={true} onClick={
-              () => {
-                this.$emit('buttonDeleteClick', props.row, item)
-              }
-            }><i class={item.icon ? item.icon : 'el-icon-delete'}>删除</i>
-            </el-button>
-          </div>
+          item.btnList.map(value => {
+            if (Object.prototype.hasOwnProperty.call(value, 'flag')) {
+              return (
+                <el-button
+                  size={item.size ? item.size : 'mini'}
+                  type={Boolean(Number(props.row[value.flag])) ? value.type[0] : value.type[1]}
+                  plain={true} onClick={
+                  () => {
+                    this.$emit(Boolean(Number(props.row[value.flag])) ? value.event[0] : value.event[1],
+                      props.row,
+                      Boolean(Number(props.row[value.flag])) ? value.label[0] : value.label[1])
+                  }
+                }>
+                  <i class={Boolean(Number(props.row[value.flag])) ? value.icon[0] : value.icon[1]}>
+                    {Boolean(Number(props.row[value.flag])) ? value.label[0] : value.label[1]}
+                  </i>
+                </el-button>
+              )
+            }
+            return (
+              <el-button size={item.size ? item.size : 'mini'} type={value.type} plain={true} onClick={
+                () => {
+                  this.$emit(value.event, props.row, value.label)
+                }
+              }><i class={value.icon}>{value.label}</i>
+              </el-button>
+            )
+          })
         )
       }
+
     },
     render() {
       return (
