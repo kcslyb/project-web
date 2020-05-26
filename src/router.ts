@@ -100,6 +100,10 @@ export default new Router({
                     path: '/store/manage/product',
                     component: () => import('@/views/store/manage/product/product-list.vue'),
                     meta: {moduleId: 'storeManage', title: '菜品管理', perm: 'system-notify-manage'}
+                }, {
+                    path: '/store/manage/rooms',
+                    component: () => import('@/views/store/manage/desk/desk-list.vue'),
+                    meta: {moduleId: 'storeManage', title: '包间管理', perm: 'system-notify-manage'}
                 }
             ]
         },

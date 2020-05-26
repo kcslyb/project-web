@@ -143,3 +143,7 @@ export class Memo extends BaseApi {
 export class Product extends BaseApi {
     public url: string = 'api/product';
 }
+
+export class Desk extends BaseApi {
+    public url: string = 'api/desk';
+}

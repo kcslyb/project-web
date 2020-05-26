@@ -234,19 +234,24 @@
         return (
           item.btnList.map(value => {
             if (Object.prototype.hasOwnProperty.call(value, 'flag')) {
+              let tempFlag = Boolean(Number(props.row[value.flag]));
               return (
                 <el-button
                   size={item.size ? item.size : 'mini'}
-                  type={Boolean(Number(props.row[value.flag])) ? value.type[0] : value.type[1]}
-                  plain={true} onClick={
-                  () => {
-                    this.$emit(Boolean(Number(props.row[value.flag])) ? value.event[0] : value.event[1],
+                  type={tempFlag ? value.type[0] : value.type[1]}
+                  plain={true}
+                  onClick={() => {
+                    let event = tempFlag ? value.event[0] : value.event[1];
+                    this.$emit(
+                      value['event'] ? event : 'cellButtonClick',
                       props.row,
-                      Boolean(Number(props.row[value.flag])) ? value.label[0] : value.label[1])
+                      tempFlag ? value.label[0] : value.label[1],
+                      tempFlag ? value.action[0] : value.action[1]
+                    )
                   }
                 }>
-                  <i class={Boolean(Number(props.row[value.flag])) ? value.icon[0] : value.icon[1]}>
-                    {Boolean(Number(props.row[value.flag])) ? value.label[0] : value.label[1]}
+                  <i class={tempFlag ? value.icon[0] : value.icon[1]}>
+                    {tempFlag ? value.label[0] : value.label[1]}
                   </i>
                 </el-button>
               )
@@ -254,7 +259,7 @@
             return (
               <el-button size={item.size ? item.size : 'mini'} type={value.type} plain={true} onClick={
                 () => {
-                  this.$emit(value.event, props.row, value.label)
+                  this.$emit(value.event, props.row, value.label, value.action)
                 }
               }><i class={value.icon}>{value.label}</i>
               </el-button>

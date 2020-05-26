@@ -1,17 +1,19 @@
 <template>
   <div>
     <custom-collapse
+      title="菜品列表"
       @searchSubmit="searchSubmit"
       @searchReset="searchReset">
-      <template slot="tools">
-        <el-button type="primary" plain size="mini" @click="add">新增</el-button>
+      <template slot="operate">
+        <el-button type="primary" icon="el-icon-plus" plain size="mini" @click="add">新增</el-button>
       </template>
       <custom-form
         slot="content"
         form-name="product"
         :rules="formItems.rules"
         v-model="formItems.data"
-        :form-items="formItems.items"></custom-form>
+        :form-items="formItems.items">
+      </custom-form>
     </custom-collapse>
     <custom-table
       :columns="tableColumn"
@@ -20,7 +22,7 @@
       :page="page"
       @pageChange="pageChange"
       @buttonEditClick="buttonEditClick"
-      @buttonDeleteClick="buttonDeleteClick"
+      @cellButtonClick="cellButtonClick"
       @selectionChange="selectChange">
     </custom-table>
     <custom-drawer title="添加菜品" :show="showProductForm" @rightClose="rightClose">
@@ -78,7 +80,6 @@
         let param = Object.assign({}, this.condition, this.formItems.data);
         ApiFactory.getApi(Product).queryPager(param).then(res => {
           this.tableData = res.data.list;
-          console.info(this.tableData)
           this.total = res.data.total;
         })
       },
@@ -108,7 +109,7 @@
         this.product = Object.assign({}, row);
         this.showProductForm = true;
       },
-      buttonDeleteClick(row, action) {
+      cellButtonClick(row, action) {
         ApiFactory.getApi(Product).delete(row['productId']).then(() => {
           this.$notify.success({
             title: '提示',

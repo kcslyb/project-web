@@ -2,7 +2,7 @@
   <div>
     <div>
       <custom-collapse>
-        <div slot="tools">
+        <div slot="operate">
           <el-button @click="addMemo" plain size="mini" type="primary">添加</el-button>
         </div>
       </custom-collapse>

@@ -118,6 +118,11 @@
             filter-method={(e) => {
               item.filterMethod ? item.filterMethod : this.filterMethod(e, item);
             }}
+            onFocus={() => {
+              if (item.dataList.length === 0) {
+                this.filterMethod('', item);
+              }
+            }}
             onChange={(e) => {
               this.$set(this.$attrs.value, item.name, e);
             }}>
@@ -197,6 +202,7 @@
           rules={this.rules}
           ref={this.formName}
           inline={this.inline}
+          style={'padding-top: 20px'}
           attrs={{model: this.$attrs.value}}
           label-position={this.labelPosition}
           label-width={this.labelWidth + 'px'}>

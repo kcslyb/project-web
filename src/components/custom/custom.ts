@@ -11,6 +11,8 @@ import CustomCollapse from './custom-collapse.vue';
 import CustomUpload from './custom-upload.vue';
 import CustomTable from "@/components/custom/custom-table.vue";
 import CustomFloatNavigation from "@/components/custom/custom-float-navigation.vue";
+import CustomForm from "@/components/custom/custom-form.vue";
+import CustomPage from "@/components/custom/custom-page.vue";
 
 const components: any[] = [
     CustomLogo,
@@ -25,7 +27,9 @@ const components: any[] = [
     CustomCollapse,
     CustomFloatNavigation,
     CustomTable,
-    CustomUpload
+    CustomUpload,
+    CustomForm,
+    CustomPage
 ];
 
 const install = (Vue: any) => {

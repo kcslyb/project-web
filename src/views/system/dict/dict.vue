@@ -19,7 +19,7 @@
     </el-aside>
     <div class="border table-lamp mg-10" :style="'height:' + defaultHeight+ 'px'">
       <custom-collapse>
-        <div slot="tools">
+        <div slot="operate">
           <el-button type="primary" plain size="small" @click="addDict">添加字典项</el-button>
           <el-input v-model="dictKeyWord" plain size="small" placeholder="输入关键字搜索字典"
                     style="display: inline-block; margin: 0 20px; width: 200px">

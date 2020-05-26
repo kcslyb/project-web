@@ -1,0 +1,82 @@
+class Operation {
+    private vm: any;
+    private apiObj: any;
+    private static instance: Operation;
+
+    constructor(vm: any) {
+        this.vm = vm
+        this.apiObj= vm.apiObj
+    }
+
+    static getInstance(vm: any) {
+        if (!Operation.instance) {
+            Operation.instance = new Operation(vm)
+        }
+        return Operation.instance
+    }
+
+    getPage = (param :object) => {
+        let obj = {actionLabel: '查询', action: 'queryPager'};
+        this.operation(obj, param).then( (res: any) => {
+            this.vm.tableData = res.data.list;
+            this.vm.total = res.data.total;
+        })
+    }
+
+    add = () => {
+        this.vm.object = {};
+        this.vm.showForm = true
+    }
+
+    edit = (row: any) => {
+        this.vm.object = row;
+        this.vm.showForm = true
+    }
+
+    delete = (row: any, actionLabel: string) => {
+        let obj = {actionLabel: actionLabel, action: 'put'};
+        this.operation(obj, row.id).then(() => {
+            this.vm.initTableList();
+        })
+
+    }
+
+    update = () => {
+
+    }
+
+    disable = () => {
+
+    }
+
+    enabled = () => {
+
+    }
+
+    handleSave = () => {
+
+    }
+
+    operation = (optObj: optObj, param: object|string) => {
+        return this.apiObj[optObj.action](param).then((res: any) => {
+            this.vm.$notify.success({
+                title: '提示',
+                message: `${optObj.actionLabel}成功`
+            });
+            return Promise.resolve(res)
+        }).catch((error :any) => {
+            this.vm.$notify.error({
+                title: '提示',
+                message: `${optObj.actionLabel}失败`
+            });
+            return Promise.reject(error)
+        }).catch((error: any) => {
+            return Promise.reject(error)
+        })
+    }
+}
+class optObj {
+    action!: string
+    actionLabel!: string
+}
+export default Operation

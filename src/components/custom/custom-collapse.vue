@@ -5,8 +5,8 @@
                 <el-row :gutter="24" style="margin: 0">
                     <el-col :xs="19" :sm="20" :md="21" :lg="22" :xl="22">
                         <div class="tools">
-                            <div v-show="flag">
-                                <slot name="tools"></slot>
+                            <div>
+                                <div class="collapse-title">{{title}}</div>
                             </div>
                         </div>
                     </el-col>
@@ -17,12 +17,16 @@
                 </el-row>
             </div>
             <div v-if="flag" class="custom-collapse-content">
-                <slot name="content"></slot>
-                <el-row :gutter="24" v-if="$scopedSlots.hasOwnProperty('content')">
+                <slot clas="slot" name="content"></slot>
+                <el-row :gutter="24">
                     <el-col :span="24" class="operation">
                         <slot name="operate"></slot>
-                        <el-button type="primary" plain size="mini" @click="searchSubmit">查询</el-button>
-                        <el-button type="info" plain size="mini" @click="searchReset">重置</el-button>
+                        <el-button v-if="$scopedSlots.hasOwnProperty('content')"
+                                   icon="el-icon-search" type="primary" plain size="mini"
+                                   @click="searchSubmit">查询</el-button>
+                        <el-button v-if="$scopedSlots.hasOwnProperty('content')"
+                                   icon="el-icon-refresh" type="info" plain size="mini"
+                                   @click="searchReset">重置</el-button>
                     </el-col>
                 </el-row>
                 <div>
@@ -44,6 +48,9 @@
 
         @Prop({default: false})
         public searchFlag!: boolean;
+
+        @Prop({default: '列表'})
+        public title!: string;
 
         @Provide()
         public flag: boolean = this.searchFlag;
@@ -105,11 +112,19 @@
     }
 
     .custom-collapse-content {
-        padding: 20px 20px 0;
+        padding-right: 20px;
         margin: 0 10px;
         font-size: 0.8rem;
         color: $black-color;
         background-color: $white-color;
         border: 1px solid $system-border-color;
+        & .slot{
+            padding-top: 20px;
+        }
+    }
+
+    .collapse-title {
+        line-height: 30px;
+        font-weight: bold;
     }
 </style>

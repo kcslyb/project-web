@@ -54,17 +54,19 @@ export const tableColumn = [
     width: 200,
     btnList: [
       {
-        event: 'buttonEditClick',
-        icon: 'el-icon-edit',
+        label: '编辑',
+        action: 'edit',
         type: 'warning',
-        label: '编辑'
+        icon: 'el-icon-edit',
+        event: 'buttonEditClick'
       },
       {
-        event: ['buttonDeleteClick', 'buttonDeleteClick'],
-        icon: ['el-icon-delete', 'el-icon-delete'],
-        type: ['danger', 'success'],
+        flag: 'productStatus',
         label: ['停用', '启用'],
-        flag: 'productStatus'
+        type: ['danger', 'success'],
+        action: ['disable', 'enable'],
+        icon: ['el-icon-delete', 'el-icon-delete'],
+        event: ['cellButtonClick', 'cellButtonClick']
       }
     ]
   }
