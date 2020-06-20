@@ -97,7 +97,7 @@
       setTime (row) {
         return DateUtils.formatStringToDateTime(row.fileCreateTime);
       },
-      uploadSuccess () {
+      uploadSuccess(file) {
         this.list=[];
         this.getFileList();
       },
@@ -109,7 +109,7 @@
         this.condition.offset = val;
         this.getFileList();
       },
-      getFileList () {
+      getFileList() {
         this.loading = true;
         ApiFactory.getApi(File).queryPager(this.condition).then((res) => {
           this.count = res.data.total;

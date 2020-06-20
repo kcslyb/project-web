@@ -17,7 +17,7 @@ module.exports = {
   //生产环境是否生成 sourceMap 文件，一般情况不建议打开
   productionSourceMap: false,
   devServer: {
-    port: 8018,
+    port: 8019,
     host: '127.0.0.1',
     // host: '192.168.1.7',
     // host: '172.200.82.173',
@@ -36,7 +36,7 @@ module.exports = {
     } : {
       '/api': {
         // target: 'http://127.0.0.1:8088',
-        target: 'http://192.168.0.106:8088',
+        target: 'http://192.168.0.110:8088',
         ws: true,
         changeOrigin: true,
         pathRewrite: {

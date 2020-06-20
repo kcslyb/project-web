@@ -7,6 +7,9 @@
       object-id-label="deskId"
       :table-column="tableColumn"
       @cellButtonClick="cellButtonClick">
+      <templete slot="form">
+        <desk-form></desk-form>
+      </templete>
     </custom-page>
   </div>
 </template>
@@ -15,9 +18,11 @@
   import {formItems, tableColumn} from "../desk/desk-list-json";
   import {ApiFactory, Desk} from "../../../../resources";
   import Operation from "../../../../operation/operation";
+  import DeskForm from "./desk-form";
 
   export default {
     name: "desk-list",
+    components: {DeskForm},
     data() {
       return {
         tableColumn: [],
