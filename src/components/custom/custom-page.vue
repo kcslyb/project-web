@@ -27,7 +27,7 @@
       @selectionChange="selectChange">
     </custom-table>
     <custom-drawer :title="title" :show="showForm" @rightClose="rightClose">
-      <slot name="form"/>
+      <slot :operation="operation" name="form"/>
     </custom-drawer>
     <slot name="default"/>
   </div>
@@ -35,6 +35,7 @@
 
 <script lang="ts">
     import {Component, Provide, Prop, Vue} from 'vue-property-decorator';
+    import Operation from "@/operation/operation";
 
     @Component
     export default class CustomPage extends Vue {
@@ -81,6 +82,9 @@
 
         @Provide()
         public flag: boolean = this.searchFlag;
+
+        @Provide()
+        public operation: Operation = Operation.getInstance(this);
 
         @Provide()
         public condition: {

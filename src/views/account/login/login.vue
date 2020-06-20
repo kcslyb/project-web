@@ -3,13 +3,11 @@
     <div class="page-wrap">
       <div class="container">
         <div class="content">
-          <div>
-            <h1 class="text-align-left">
-              BLOG
-            </h1>
-          </div>
           <div class="nav-login">
             <div class="content-container nav-container">
+              <h1>
+                BLOG
+              </h1>
               <h3>
                 Individual Learning
               </h3>
@@ -31,6 +29,7 @@
                   ref="login"
                   :form-items="loginItems"
                   form-name="login"
+                  :label-width="80"
                   :rules="userRules"
                   v-model="user">
                 </custom-form>
@@ -188,7 +187,7 @@
   .border-item {
     clear: left;
     width: 100%;
-    box-shadow: 0 0 0 1px #e5e5e5;
+    box-shadow: 0 0 0 2px #e5e5e5;
     border-top-right-radius: 0.25rem;
     border-top-left-radius: 0.25rem;
   }
@@ -243,7 +242,8 @@
     float: left;
     width: 45%;
     @media (max-width: 650px) {
-      width: 100%
+      width: 100%;
+      text-align: center;
     }
   }
 
@@ -306,7 +306,7 @@
   }
 
   .login-box {
-    box-shadow: 0 0 0 1px #e5e5e5;
+    box-shadow: 0 0 0 2px #e5e5e5;
     border-bottom-right-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
     padding: 15px 15px 5px;

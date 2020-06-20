@@ -19,11 +19,17 @@
   import {productFormItems} from "./product-form-json";
   import CustomButtonList from "../../../../components/custom/custom-button-list";
   import {ApiFactory, Product} from "../../../../resources";
+  import Operation from "../../../../operation/operation";
 
   export default {
     name: "product-form",
     components: {CustomButtonList, CustomForm},
     props: {
+      operation: {
+        type: Operation,
+        default: () => {
+        }
+      },
       product: {
         type: Object,
         default: () => {
@@ -74,7 +80,7 @@
         this.$refs['product'].$refs['product'].validate(v => {
           if (v) {
             let param = Object.assign({}, this.productDto);
-            if (this.productDto.id) {
+            if (param['productId']) {
               this.edit(param);
             } else {
               this.add(param);

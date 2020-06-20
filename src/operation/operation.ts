@@ -34,30 +34,31 @@ class Operation {
     }
 
     delete = (row: any, actionLabel: string) => {
-        let obj = {actionLabel: actionLabel, action: 'put'};
+        let obj = {actionLabel: actionLabel, action: 'delete'};
         this.operation(obj, row.id).then(() => {
             this.vm.initTableList();
         })
 
     }
 
-    update = () => {
-
+    handleUpdate = (optObj: optObj, param: any, func: Function) => {
+        let temp = {action: 'put', actionLabel: '修改'}
+        optObj = Object.assign({}, temp, optObj)
+        this.operation(optObj, param).then((res: any) => {
+             func(res)
+        }).catch(() => {})
     }
 
-    disable = () => {
-
-    }
-
-    enabled = () => {
-
-    }
-
-    handleSave = () => {
-
+    handleSave = (optObj: optObj, param: any, func: Function) => {
+        let temp = {action: 'post', actionLabel: '添加'}
+        optObj = Object.assign({}, temp, optObj)
+        this.operation(optObj, param).then((res: any) => {
+            func(res)
+        }).catch(() => {})
     }
 
     operation = (optObj: optObj, param: object|string) => {
+        debugger
         return this.apiObj[optObj.action](param).then((res: any) => {
             this.vm.$notify.success({
                 title: '提示',

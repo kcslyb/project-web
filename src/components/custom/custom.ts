@@ -13,6 +13,7 @@ import CustomTable from "@/components/custom/custom-table.vue";
 import CustomFloatNavigation from "@/components/custom/custom-float-navigation.vue";
 import CustomForm from "@/components/custom/custom-form.vue";
 import CustomPage from "@/components/custom/custom-page.vue";
+import CustomBtnList from "@/components/custom/custom-button-list.vue";
 
 const components: any[] = [
     CustomLogo,
@@ -29,7 +30,8 @@ const components: any[] = [
     CustomTable,
     CustomUpload,
     CustomForm,
-    CustomPage
+    CustomPage,
+    CustomBtnList
 ];
 
 const install = (Vue: any) => {

@@ -1,31 +1,16 @@
 <template>
   <div class="content">
-    <div class="content-menu">
-      <div class="content-menu-left">
-        <el-image class="image" src=""></el-image>
-      </div>
-      <div class="content-menu-right">
-        <template v-for="item in 6">
-          <el-button type="text" style="color: #fff; padding: 0 10px; height: 60px">link{{item}}</el-button><br/>
-        </template>
-      </div>
-    </div>
     <div class="content-link">
-      <div>
-        <template v-for="item in 10">
-          <el-button size="mini" type="primary" plain>link{{item}}</el-button>
-        </template>
-      </div>
-      <div>
-        <template v-for="item in 3">
-          <el-button type="text">link{{item}}</el-button>
+      <div class="content-link-item">
+        <template v-for="item in sortList">
+          <el-button type="text">{{item}}</el-button>
         </template>
       </div>
     </div>
     <div class="content-type">
       <template v-for="item in 20">
         <el-card class="card-image">
-          <el-image class="image" src=""></el-image>
+          <el-image @click="cardImageClick(item)" class="image" src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2283798207,1396236835&fm=15&gp=0.jpg"></el-image>
         </el-card>
       </template>
     </div>
@@ -39,6 +24,11 @@
   export default class StoreMain extends Vue {
     @Provide()
     public name: string = 'main';
+    @Provide()
+    public sortList: [string, string, string] = ['时间','人气', '综合'];
+    cardImageClick(item: any) {
+      console.info(item)
+    }
   }
 </script>
 
@@ -72,30 +62,21 @@
   }
   .content-link {
     width: 100%;
-    padding: 10px 50px;
+    padding: 5px;
     border-radius: 10px;
     display: flex;
     flex-wrap: wrap;
+    text-align: right;
     align-items: center;
-    justify-content: space-between;
     box-sizing: border-box;
+    justify-content: space-between;
     border-top: 1px solid #e6e6e6;
     border-bottom: 1px solid #e6e6e6;
   }
-  .menu-link {
-    width: 80px;
-    cursor: pointer;
-    color: #606266;
-    padding: 5px 10px;
-    text-align: center;
-    margin: 5px 10px;
-    box-sizing: border-box;
-    border: 1px solid #e6e6e6;
-  }
-  .menu-link:hover {
-    color: #e6e6e6;
-    background-color: #007bff;
-    border-radius: inherit;
+  .content-link-item {
+    width: 100%;
+    padding-right: 20px;
+    text-align: right;
   }
   .content-type{
     width: 100%;
@@ -108,15 +89,5 @@
   .card-image {
     width: 18%;
     margin: 10px;
-  }
-  .clearFix{
-    zoom: 1; /*IE6*/
-  }
-  .clearFix:after{
-    content: ".";
-    height: 0;
-    clear: both;
-    display: block;
-    visibility: hidden;
   }
 </style>

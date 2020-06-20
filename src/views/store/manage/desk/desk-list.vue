@@ -7,9 +7,11 @@
       object-id-label="deskId"
       :table-column="tableColumn"
       @cellButtonClick="cellButtonClick">
-      <templete slot="form">
-        <desk-form></desk-form>
-      </templete>
+      <desk-form
+        slot="form"
+        slot-scope="scops"
+        :operation="scops.operation">
+      </desk-form>
     </custom-page>
   </div>
 </template>
