@@ -71,10 +71,10 @@
         return (
           <el-input
             type={item.type}
+            style={item.style}
             show-password={item.showPassword}
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
-            style={item.style ? item.style : 'width: 200px'}
             disabled={item.disabled ? item.disabled : false}
             clearable={item.clearable ? !item.clearable : true}
             maxlength={item.maxlength ? item.maxlength : 50}
@@ -89,10 +89,10 @@
         return (
           <el-input
             type={item.type}
+            style={item.style}
             rows={item.rows ? item.rows : 3}
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
-            style={item.style ? item.style : 'width: 500px'}
             disabled={item.disabled ? item.disabled : false}
             autosize={item.autosize ? item.autosize : false}
             maxlength={item.maxlength ? item.maxlength : 50}
@@ -106,10 +106,10 @@
       acquireSelect(item) {
         return (
           <el-select
+            style={item.style}
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
             remote={item.remote ? !item.remote : true}
-            style={item.style ? item.style : 'width: 200px'}
             multiple={item.multiple ? item.multiple : false}
             disabled={item.disabled ? item.disabled : false}
             clearable={item.clearable ? !item.clearable : true}
@@ -144,10 +144,10 @@
         return (
           <el-date-picker
             type={item.type}
+            style={item.style}
             size={item.size ? item.size : 'small'}
             attrs={{value: this.$attrs.value[item.name]}}
             disabled={item.disabled ? item.disabled : false}
-            style={item.style ? item.style : 'width: 200px'}
             value-format={item.valueFormat ? item.valueFormat : 'timestamp'} // 默认时间戳格式
             placeholder={item.placeholder ? item.placeholder : '请选择' + item.label}
             change={item.change}
@@ -160,13 +160,13 @@
       acquireDateRange(item) {
         return (
           <el-date-picker
+            style={item.style}
             type={item.type.toLowerCase()}
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
             end-placeholder="请选择结束日期"
             start-placeholder="请选择开始日期"
             disabled={item.disabled ? item.disabled : false}
-            style={item.style ? item.style : 'width: 500px'}
             value-format={item.valueFormat ? item.valueFormat : 'timestamp'}
             range-separator={item.rangeSeparator ? item.rangeSeparator : '至'}
             change={item.change}
@@ -179,11 +179,11 @@
       acquireCascade(item) {
         return (
           <el-cascader
+            style={item.style}
             options={item.options}
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
             disabled={item.disabled ? item.disabled : false}
-            style={item.style ? item.style : 'width: 200px'}
             placeholder={item.placeholder ? item.placeholder : '请选择' + item.label}
             change={item.handleChange}/>
         )
@@ -225,5 +225,8 @@
 <style>
   .el-form-item__label{
     text-align: right !important;
+  }
+  .el-select {
+    width: 100%;
   }
 </style>

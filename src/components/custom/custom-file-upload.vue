@@ -2,6 +2,7 @@
   <div>
     <el-upload
         class="upload-demo"
+        :headers="{'Access-Control-Allow-Origin':'*'}"
         :action="$URLREPLACEHOST(uploadPath)"
         :on-success ="uploadSuccess"
         :on-remove="handleRemove"
@@ -42,8 +43,12 @@
         this.$emit('on-remove', file, fileList);
       },
       uploadSuccess(response) {
-        this.file = EncryptHelper.aesDecrypt(response);
-        let data = this.file.hasOwnProperty('data') ? this.file.data : this.file;
+        let data = EncryptHelper.aesDecrypt(response);
+        this.$notify({
+          title: '提示',
+          type: 'success',
+          message: `${data.fileName}上传成功`
+        });
         this.$emit('on-success', data);
       },
       beforeAvatarUpload(file) {
@@ -60,7 +65,19 @@
           this.$message.error('上传图片大小不能超过 5MB!');
           return false;
         }
-        return file;
+        let fd = new FormData()
+        fd.append('file', file)
+        let config = {
+          headers: {'Content-Type': 'multipart/form-data'}
+        }
+        this.$http.post('/api/file/upload', fd, config).then((res) => {
+          if (res.status === 200) {
+            this.uploadSuccess(res.data)
+          }
+        }).catch(error => {
+          throw new Error(error)
+        })
+        return false;
       }
     }
   };

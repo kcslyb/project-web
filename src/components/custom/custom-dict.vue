@@ -25,11 +25,11 @@
                     this.$store.commit('SET_DICT_GROUP', res.data ? res.data : []);
                     this.data = res.data ? res.data : [];
                 });
-          }
-          if (this.data.length > 0) {
-            return this.getLabel(this.data);
-          }
-          return '不存在该字典';
+            }
+            if (this.data.length > 0) {
+                return this.getLabel(this.data);
+            }
+            return '不存在该字典';
         }
 
         getLabel(data: any[]) {

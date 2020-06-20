@@ -7,12 +7,11 @@ const common = {
     mutations: {
         SET_DICT: (state: any, data: any) => {
             if (!state.dict.includes(data)) {
-                state.dict.splice(0, 0, data);
+                state.dict.unshift(data);
             }
         },
         SET_DICT_GROUP: (state: any, data: any) => {
-            let length = state.dict.length - 1;
-            state.dictGroup[ state.dict[length]] = data;
+            state.dictGroup[state.dict[0]] = data;
         }
     },
     actions: {
