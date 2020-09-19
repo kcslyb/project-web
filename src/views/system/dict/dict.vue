@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside width="200px" class="border mg-10" :style="'height:' + defaultHeight+ 'px'">
+    <el-aside width="20%" class="border mg-10 custom-scrollbar" :style="'height:' + defaultHeight+ 'px'">
       <div>
         <el-button style="width: 100%; margin: 5px 0" type="primary" plain @click="addDictGroup">添加字典组
         </el-button>
@@ -26,7 +26,7 @@
           </el-input>
         </div>
       </custom-collapse>
-      <el-table border :data="dictList" stripe :max-height="defaultHeight-50" :header-cell-style="$tableCellHeader">
+      <el-table class="custom-scrollbar" border :data="dictList" stripe :height="defaultHeight" style="width: 100%" :header-cell-style="$tableCellHeader">
         <el-table-column prop="label" label="字典标题" align="center"></el-table-column>
         <el-table-column prop="key" label="字典值" align="center"></el-table-column>
         <el-table-column prop="sort" label="排序" align="center"></el-table-column>
@@ -83,7 +83,7 @@
         public dictGroup: object = {};
 
         @Provide()
-        public defaultHeight: number = 0;
+        public defaultHeight: number = window.innerHeight - 265;
 
         @Provide()
         public DictGroupPageSize: number = 10;

@@ -1,57 +1,18 @@
 <template>
-  <div class="notify-container">
+  <div class="notify-container custom-scrollbar" :style="'height: '+ defaultHeight +'px;'">
     <div class="left-container">
-      <div class="block">
-        <el-timeline>
-          <template v-for="item of notifyList">
-            <el-timeline-item :timestamp="$formatDateTimeString(item.noteModifyTime)" placement="top">
-              <el-card>
-                <h4>{{item.noteTitle}}</h4>
-                <p style="text-indent: 28px">{{item.noteContent}}</p>
-                <p style="float: right">{{item.noteCreated}} </p>
-              </el-card>
-            </el-timeline-item>
-          </template>
-        </el-timeline>
-      </div>
+      <el-timeline>
+        <template v-for="item of notifyList">
+          <el-timeline-item :timestamp="$formatDateTimeString(item.noteModifyTime)" placement="top">
+            <el-card>
+              <h4>{{item.noteTitle}}</h4>
+              <p style="text-indent: 28px">{{item.noteContent}}</p>
+              <p style="float: right">{{item.noteCreated}} </p>
+            </el-card>
+          </el-timeline-item>
+        </template>
+      </el-timeline>
     </div>
-<!--    <div class="notify-content-container">-->
-<!--      <template v-for="item of notifyList">-->
-<!--        <el-card class="box-card card-margin">-->
-<!--          <div class="notify-width">-->
-<!--            <custom-perm label="operation-notify-manage">-->
-<!--              <div class="item-float-right operation">-->
-<!--                <custom-perm label="start-notify-manage">-->
-<!--                  <el-button class="mg-r10" type="success" plain size="mini">start</el-button>-->
-<!--                </custom-perm>-->
-<!--                <custom-perm label="stop-notify-manage">-->
-<!--                  <el-button class="mg-r10" type="warning" plain size="mini">stop</el-button>-->
-<!--                </custom-perm>-->
-<!--                <custom-perm label="update-notify-manage">-->
-<!--                  <el-button class="mg-r10" type="primary" plain size="mini">update</el-button>-->
-<!--                </custom-perm>-->
-<!--                <custom-perm label="delete-notify-manage">-->
-<!--                  <el-button type="danger" plain size="mini">delete</el-button>-->
-<!--                </custom-perm>-->
-<!--              </div>-->
-<!--            </custom-perm>-->
-<!--            <div style="clear: right"></div>-->
-<!--            <div class="notify-title">-->
-<!--              <div class="item-block item-title">{{item.noteTitle}}</div>-->
-<!--              <div class="item-block item-float-right">{{$formatDateTimeString(item.noteModifyTime)}}</div>-->
-<!--            </div>-->
-<!--            <div class="notify">-->
-<!--              <div class="notify-releases">-->
-<!--                releases：{{item.noteCreated}}-->
-<!--              </div>-->
-<!--              <div class="notify-content">-->
-<!--                {{item.noteContent}}-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </el-card>-->
-<!--      </template>-->
-<!--    </div>-->
     <div style="clear: right"></div>
   </div>
 </template>
@@ -64,6 +25,8 @@
     export default class Notify extends Vue {
         @Provide()
         public notifyList: [] = [];
+        @Provide()
+        public defaultHeight: number = window.innerHeight - 120;
 
         mounted() {
             ApiFactory.getApi(Note).query({}).then(res => {
@@ -76,12 +39,13 @@
 <style scoped lang="scss">
   .notify-container {
     width: 100%;
+    overflow-y: scroll;
   }
 
   .left-container {
     width: 60%;
-    display: inline-block;
     padding: 10px;
+    display: inline-block;
   }
 
   .notify-width {

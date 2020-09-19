@@ -9,7 +9,6 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import CustomComponents from '@/components/custom/custom.ts';
 import moment from 'moment';
-import {ApiFactory, Dict} from '@/resources';
 
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);

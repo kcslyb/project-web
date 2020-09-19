@@ -1,20 +1,20 @@
 <template>
   <div v-loading="loading">
-    <custom-collapse :searchFlag="false">
-      <el-row :gutter="24">
-        <el-col :span="6">
+    <custom-collapse>
+      <el-row :gutter="24" style="padding-bottom: 10px">
+        <el-col :offset="1" :span="6">
           <custom-perm label="upload-file-manage">
             <custom-file-upload :on-success="uploadSuccess"></custom-file-upload>
           </custom-perm>
         </el-col>
-        <el-col :offset="16" :span="2">
+        <el-col :offset="15" :span="2">
           <custom-perm label="download-file-manage">
             <el-button size="small" type="primary" @click="batchDownload">批量下载</el-button>
           </custom-perm>
         </el-col>
       </el-row>
     </custom-collapse>
-    <el-table :data="list" stripe :header-cell-style="$tableCellHeader">
+    <el-table :style="'height: '+ defaultHeight +'px;'" :data="list" stripe :header-cell-style="$tableCellHeader">
       <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column type="index"
                        :index="updateIndex"
@@ -65,6 +65,7 @@
       return {
         loading: true,
         multipleSelection: [],
+        defaultHeight: window.innerHeight - 235,
         fileDto: {
           fileDescription: '上传者：'+this.$store.state.user.userName
         },

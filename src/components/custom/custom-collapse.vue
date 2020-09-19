@@ -46,7 +46,7 @@
         @Provide()
         public name: string = 'CustomCollapse';
 
-        @Prop({default: false})
+        @Prop({default: true})
         public searchFlag!: boolean;
 
         @Prop({default: '列表'})

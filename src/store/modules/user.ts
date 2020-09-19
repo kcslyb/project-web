@@ -42,6 +42,7 @@ const user = {
             return new Promise((resolve, reject) => {
                 http.post('/api/login', loginForm).then((res) => {
                     setToken();
+                    debugger
                     resolve(res.data);
                 }).catch((err) => {
                     reject(err);

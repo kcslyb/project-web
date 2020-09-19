@@ -14,7 +14,7 @@
           </div>
         </div>
       </div>
-      <div class="el-main" :style="'border-top: 1px solid #e6e6e6; padding: 0 0 20px 0; height:' +defaultHeight + 'px'">
+      <div class="el-main custom-scrollbar" :style="'border-top: 1px solid #e6e6e6; padding: 0 0 20px 0; height:' +defaultHeight + 'px'">
         <div class="el-form-item__content" style="padding: 10px 0 10px 10px">
           <span>{{role.roleDescription}}</span>
           <span>({{role.roleName}})</span>

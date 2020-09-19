@@ -1,10 +1,11 @@
 <template>
   <div>
     <div class="el-container">
-      <div class="el-aside" :style="'width: 200px ; border: 1px solid #e6e6e6; height: '+ defaultHeight +'px;'">
+      <div class="el-aside" :style="'width: 20% ; border: 1px solid #e6e6e6; height: '+ defaultHeight +'px;'">
         <div align="center">
           <h5 style="display: inline-block;">账户角色</h5>
-          <el-button class="mg-r10" @click="showSearchInput = !showSearchInput" size="mini" type="primary" plain icon="el-icon-search" circle></el-button>
+          <el-button class="mg-r10" @click="showSearchInput = !showSearchInput" size="mini" type="primary" plain
+                     icon="el-icon-search" circle></el-button>
           <custom-perm label="add-role-manage">
             <el-tooltip class="item" effect="dark" content="账户角色" placement="top" style="margin-top: 10px">
               <el-button size="mini" type="primary" icon="el-icon-circle-plus-outline" plain circle
@@ -17,21 +18,26 @@
         </div>
         <div v-loading="loading">
           <custom-list-item
-              :data="roleList"
-              describe="角色编码"
-              @change-click="changeRole"
-              label="roleName"
-              title="roleDescription">
+            :data="roleList"
+            :current-id="activeName"
+            describe="角色编码"
+            @change-click="changeRole"
+            label="roleName"
+            title="roleDescription">
           </custom-list-item>
         </div>
       </div>
-      <div class="el-main" :style="'padding: 0; border-bottom: 1px solid #e6e6e6; height:' +defaultHeight + 'px'" v-loading="loading">
-        <el-header align="right" style="padding-top: 20px; border-bottom: 1px solid #e6e6e6; border-top: 1px solid #e6e6e6">
+      <div class="el-main custom-scrollbar" :style="'padding: 0; border-bottom: 1px solid #e6e6e6; height:' +defaultHeight + 'px'"
+           v-loading="loading">
+        <el-header align="right"
+                   style="padding-top: 20px; border-bottom: 1px solid #e6e6e6; border-top: 1px solid #e6e6e6">
           <div style="display: inline-block; float: left">
             <span>{{roleDto.roleDescription}}</span>
             <span>({{roleDto.roleName}})</span>
           </div>
-          <el-button type="warning" size="mini" plain circle class="el-icon-edit" @click="editRolePermission"></el-button>编辑
+          <el-button type="warning" size="mini" plain circle class="el-icon-edit"
+                     @click="editRolePermission"></el-button>
+          编辑
         </el-header>
         <el-tree
           :data="permissionTree"
@@ -43,10 +49,10 @@
     </div>
     <custom-drawer title="编辑角色" :show="showRight" @rightClose="rightClose" :css="{'width': '800px'}">
       <role-permission-page
-          :role="roleDto"
-          :tree="permissionTreeAll"
-          :defaultChecked="defaultChecked"
-          @rightClose="rightClose">
+        :role="roleDto"
+        :tree="permissionTreeAll"
+        :defaultChecked="defaultChecked"
+        @rightClose="rightClose">
       </role-permission-page>
     </custom-drawer>
     <custom-drawer title="添加角色" :show="showAddForm" @rightClose="rightClose">
@@ -67,7 +73,7 @@
     components: {
       CustomListItem,
       RoleForm,
-      RolePermissionPage : permission,
+      RolePermissionPage: permission,
     },
     data() {
       return {
@@ -80,8 +86,8 @@
         searchTextTwo: '',
         roleDto: {},
         activeName: '',
-        defaultHeight: window.innerHeight-130,
-        mainDefaultHeight: window.innerHeight-130,
+        defaultHeight: window.innerHeight - 130,
+        mainDefaultHeight: window.innerHeight - 130,
         roleList: [],
         dataList: [],
         defaultChecked: [],
@@ -126,14 +132,18 @@
         })
       },
       changeRole(item) {
+        this.activeName = item.roleId
         ApiFactory.getApi(Role).queryRolePermissionByRoleId(item.roleId).then((res) => {
           this.roleDto = res.data;
           let temp = [];
           this.roleDto.rolePermissionList.forEach(value => {
             temp.push(value.rolePermissionLabel);
           });
-          this.defaultChecked = temp;
           let menuTree = JSON.parse(JSON.stringify(PermissionTree));
+          const result = [];
+          this.setDefaultCheckedKes(menuTree, temp, result);
+          const length = this.defaultChecked.length;
+          this.defaultChecked.splice(0, length, ...result);
           this.permissionTree = this.filterPermission(menuTree, temp);
           this.loading = false;
         });
@@ -145,6 +155,19 @@
           }
           return permissions.includes(item.id);
         });
+      },
+      // 过滤存在子节点的父节点
+      setDefaultCheckedKes (menuTree, permissions, result) {
+        menuTree.forEach(node => {
+          if (permissions.includes(node.id)) {
+            const flag = node.children && node.children.length > 0
+            if (flag) {
+              this.setDefaultCheckedKes(node.children, permissions, result)
+            } else {
+              result.push(node.id)
+            }
+          }
+        })
       },
       editRolePermission() {
         this.showRight = true;

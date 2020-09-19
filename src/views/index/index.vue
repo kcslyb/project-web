@@ -14,7 +14,7 @@
                    active-text-color="#449EFF"
                    mode="horizontal" @select="handleSelect">
             <template v-for="item in getMenu">
-              <el-menu-item :index="item.path" :key="item.path">
+              <el-menu-item :class="{'menu-active': item.path === currentMenu.path}" :index="item.path" :key="item.path">
                 <template slot="title">
                   <i :class="item.meta.icon"></i>
                   <span>{{item.meta.title}}</span>
@@ -52,10 +52,13 @@
         </el-col>
       </el-row>
     </el-header>
-    <div style="padding: 10px; border-bottom: 1px solid #449EFF" v-show="routers.length > 1">
+    <div style="padding: 10px; border-bottom: 1px solid #449EFF" v-show="secondMenu.length > 1">
       <el-row>
-        <template v-for="item in routers">
-          <el-button @click="routeChange(item.path)" type="primary" round plain :key="item.path">{{item.meta.title}}
+        <template v-for="item in secondMenu">
+          <el-button
+            :class="{'menu-item-active': currentMenuItem.path === item.path}" @click="routeChange(item)"
+            size="small" type="primary" round plain
+            :key="item.path">{{item.meta.title}}
           </el-button>
         </template>
       </el-row>
@@ -69,11 +72,23 @@
   export default {
     data() {
       return {
-        routers: []
+        menu: [],
+        secondMenu: [],
+        currentMenu: {},
+        currentPath: '',
+        currentMenuItem: {}
       };
     },
     mounted() {
-      this.handleRoute(this.$route.path);
+      this.initData()
+    },
+    watch: {
+      '$store.state.menu.currentRouters': {
+        handler() {
+          this.initData()
+        },
+        deep: true
+      }
     },
     computed: {
       getMenu() {
@@ -81,35 +96,38 @@
       }
     },
     methods: {
-      handleRoute(path) {
-        let temp = this.$store.getters.currentRouters;
-        let routers = [];
-        temp.forEach(value => {
-          if (value.children && value.children.length > 1) {
-            value.children.forEach(v => {
-              if (Object.is(v.path, path)) {
-                routers = value.children;
-                return false;
+      initData() {
+        this.currentPath = this.$route.path;
+        this.menu = this.$store.getters.currentRouters
+        for (let i = 0; i < this.menu.length; i++) {
+          const temp = this.menu[i].children
+          if (temp && temp.length > 0) {
+            for (let j = 0; j < temp.length; j++) {
+              if (Object.is(temp[j].path, this.currentPath)) {
+                this.secondMenu = temp
+                this.currentMenuItem = temp[j]
+                this.currentMenu = this.menu[i]
+                break
               }
-            });
+            }
           }
-        });
-        this.routers = routers;
-        this.routeChange(path);
-      },
-      handleSelect(key, keyPath) {
-        let temp = this.$store.getters.currentRouters;
-        let filter = temp.filter((value) => value.path === keyPath[0]);
-        if (filter.length && filter[0].children) {
-          this.routers = filter[0].children;
         }
-        this.routeChange(this.routers[0].path);
       },
-      routeChange(path) {
-        let currentPath = this.$route.path;
-        if (path !== currentPath) {
-          this.$router.push({path: path}).catch(() => {
-          });
+      handleSelect(key) {
+        let temp = this.$store.getters.currentRouters
+        let filter = temp.filter((value) => value.path === key)
+        this.currentMenu = filter[0]
+        if (filter.length > 0) {
+          this.secondMenu = filter[0].children || []
+          this.currentMenuItem = this.secondMenu[0]
+          this.routeChange(this.currentMenuItem)
+        }
+      },
+      routeChange(menuItem) {
+        this.currentMenuItem = menuItem
+        this.currentPath = this.$route.path;
+        if (menuItem.path !== this.currentPath) {
+          this.$router.push({path: menuItem.path}).catch(() => {})
         }
       },
       logout() {
@@ -135,7 +153,19 @@
     color: $default-background-color;
     font-weight: bold;
   }
+
   .el-menu.el-menu--horizontal {
     border-bottom: none !important;
+  }
+
+  .menu-item-active {
+    color: $white-color;
+    background: $default-background-color;
+    border-color: $default-background-color;
+  }
+
+  .menu-active {
+    color: $default-background-color !important;
+    border-bottom-color: $default-background-color !important;
   }
 </style>

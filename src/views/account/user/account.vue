@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="el-container">
-      <div class="el-aside" :style="'width: 200px ; border: 1px solid #e6e6e6; height: '+ defaultHeight +'px;'">
+      <div class="el-aside" :style="'width: 20% ; border: 1px solid #e6e6e6; height: '+ defaultHeight +'px;'">
         <div class="text-align-center">
           <h5 style="display: inline-block;">账户等级</h5>
           <el-button @click="showSearchInput = !showSearchInput" size="mini" type="primary" plain icon="el-icon-search"
@@ -16,44 +16,46 @@
             <el-input v-model="searchText" placeholder="请输入关键字搜索"></el-input>
           </div>
         </div>
-        <div v-loading="departmentLoading">
+        <div v-loading="departmentLoading" class="custom-scrollbar">
           <custom-list-item :data="department"
-            :perm="departmentPerms" describe="部门编号"
-            :current-id="depart.departmentId"
-            @change-click="setUserAccountList"
-            @update-click="editDepartment"
-            @remove-click="deleteDepartment"
-            label="departmentNumber"
-            title="departmentName">
+                            :perm="departmentPerms" describe="等级编号"
+                            :current-id="depart.departmentId"
+                            @change-click="setUserAccountList"
+                            @update-click="editDepartment"
+                            @remove-click="deleteDepartment"
+                            label="departmentNumber"
+                            title="departmentName">
           </custom-list-item>
         </div>
       </div>
       <div class="el-main" style="padding: 0">
         <div style="width: 100%;">
-          <custom-collapse :searchFlag="false">
+          <custom-collapse>
             <div style="text-align: right">
-              <div style="display: inline-block;">
+              <div style="display: inline-block; padding-bottom: 10px">
                 <div style="display: inline-block" v-show="showSearchInputTwo">
                   <el-input size="small" v-model="searchTextTwo" placeholder="请输入关键字搜索"></el-input>
                 </div>
-                <el-button class="mg-r10" @click="showSearchInputTwo = !showSearchInputTwo" size="small" type="primary" plain
-                           icon="el-icon-search" circle></el-button>
+                <el-button class="mg-r10" @click="showSearchInputTwo = !showSearchInputTwo" size="small" type="primary"
+                           plain icon="el-icon-search" circle></el-button>
               </div>
               <custom-perm :label="'add-user-manage'">
                 <el-tooltip class="item" effect="dark" content="新增账户" placement="top">
-                  <el-button class="mg-r10" size="small" type="primary" icon="el-icon-circle-plus-outline" plain circle
-                             @click.stop.prevent="addAccount"></el-button>
+                  <el-button class="mg-r10" size="small" type="primary" icon="el-icon-circle-plus-outline" plain
+                             @click.stop.prevent="addAccount">新增账户
+                  </el-button>
                 </el-tooltip>
               </custom-perm>
               <custom-perm :label="'export-user-manage'">
                 <el-tooltip class="item" effect="dark" content="导出用户" placement="top">
-                  <el-button size="small" type="primary" icon="el-icon-download" plain circle
-                             @click.stop.prevent="exportAccount"></el-button>
+                  <el-button size="small" type="primary" icon="el-icon-download" plain
+                             @click.stop.prevent="exportAccount">导出用户
+                  </el-button>
                 </el-tooltip>
               </custom-perm>
             </div>
           </custom-collapse>
-          <el-table :data="accountUser" :header-cell-style="$tableCellHeader"
+          <el-table class="custom-scrollbar" :data="accountUser" :header-cell-style="$tableCellHeader"
                     :height="tableDefaultHeight" v-loading="departmentLoading">
             <el-table-column type="index" width="50" label="序号" :index="$indexMethod(page)"></el-table-column>
             <el-table-column prop="userName" label="用户姓名">
@@ -105,7 +107,8 @@
               </template>
             </el-table-column>
           </el-table>
-          <custom-paging :page="page" @size-change="handleSizeChange" @start-change="handleCurrentChange"></custom-paging>
+          <custom-paging :page="page" @size-change="handleSizeChange"
+                         @start-change="handleCurrentChange"></custom-paging>
         </div>
       </div>
     </div>
@@ -156,8 +159,8 @@
         currentUser: {},
         activeName: '',
         infoHeight: window.innerHeight,
-        defaultHeight: window.innerHeight - 200,
-        tableDefaultHeight: window.innerHeight - 260,
+        defaultHeight: window.innerHeight - 170,
+        tableDefaultHeight: window.innerHeight - 285,
         response: [],
         department: [],
         accountUser: [],
@@ -217,7 +220,7 @@
       setUserAccountList(item) {
         this.depart = item;
         let params = Object.assign({}, this.condition,
-            {userDepartment: item.departmentId});
+          {userDepartment: item.departmentId});
         let formData = JSON.parse(JSON.stringify(params));
         ApiFactory.getApi(UserAccount).queryPager(formData).then(res => {
           this.accountUser = res.data.list;

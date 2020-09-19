@@ -22,13 +22,15 @@ module.exports = {
     // host: '192.168.1.7',
     // host: '172.200.82.173',
     https: false,
+    // 热更新
+    hotOnly: true,
+    // 配置自动启动浏览器
+    open: false,
     disableHostCheck: true,
-    open: true,
-    hotOnly: true, // 热更新
-    proxy: process.env.NODE_ENV === 'production' ? { //配置自动启动浏览器
+    proxy: process.env.NODE_ENV === 'production' ? {
       '/api/*': {
         // target: 'http://127.0.0.1:8088',
-        target: 'http://192.168.0.109:8088',
+        target: 'http://192.168.0.112:8088',
         changeOrigin: true,
         secure: false,
         ws: true//websocket支持
@@ -36,7 +38,7 @@ module.exports = {
     } : {
       '/api': {
         // target: 'http://127.0.0.1:8088',
-        target: 'http://192.168.0.110:8088',
+        target: 'http://118.178.120.226:8088',
         ws: true,
         changeOrigin: true,
         pathRewrite: {

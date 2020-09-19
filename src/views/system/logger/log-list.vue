@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <custom-collapse @searchSubmit="searchLogger" @searchReset="resetSearchLogger">
+      <custom-collapse :search-flag="true" @searchSubmit="searchLogger" @searchReset="resetSearchLogger">
         <el-row style="padding: 10px 0" :gutter="24" slot="content">
           <el-col :offset="2" :span="8">
             <span class="label">访问者:</span>
@@ -34,16 +34,16 @@
         </el-row>
       </custom-collapse>
     </div>
-    <el-table border :data="loggerList" stripe :header-cell-style="$tableCellHeader">
-      <el-table-column type="index" width="50" label="序号" :index="$indexMethod(page)"></el-table-column>
-      <el-table-column prop="logUserId" label="访问者" align="center"></el-table-column>
-      <el-table-column prop="logRequestRemoteIp" label="访问者IP" align="center"></el-table-column>
-      <el-table-column prop="logRequestDescribe" label="访问URL" align="center"></el-table-column>
-      <el-table-column prop="logRequestMethodAndInterface" label="访问类型及接口" align="center"></el-table-column>
-      <el-table-column prop="logRequestUrl" label="SESSION ID - INTER" align="center"></el-table-column>
-      <el-table-column prop="logRequestTime" label="访问时间" align="center" :formatter="$formatDateTime"></el-table-column>
+    <el-table :height="defaultHeight" border :data="loggerList" stripe :header-cell-style="$tableCellHeader">
+      <el-table-column show-overflow-tooltip type="index" width="50" label="序号" :index="$indexMethod(page)"></el-table-column>
+      <el-table-column show-overflow-tooltip prop="logUserId" label="访问者" align="center"></el-table-column>
+      <el-table-column show-overflow-tooltip prop="logRequestRemoteIp" label="访问者IP" align="center"></el-table-column>
+      <el-table-column show-overflow-tooltip prop="logRequestDescribe" label="访问URL" align="center"></el-table-column>
+      <el-table-column show-overflow-tooltip prop="logRequestMethodAndInterface" label="访问类型及接口" align="center"></el-table-column>
+      <el-table-column show-overflow-tooltip prop="logRequestUrl" label="SESSION ID - INTER" align="center"></el-table-column>
+      <el-table-column show-overflow-tooltip prop="logRequestTime" label="访问时间" align="center" :formatter="$formatDateTime"></el-table-column>
     </el-table>
-    <custom-paging :page="page" @size-change="sizeChange" @start-change="startChange"></custom-paging>
+    <custom-paging :page-total="page.total" :page="page" @size-change="sizeChange" @start-change="startChange"></custom-paging>
   </div>
 </template>
 
@@ -58,6 +58,7 @@
   })
   export default class LogList extends Vue {
     @Provide() name: string = 'LogList';
+    @Provide() defaultHeight: number = window.innerHeight - 280;
     @Provide() periodTime: string[] = [];
     @Provide() public loggerList: any[] = [];
     @Provide() public visitorList: any[] = [];
