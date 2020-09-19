@@ -33,7 +33,7 @@
 
 <script lang="ts">
     import {Component, Provide, Vue} from 'vue-property-decorator';
-    import {storeNavData, storeManageNavData} from "@/views/store/index-nav-json";
+    import {storeNavData, storeManageNavData} from '@/views/store/index-nav-json';
 
     @Component
     export default class StoreIndex extends Vue {
