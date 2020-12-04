@@ -1,6 +1,6 @@
 import * as axios from 'axios';
 import {AxiosResponse, AxiosRequestConfig} from 'axios';
-import {Loading, Message} from 'element-ui';
+import {Loading, Notification} from 'element-ui';
 import EncryptHelper from '@/utils/encryption-util';
 import {ElLoadingComponent} from 'element-ui/types/loading';
 import {removeToken} from '@/utils/auth';
@@ -22,7 +22,9 @@ http.interceptors.request.use(
         return config;
     },
     (error: any) => {
-        Message.error({
+        Notification({
+            type: 'error',
+            title: '错误！',
             message: '加载超时',
         });
         loading.close();
@@ -50,7 +52,8 @@ http.interceptors.response.use(
                 msg = error.response.data;
             }
         }
-        Message.error({
+        Notification({
+            title: '错误！',
             type: 'error',
             message: msg,
         });

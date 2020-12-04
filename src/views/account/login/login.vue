@@ -6,13 +6,13 @@
           <div class="nav-login">
             <div class="content-container nav-container">
               <h1>
-                BLOG
+                kcs-erp
               </h1>
               <h3>
-                Individual Learning
+                user-role-log
               </h3>
               <p>
-                Ability to improve of personal blog.
+                This is a management system
               </p>
             </div>
             <div class="sign-in-container nav-container">
