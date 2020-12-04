@@ -1,6 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
-const vConsolePlugin = require('vconsole-webpack-plugin');
+const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
 const CompressionPlugin = require('compression-webpack-plugin'); //Gzip
 
 module.exports = {
@@ -42,19 +41,34 @@ module.exports = {
   // webpack配置
   chainWebpack: config => {
     config.module
-        .rule('vue')
-        .use('vue-loader')
-        .tap(options => {
-          return options;
-        });
+      .rule('vue')
+      .use('vue-loader')
+      .tap(options => {
+        return options;
+      });
     config.module
-        .rule('images')
-        .test(/\.(png|jpe?g|gif|ico)(\?.*)?$/)
-        .use('url-loader')
-        .loader('url-loader')
-        .options({
-          name: path.join('../main/static/', 'img/[name].[ext]')
-        });
+      .rule('images')
+      .test(/\.(png|jpe?g|gif|ico)(\?.*)?$/)
+      .use('url-loader')
+      .loader('url-loader')
+      .options({
+        name: path.join('../main/static/', 'img/[name].[ext]')
+      });
+    if (IS_PROD) {
+      config.optimization.minimizer('terser').tap((args) => {
+        // 注释console.*
+        args[0].terserOptions.compress.drop_console = true
+        // remove debugger
+        args[0].terserOptions.compress.drop_debugger = true
+        // 移除 console.log
+        args[0].terserOptions.compress.pure_funcs = ['console.log']
+        // 去掉注释 如果需要看chunk-vendors公共部分插件，可以注释掉就可以看到注释了
+        args[0].terserOptions.output = {
+          comments: false
+        }
+        return args
+      })
+    }
   },
   configureWebpack: config => {
     let pluginsPublic = [];
@@ -67,12 +81,9 @@ module.exports = {
       }),
     ];
     let pluginsDev = [
-      new vConsolePlugin({
-        filter: [], // 需要过滤的入口文件
-        enable: false // 发布代码前记得改回 false
-      }),
     ];
-    if (process.env.NODE_ENV === 'production') { // 为生产环境修改配置...process.env.NODE_ENV !== 'development'
+    if (IS_PROD) {
+      // 为生产环境修改配置...
       config.plugins = [...config.plugins, ...pluginsPro, ...pluginsPublic];
     } else {
       // 为开发环境修改配置...
