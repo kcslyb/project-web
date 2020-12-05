@@ -26,6 +26,8 @@
 </template>
 
 <script>
+    import {ApiFactory, Dict} from "../../resources";
+
     export default {
         data() {
             return {
@@ -33,18 +35,7 @@
                 index: 0,
                 baseUrl: 'https://v.qq.com/x/page/z00339rhkk0.html',
                 currentPath: '',
-                parsingList: [
-                    'http://www.spzcr.cn/jx/?url=',
-                    'http://api.3jx.top/vip/?url=',
-                    'https://jx.idc126.net/jx/?url=',
-                    'https://jiexi.071811.cc/jx.php?url=',
-                    'http://jsap.attakids.com/?url=',
-                    'https://daifanli.cn/vip/?url=',
-                    'https://jx.suiyilu.com/?url=',
-                    'https://www.1717yun.com/jx/ty.php?url=',
-                    'https://play.7nmg.net/?v=',
-                    'http://jqaaa.com/jx.php?url='
-                ]
+                parsingList: []
             }
         },
         mounted() {
@@ -53,9 +44,19 @@
         },
         methods: {
             initData(){
-                this.play();
+                ApiFactory.getApi(Dict).queryDictByGroupLabel('resolution').then(res => {
+                    this.parsingList = []
+                    const temp = [].concat(res.data)
+                    temp.forEach(value => {
+                        if (value.deleteFlag !== '1') {
+                            this.parsingList.push(value.remarks || '')
+                        }
+                    })
+                    this.play()
+                })
             },
             play() {
+                console.info(this.parsingList[this.index])
                 document.getElementById("iframe-container").src = this.parsingList[this.index] + this.baseUrl;
             },
             change() {
