@@ -108,6 +108,12 @@ export default new Router({
             ]
         },
         {
+            path: '/play',
+            name: 'play',
+            meta: {moduleId: 'play', title: 'play', icon: 'el-icon-s-home', perm: 'system-manage'},
+            component: () => import('@/views/index/play.vue'),
+        },
+        {
             path: '/*',
             name: 'not-found',
             meta: {moduleId: 'home', title: '404', icon: 'el-icon-s-home', perm: 'system-manage'},
