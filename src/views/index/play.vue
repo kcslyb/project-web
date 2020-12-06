@@ -48,7 +48,7 @@
                     this.parsingList = []
                     const temp = [].concat(res.data)
                     temp.forEach(value => {
-                        if (value.deleteFlag !== '1') {
+                        if (value.remarks) {
                             this.parsingList.push(value.remarks || '')
                         }
                     })
