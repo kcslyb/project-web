@@ -18,10 +18,10 @@
             <div class="sign-in-container nav-container">
               <div class="border-item">
                 <span class="nav-item" :class="isActive ? 'is-active' : 'not-active'">
-                  <a>Sign in</a>
+                  <a @click="changeTab(true)">登录</a>
                 </span>
                 <span class="nav-item" :class="isActive ? 'not-active' : 'is-active'">
-                  <a @click="addUer">Register</a>
+                  <a @click="changeTab(false)">注册</a>
                 </span>
               </div>
               <div class="login-box">
@@ -36,14 +36,14 @@
                 <div>
                   <div class="remember">
                     <div class="float-left">
-                      <el-checkbox v-model="user.remember">Remember me</el-checkbox>
+                      <el-checkbox v-model="user.remember">记住密码</el-checkbox>
                     </div>
                     <div class="float-right">
-                      <a @click="resetPassword">Forgot your password?</a>
+                      <a @click="resetPassword">忘记密码?</a>
                     </div>
                   </div>
                   <div>
-                    <input type="button" value="Sign in" class="btn-submit" @click="handleLogin()">
+                    <input type="button" value="登录" class="btn-submit" @click="handleLogin()">
                   </div>
                 </div>
               </div>
@@ -130,9 +130,9 @@
           }
         })
       },
-      addUer() {
-        this.isActive = false;
-        this.showRight = true;
+      changeTab(flag) {
+        this.isActive = flag;
+        this.showRight = !flag;
       },
       resetPassword() {
         this.showRightRest = true;

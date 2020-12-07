@@ -35,18 +35,18 @@
         >
           <el-input v-model="userDto.userEmail"></el-input>
         </el-form-item>
-        <el-form-item
-            prop="sessionCode"
-            label="验证码"
-            :rules="[
-          { required: true, message: '请输入邮箱验证码', trigger: 'blur' },
-        ]"
-        >
-          <el-row :gutter="24">
-            <el-col :span="13"><el-input v-model="userDto.sessionCode"></el-input></el-col>
-            <el-col :span="4"><el-button type="primary" @click="getCode" size="small">获取验证码</el-button></el-col>
-          </el-row>
-        </el-form-item>
+<!--        <el-form-item-->
+<!--            prop="sessionCode"-->
+<!--            label="验证码"-->
+<!--            :rules="[-->
+<!--          { required: true, message: '请输入邮箱验证码', trigger: 'blur' },-->
+<!--        ]"-->
+<!--        >-->
+<!--          <el-row :gutter="24">-->
+<!--            <el-col :span="13"><el-input v-model="userDto.sessionCode"></el-input></el-col>-->
+<!--            <el-col :span="4"><el-button type="primary" @click="getCode" size="small">获取验证码</el-button></el-col>-->
+<!--          </el-row>-->
+<!--        </el-form-item>-->
         <el-form-item label="密码" prop="userPassword">
           <el-input type="password" v-model="userDto.userPassword"></el-input>
         </el-form-item>

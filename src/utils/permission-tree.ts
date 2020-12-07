@@ -127,5 +127,24 @@ const PermissionTree: Permission[] = [
             label: '删除文件',
             children: []
         }]
+    },
+    {
+        id: 'system-h5menu-manage',
+        label: 'h5菜单管理',
+        children: [{
+            id: 'basic-manage',
+            label: '类型转换',
+            children: [
+                {
+                    id: 'basic-manage',
+                    label: '基础信息',
+                    children: []
+                }, {
+                    id: 'basic-manage',
+                    label: '转换信息',
+                    children: []
+                }
+            ]
+        }]
     }];
 export default PermissionTree;

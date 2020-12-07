@@ -1,21 +1,23 @@
 <template>
   <transition name="slide-fade">
     <div class="page-right-wrap" v-show="show" @click="rightClose">
-      <div class="page-right-part lightBox" @click.stop="" ref="pageRightPart" :style="style">
-        <el-row :gutter="23">
-          <el-col :span="22">
-            <div style="text-align: center; margin-bottom: 10px">
-              <span style="font-size: 20px; font-family: 'Songti TC'">{{title}}</span>
-            </div>
-          </el-col>
-          <el-col :span="2">
-            <el-button @click.stop.prevent="rightClose" circle icon="el-icon-close" size="mini"></el-button>
-          </el-col>
-        </el-row>
-        <div class="page-right-main">
-          <slot></slot>
+      <transition name="slide-fade">
+        <div class="page-right-part lightBox" @click.stop="" ref="pageRightPart" :style="style">
+          <el-row :gutter="23">
+            <el-col :span="22">
+              <div style="text-align: center; margin-bottom: 10px">
+                <span style="font-size: 20px; font-family: 'Songti TC'">{{title}}</span>
+              </div>
+            </el-col>
+            <el-col :span="2">
+              <el-button @click.stop.prevent="rightBtnClose" circle icon="el-icon-close" size="mini"></el-button>
+            </el-col>
+          </el-row>
+          <div class="page-right-main">
+            <slot></slot>
+          </div>
         </div>
-      </div>
+      </transition>
     </div>
   </transition>
 </template>
@@ -39,6 +41,10 @@
       defaultWith: {
         type: Boolean,
         default: true
+      },
+      wrapperClosable: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
@@ -61,6 +67,14 @@
     },
     methods: {
       rightClose () {
+        if (this.wrapperClosable) {
+          this.$emit('update:show', false);
+        }
+        this.$emit('right-close');
+        this.$emit('rightClose');
+        this.$emit('close');
+      },
+      rightBtnClose () {
         this.$emit('update:show', false);
         this.$emit('right-close');
         this.$emit('rightClose');
@@ -95,5 +109,18 @@
   .lightBox {
     position: absolute;
     z-index: 1000;
+  }
+  /* 可以设置不同的进入和离开动画 */
+  /* 设置持续时间和动画函数 */
+  .slide-fade-enter-active {
+    transition: all .5s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active for below version 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
   }
 </style>
