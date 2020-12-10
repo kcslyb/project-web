@@ -11,24 +11,28 @@
                         </div>
                     </el-col>
                     <el-col :xs="5" :sm="4" :md="3" :lg="2" :xl="2" style="padding: 0">
-                        <span @click="flag = !flag">{{flag?'隐藏':'展开'}}搜索</span>
-                        <i :class="flag ? 'el-icon-arrow-down': 'el-icon-arrow-right'" @click="flag = !flag"></i>
+                        <span @click="handleArrowClick">{{flag?'隐藏':'展开'}}搜索</span>
+                        <i :class="flag ? 'el-icon-arrow-down': 'el-icon-arrow-right'" @click="handleArrowClick"></i>
                     </el-col>
                 </el-row>
             </div>
             <div v-if="flag" class="custom-collapse-content">
-                <slot clas="slot" name="content"></slot>
-                <el-row :gutter="24">
-                    <el-col :span="24" class="operation">
+                <div class="custom-collapse-content-filter custom-scrollbar">
+                    <slot clas="slot" name="content"></slot>
+                </div>
+                <div class="operation">
+                    <div>
                         <slot name="operate"></slot>
+                    </div>
+                    <div>
                         <el-button v-if="$scopedSlots.hasOwnProperty('content')"
                                    icon="el-icon-search" type="primary" plain size="mini"
                                    @click="searchSubmit">查询</el-button>
                         <el-button v-if="$scopedSlots.hasOwnProperty('content')"
                                    icon="el-icon-refresh" type="info" plain size="mini"
                                    @click="searchReset">重置</el-button>
-                    </el-col>
-                </el-row>
+                    </div>
+                </div>
                 <div>
                     <slot></slot>
                 </div>
@@ -39,28 +43,32 @@
 </template>
 
 <script lang="ts">
-    import {Component, Provide, Prop, Vue} from 'vue-property-decorator';
+    import {Component, Provide, Prop, Vue} from 'vue-property-decorator'
 
     @Component
     export default class CustomCollapse extends Vue {
         @Provide()
-        public name: string = 'CustomCollapse';
+        public name: string = 'CustomCollapse'
 
         @Prop({default: true})
-        public searchFlag!: boolean;
+        public searchFlag!: boolean
 
         @Prop({default: '列表'})
-        public title!: string;
+        public title!: string
 
         @Provide()
-        public flag: boolean = this.searchFlag;
+        public flag: boolean = this.searchFlag
 
-        searchSubmit() {
-            this.$emit('searchSubmit');
+        searchSubmit () {
+            this.$emit('searchSubmit')
         }
 
-        searchReset() {
-            this.$emit('searchReset');
+        searchReset () {
+            this.$emit('searchReset')
+        }
+
+        handleArrowClick () {
+            this.flag = !this.flag
         }
     };
 </script>
@@ -77,9 +85,10 @@
     }
 
     .operation {
-        width: 100%;
-        text-align: right;
-        padding: 5px 0;
+        width: auto;
+        display: flex;
+        padding: 10px;
+        justify-content: space-between;
         border-top: 1px solid $system-border-color;
     }
 
@@ -112,7 +121,7 @@
     }
 
     .custom-collapse-content {
-        padding-right: 20px;
+        padding: 0;
         margin: 0 10px;
         font-size: 0.8rem;
         color: $black-color;
@@ -120,6 +129,10 @@
         border: 1px solid $system-border-color;
         & .slot{
             padding-top: 20px;
+        }
+        .custom-collapse-content-filter {
+            overflow: auto;
+            max-height: 82px;
         }
     }
 

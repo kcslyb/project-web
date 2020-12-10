@@ -32,6 +32,11 @@ $border-color: #A6A7AC;
   @include border-radius-base(10px);
 }
 
+.height-full {
+  height: 100%;
+  box-sizing: border-box;
+}
+
 .mg-l10 {
   margin-left: 10px;
 }
@@ -47,6 +52,23 @@ $border-color: #A6A7AC;
 
 .mg-10 {
   margin: 10px;
+}
+
+.pd-l10 {
+  padding-left: 10px;
+}
+
+.pd-r10 {
+  padding-right: 10px;
+}
+
+.pd-l10-r10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.pd-10 {
+  padding: 10px;
 }
 
 // 操作符 ----

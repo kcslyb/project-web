@@ -67,6 +67,10 @@
         type: Boolean,
         default: true
       },
+      height: {
+        type: Number,
+        default: 400
+      }
     },
     methods: {
       indexMethod(index) {
@@ -271,37 +275,53 @@
     },
     render() {
       return (
-        <el-main style="padding: 0;">
+        <div class="table-container">
           <el-table
+            class="table-list custom-scrollbar el-table__body-wrapper"
             ref={'customTable'}
             fit={this.fit}
             data={this.data}
             border={this.border}
             stripe={this.stripe}
+            height={this.height}
             highlight-current-row={true}
             onSelect={this.select}
             onRow-click={this.rowClick}
             onSelect-all={this.selectAll}
             onRow-dblclick={this.rowDblclick}
             onSelection-change={this.selectionChange}
-            header-cell-style={this.$tableCellHeader}
-            style="width: 100%">
-            {this.isSequenceFlagMethod()}
+            header-cell-style={this.$tableCellHeader}>
             {this.isSelectFlagMethod()}
+            {this.isSequenceFlagMethod()}
             {this.isColumns()}
           </el-table>
           {this.isShowPagination()}
-        </el-main>
+        </div>
       )
     }
   }
 </script>
 
 <style lang="scss">
+  .table-container {
+    height: 100%;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    .table-list {
+      flex: 1;
+    }
 
-  .pagination-container {
-    height: auto;
-    box-sizing: border-box;
-    text-align: center;
+    /deep/ .gutter {
+      background: rgb(238, 245, 254);
+    }
+
+    /deep/ .el-table--scrollable-y .el-table__body-wrapper {
+      height: 100% !important;
+    }
+
+    .pagination-container {
+      text-align: center;
+    }
   }
 </style>

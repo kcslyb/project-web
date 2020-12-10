@@ -5,8 +5,8 @@
         <div class="page-right-part lightBox" @click.stop="" ref="pageRightPart" :style="style">
           <el-row :gutter="23">
             <el-col :span="22">
-              <div style="text-align: center; margin-bottom: 10px">
-                <span style="font-size: 20px; font-family: 'Songti TC'">{{title}}</span>
+              <div style="text-align: center; margin-bottom: 10px; border-bottom: 1px solid #e5e5e5;">
+                <span style="font-size: 20px;">{{title}}</span>
               </div>
             </el-col>
             <el-col :span="2">
@@ -68,11 +68,8 @@
     methods: {
       rightClose () {
         if (this.wrapperClosable) {
-          this.$emit('update:show', false);
+          this.rightBtnClose()
         }
-        this.$emit('right-close');
-        this.$emit('rightClose');
-        this.$emit('close');
       },
       rightBtnClose () {
         this.$emit('update:show', false);

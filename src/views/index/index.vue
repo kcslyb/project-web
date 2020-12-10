@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container class="height-full">
     <el-header class="main-header">
       <el-row :gutter="24" style="margin: 0">
         <el-col :span="1">
@@ -63,7 +63,7 @@
         </template>
       </el-row>
     </div>
-    <div>
+    <div class="height-full">
       <router-view></router-view>
     </div>
   </el-container>

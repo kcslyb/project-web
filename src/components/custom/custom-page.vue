@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="page-container">
     <custom-collapse
-      :title="title + '列表'"
-      @searchSubmit="searchSubmit"
-      @searchReset="searchReset">
+      :title="title"
+      class="page-collapse"
+      @searchReset="searchReset"
+      @searchSubmit="searchSubmit">
       <template slot="operate">
         <el-button type="primary" icon="el-icon-plus" plain size="mini" @click="handleAdd">新增</el-button>
       </template>
@@ -15,17 +16,19 @@
         :form-items="formItems.items">
       </custom-form>
     </custom-collapse>
-    <custom-table
-      :columns="tableColumn"
-      :data="tableData"
-      :total="total"
-      :page="page"
-      @pageChange="pageChange"
-      @buttonEditClick="buttonEditClick"
-      @buttonDeleteClick="buttonDeleteClick"
-      @cellButtonClick="cellButtonClick"
-      @selectionChange="selectChange">
-    </custom-table>
+    <div class="page-table content">
+      <custom-table
+        :page="page"
+        :total="total"
+        :data="tableData"
+        :columns="tableColumn"
+        @pageChange="pageChange"
+        @selectionChange="selectChange"
+        @buttonEditClick="buttonEditClick"
+        @cellButtonClick="cellButtonClick"
+        @buttonDeleteClick="buttonDeleteClick">
+      </custom-table>
+    </div>
     <custom-drawer :title="title" :show="showForm" @rightClose="rightClose">
       <slot :operation="operation" name="form"/>
     </custom-drawer>
@@ -68,6 +71,9 @@
         };
 
         @Prop({default: () => []})
+        public tableData: [] = [];
+
+        @Prop({default: () => []})
         public tableColumn!: [];
 
         @Prop({
@@ -100,9 +106,6 @@
 
         @Provide()
         public actionLabel: string = '添加';
-
-        @Provide()
-        public tableData: [] = [];
 
         @Provide()
         public total: number = 0;
@@ -180,5 +183,20 @@
 </script>
 
 <style scoped lang="scss">
-
+  .page-container {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    .content {
+      height: 100%;
+      display: flex;
+      flex-flow: column;
+    }
+    .page-table {
+      flex: 1;
+      display:flex;
+      flex-flow: column;
+      border: 1px solid #e6e6e6;
+    }
+  }
 </style>

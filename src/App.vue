@@ -1,13 +1,18 @@
 <template>
-  <div>
+  <div class="basic">
     <router-view/>
   </div>
 </template>
 
 <style>
-  body {
+  html, body {
     margin: 0;
     border: 0;
     padding: 0;
+    height: 100%;
+  }
+  .basic {
+    width: 100%;
+    height: 100%;
   }
 </style>
