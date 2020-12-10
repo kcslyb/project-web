@@ -1,6 +1,14 @@
 <template>
-    <div>
-<!--        <custom-collapse>-->
+    <div class="container">
+      <custom-collapse class="title">
+        <template slot="operate">
+          <el-button type="primary" plain size="mini">添加</el-button>
+        </template>
+      </custom-collapse>
+      <div class="item content">
+        <custom-table :columns="columns" :data="data" :total="data.length"></custom-table>
+      </div>
+        <!--        <custom-collapse>-->
 <!--            <template slot="tools">-->
 <!--                <el-button type="primary" plain size="mini">1</el-button>-->
 <!--                <el-button type="primary" plain size="mini">2</el-button>-->
@@ -26,8 +34,8 @@
 <!--        <float-navigation :active="3" :menuList="menuList"></float-navigation>-->
 <!--        <custom-form :formItems="fromData" v-model="formModel"></custom-form>-->
 <!--      <el-button @click="showFormModel">formModel</el-button>-->
-      <custom-table :columns="columns" :data="data" :total="data.length"></custom-table>
-      <custom-table :data="data" :total="data.length"></custom-table>
+<!--      <custom-table :columns="columns" :data="data" :total="data.length"></custom-table>-->
+<!--      <custom-table :data="data" :total="data.length"></custom-table>-->
     </div>
 </template>
 
@@ -104,6 +112,38 @@
         public data: any[] = [
           {key: 'key', label: 'label', title: 'title'},
           {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
+          {key: 'key2', label: 'label2', title: 'title2'},
           {key: 'key3', label: 'label3', title: 'title3'}
         ];
 
@@ -171,5 +211,25 @@
 </script>
 
 <style scoped lang="scss">
-
+.container {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  .title {
+  }
+  .content {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+  }
+  .footer {
+    height: 20px;
+  }
+  .item {
+    flex: 1;
+    display:flex;
+    flex-flow: column;
+    border: 1px solid #e6e6e6;
+  }
+}
 </style>

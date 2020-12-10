@@ -30,7 +30,7 @@ class BaseApi {
 }
 
 // tslint:disable-next-line:max-classes-per-file
-export class ApiFactory extends BaseApi {
+export class ApiFactory {
     public static getApi<T extends BaseApi>(type: new() => T): T {
         return new type();
     }
@@ -146,4 +146,8 @@ export class Product extends BaseApi {
 
 export class Desk extends BaseApi {
     public url: string = 'api/desk';
+}
+
+export class DayLog extends BaseApi {
+    public url: string = 'api/dayLog';
 }

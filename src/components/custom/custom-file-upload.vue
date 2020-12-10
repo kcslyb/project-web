@@ -49,7 +49,7 @@
           type: 'success',
           message: `${data.fileName}上传成功`
         });
-        this.$emit('on-success', data);
+        // this.$emit('on-success', data);
       },
       beforeAvatarUpload(file) {
         if (this.checkType) {
@@ -73,6 +73,9 @@
         this.$http.post('/api/file/upload', fd, config).then((res) => {
           if (res.status === 200) {
             this.uploadSuccess(res.data)
+            this.$nextTick(() => {
+              this.$emit('on-success', res.data);
+            })
           }
         }).catch(error => {
           throw new Error(error)

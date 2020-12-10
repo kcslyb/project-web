@@ -65,9 +65,9 @@ export default new Router({
                     meta: {moduleId: 'system', title: '系统通知', perm: 'system-notify-manage'}
                 },
                 {
-                    path: '/system/memo',
-                    component: () => import('@/views/memo/memo-list.vue'),
-                    meta: {moduleId: 'system', title: '备忘录', perm: 'system-notify-manage'}
+                    path: '/system/notepad',
+                    component: () => import('@/views/system/notepad/Notepad.vue'),
+                    meta: {moduleId: 'system', title: '记事本', perm: 'system-notepad-manage'}
                 },
             ]
         },

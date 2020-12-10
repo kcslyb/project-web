@@ -1,13 +1,13 @@
 <template>
   <div v-loading="loading">
     <custom-collapse>
-      <el-row :gutter="24" style="padding-bottom: 10px">
+      <el-row :gutter="24" style="padding-bottom: 10px" slot="operate">
         <el-col :offset="1" :span="6">
           <custom-perm label="upload-file-manage">
             <custom-file-upload :on-success="uploadSuccess"></custom-file-upload>
           </custom-perm>
         </el-col>
-        <el-col :offset="15" :span="2">
+        <el-col :offset="8" :span="2">
           <custom-perm label="download-file-manage">
             <el-button size="small" type="primary" @click="batchDownload">批量下载</el-button>
           </custom-perm>
@@ -98,9 +98,11 @@
       setTime (row) {
         return DateUtils.formatStringToDateTime(row.fileCreateTime);
       },
-      uploadSuccess(file) {
-        this.list=[];
-        this.getFileList();
+      uploadSuccess() {
+        this.list = [];
+        this.$nextTick(() => {
+          this.getFileList();
+        })
       },
       handleSizeChange(val) {
         this.condition.limit = val;

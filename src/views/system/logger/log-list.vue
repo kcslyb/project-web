@@ -2,7 +2,7 @@
   <div>
     <div>
       <custom-collapse :search-flag="true" @searchSubmit="searchLogger" @searchReset="resetSearchLogger">
-        <el-row style="padding: 10px 0" :gutter="24" slot="content">
+        <el-row style="margin: 0; padding: 10px 0" :gutter="24" slot="content">
           <el-col :offset="2" :span="8">
             <span class="label">访问者:</span>
             <el-select
@@ -23,12 +23,14 @@
             <span class="label">时间段:</span>
             <el-date-picker
               size="small"
-              v-model="periodTime"
               type="datetimerange"
-              value-format=""
+              v-model="periodTime"
+              value-format="timestamp"
               range-separator="至"
+              end-placeholder="结束日期"
               start-placeholder="开始日期"
-              end-placeholder="结束日期">
+              :default-time="['00:00:00', '23:59:59']"
+            >
             </el-date-picker>
           </el-col>
         </el-row>
@@ -113,6 +115,7 @@
     }
 
     public resetSearchLogger() {
+      this.periodTime = []
       this.condition.logUserId = '';
       this.condition.startTime = '';
       this.condition.endTime = '';

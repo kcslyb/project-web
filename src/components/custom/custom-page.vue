@@ -9,10 +9,11 @@
         <el-button type="primary" icon="el-icon-plus" plain size="mini" @click="handleAdd">新增</el-button>
       </template>
       <custom-form
+        v-if="$scopedSlots.hasOwnProperty('content')"
         slot="content"
         form-name="product"
+        v-model="searchData"
         :rules="formItems.rules"
-        v-model="formItems.data"
         :form-items="formItems.items">
       </custom-form>
     </custom-collapse>
@@ -29,7 +30,7 @@
         @buttonDeleteClick="buttonDeleteClick">
       </custom-table>
     </div>
-    <custom-drawer :title="title" :show="showForm" @rightClose="rightClose">
+    <custom-drawer :title="formTitle" :show="showForm" @rightClose="rightClose">
       <slot :operation="operation" name="form"/>
     </custom-drawer>
     <slot name="default"/>
@@ -54,8 +55,11 @@
         @Prop({default: () => {}})
         public apiObj!: any;
 
-        @Prop({default: '列表'})
+        @Prop({default: ''})
         public title!: string;
+
+        @Prop({default: '新增'})
+        public formTitle!: string;
 
         @Prop({
             default: () => {
@@ -69,9 +73,6 @@
             items: [],
             rules: any
         };
-
-        @Prop({default: () => []})
-        public tableData: [] = [];
 
         @Prop({default: () => []})
         public tableColumn!: [];
@@ -90,6 +91,9 @@
         public flag: boolean = this.searchFlag;
 
         @Provide()
+        public tableData: [] = [];
+
+        @Provide()
         public operation: Operation = Operation.getInstance(this);
 
         @Provide()
@@ -103,6 +107,9 @@
 
         @Provide()
         public showForm: boolean = false;
+
+        @Provide()
+        public searchData: object = {};
 
         @Provide()
         public actionLabel: string = '添加';
@@ -126,7 +133,7 @@
         }
 
         initTableList() {
-            let param = Object.assign({}, this.condition, this.formItems.data);
+            let param = Object.assign({}, this.condition, this.searchData);
             this.apiObj.queryPager(param).then((res :any) => {
                 console.info(res.data.list)
                 this.tableData = res.data.list;

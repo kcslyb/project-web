@@ -16,7 +16,7 @@ module.exports = {
   //生产环境是否生成 sourceMap 文件，一般情况不建议打开
   productionSourceMap: false,
   devServer: {
-    port: 8019,
+    port: 8067,
     // host: '127.0.0.1',
     // host: '192.168.1.7',
     // host: '172.200.82.173',

@@ -111,7 +111,7 @@
       isSelectFlagMethod() {
         if (this.isSelectFlag && (this.columns.length > 0 || this.data.length > 0)) {
           return (
-            <el-table-column fixed={true} type="selection" width="50"/>
+            <el-table-column fixed={true} type="selection" width="50" align="center"/>
           )
         }
       },
@@ -302,7 +302,24 @@
   }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+  /deep/.el-table th.gutter {
+    display: table-cell !important;
+  }
+  /deep/.el-table__fixed {
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      background-color: white;
+      z-index: 4;
+    }
+  }
+  /deep/.is-center .el-tooltip {
+    width: 100% !important;
+  }
   .table-container {
     height: 100%;
     display: flex;

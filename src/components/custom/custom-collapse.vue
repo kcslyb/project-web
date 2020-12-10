@@ -16,7 +16,7 @@
                     </el-col>
                 </el-row>
             </div>
-            <div v-if="flag" class="custom-collapse-content">
+            <div v-show="flag" class="custom-collapse-content">
                 <div class="custom-collapse-content-filter custom-scrollbar">
                     <slot clas="slot" name="content"></slot>
                 </div>
@@ -53,7 +53,7 @@
         @Prop({default: true})
         public searchFlag!: boolean
 
-        @Prop({default: '列表'})
+        @Prop({default: ''})
         public title!: string
 
         @Provide()

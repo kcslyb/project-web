@@ -106,6 +106,30 @@ const PermissionTree: Permission[] = [
                 }]
             }]
         }, {
+            id: 'system-notepad-manage',
+            label: '记事本',
+            children: [{
+                id: 'select-notepad-manage',
+                label: '查看记事本',
+                children: []
+            }, {
+                id: 'operation-notepad-manage',
+                label: '操作记事本',
+                children: [{
+                    id: 'add-notepad-manage',
+                    label: '添加记事本',
+                    children: []
+                }, {
+                    id: 'update-notepad-manage',
+                    label: '修改记事本',
+                    children: []
+                }, {
+                    id: 'delete-notepad-manage',
+                    label: '删除记事本',
+                    children: []
+                }]
+            }]
+        }, {
             id: 'system-log-manage',
             label: '系统日志',
             children: []
@@ -140,7 +164,7 @@ const PermissionTree: Permission[] = [
                     label: '基础信息',
                     children: []
                 }, {
-                    id: 'basic-manage',
+                    id: 'convert-manage',
                     label: '转换信息',
                     children: []
                 }
