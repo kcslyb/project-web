@@ -67,6 +67,10 @@
         type: Boolean,
         default: true
       },
+      multiple: {
+        type: Boolean,
+        default: true
+      },
       height: {
         type: Number,
         default: 400
@@ -80,13 +84,32 @@
         this.$emit('rowDblclick', row, column, event);
       },
       rowClick(row, column, event) {
+        if (!this.multiple) {
+          this.$refs.customTable.clearSelection()
+        }
+        if (this.isSelectFlag) {
+          this.$refs.customTable.toggleRowSelection(row)
+        }
         this.$emit('rowClick', row, column, event)
       },
       select(selection, row) {
-        this.$emit('select', selection, row)
+        if (!this.multiple) {
+          this.$nextTick(() => {
+            this.$refs.customTable.clearSelection()
+            this.$refs.customTable.toggleRowSelection(row)
+            this.$emit('select', [row], row)
+          }, 10)
+        } else {
+          this.$emit('select', selection, row)
+        }
       },
-      selectAll(selection) {
-        this.$emit('selectAll', selection)
+      selectAll (selection) {
+        if (!this.multiple) {
+          this.$refs.customTable.clearSelection()
+          this.$emit('selectAll', [])
+        } else {
+          this.$emit('selectAll', selection)
+        }
       },
       selectionChange(selection) {
         this.$emit('selectionChange', selection);

@@ -31,8 +31,8 @@
       <div class="el-main" style="padding: 0">
         <div style="width: 100%;">
           <custom-collapse>
-            <div style="text-align: right">
-              <div style="display: inline-block; padding-bottom: 10px">
+            <div slot="operate">
+              <div style="display: inline-block">
                 <div style="display: inline-block" v-show="showSearchInputTwo">
                   <el-input size="small" v-model="searchTextTwo" placeholder="请输入关键字搜索"></el-input>
                 </div>
