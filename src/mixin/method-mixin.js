@@ -1,5 +1,4 @@
-import Operation from "../operation/operation";
-import {ApiFactory, Product} from "../resources";
+import Operation from '../operation/operation'
 
 const methodMixin = {
   created() {

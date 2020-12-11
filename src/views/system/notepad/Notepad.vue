@@ -1,12 +1,14 @@
 <template>
   <CustomPage
+    event="notepad"
     class="height-full"
     :api-obj="apiObj"
+    :css="{width: '700px'}"
     :form-items="formItems"
     :table-data="tableData"
     :table-column="tableColumns"
   >
-    <notepad-form></notepad-form>
+    <notepad-form event="notepad" slot="form"></notepad-form>
   </CustomPage>
 </template>
 
@@ -32,7 +34,7 @@
     methods: {
       initData () {
         this.apiObj = ApiFactory.getApi(DayLog)
-        this.formItems = NotepadJson.formItems
+        this.formItems = NotepadJson.searchItems
         this.tableColumns = NotepadJson.tableColumn
       }
     }

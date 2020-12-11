@@ -1,5 +1,5 @@
 const NotepadJson = {
-  formItems: {
+  searchItems: {
     rules: {
       productName: [
         {required: true, message: '名称不能为空'}
@@ -8,7 +8,6 @@ const NotepadJson = {
         {required: true, message: '类型不能为空'}
       ],
     },
-    data: {},
     items: [
       {
         type: 'input',
@@ -50,6 +49,37 @@ const NotepadJson = {
         }
       ]
     }
-  ]
+  ],
+  formItems: {
+    rules: {
+      productName: [
+        {required: true, message: '名称不能为空'}
+      ],
+      productType: [
+        {required: true, message: '类型不能为空'}
+      ],
+    },
+    items: [
+      {
+        type: 'input',
+        name: 'productPrise',
+        label: '搜索1'
+      }, {
+        type: 'input',
+        name: 'productDescription',
+        label: '搜索2',
+        dataList: []
+      }, {
+        type: 'input',
+        name: 'productPrise',
+        label: '搜索1'
+      }, {
+        type: 'input',
+        name: 'productDescription',
+        label: '搜索2',
+        dataList: []
+      }
+    ]
+  },
 }
 export default NotepadJson

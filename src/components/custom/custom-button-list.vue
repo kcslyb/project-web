@@ -1,9 +1,9 @@
 <template>
-  <div class="custom-button-list">
+  <div :class="`custom-button-${textAlign}`">
     <template v-for="(item, index) in btnList">
       <el-button
-        :key="index+item.action"
         :type="item.type"
+        :key="index+item.action"
         :size="item.size ? item.size : 'mini'"
         @click="btnClick(item)">
         {{item.label}}
@@ -31,18 +31,29 @@
             }
           ]
         }
+      },
+      textAlign: {
+        type: String,
+        default: 'right'
       }
     },
     methods: {
       btnClick(item) {
-        this.$emit(item.action);
+        this.$emit(item.action)
+        this.$emit('btn-click', item)
       }
     }
   }
 </script>
 
 <style scoped>
-  .custom-button-list {
+  .custom-button-right {
     text-align: right;
+  }
+  .custom-button-left {
+    text-align: left;
+  }
+  .custom-button-center {
+    text-align: center;
   }
 </style>

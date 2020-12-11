@@ -30,7 +30,7 @@
         @buttonDeleteClick="buttonDeleteClick">
       </custom-table>
     </div>
-    <custom-drawer :title="formTitle" :show="showForm" @rightClose="rightClose">
+    <custom-drawer :title="formTitle" :event="event" :css="css" :show="showForm" @rightClose="rightClose">
       <slot :operation="operation" name="form"/>
     </custom-drawer>
     <slot name="default"/>
@@ -52,6 +52,9 @@
         @Prop({default: 'id'})
         public objectIdLabel!: string;
 
+        @Prop({default: ''})
+        public event!: string;
+
         @Prop({default: () => {}})
         public apiObj!: any;
 
@@ -60,6 +63,9 @@
 
         @Prop({default: '新增'})
         public formTitle!: string;
+
+        @Prop({default: () => {}})
+        public css!:  {};
 
         @Prop({
             default: () => {

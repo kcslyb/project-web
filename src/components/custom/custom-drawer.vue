@@ -3,18 +3,28 @@
     <div class="page-right-wrap" v-show="show" @click="rightClose">
       <transition name="slide-fade">
         <div class="page-right-part lightBox" @click.stop="" ref="pageRightPart" :style="style">
-          <el-row :gutter="23">
-            <el-col :span="22">
-              <div style="text-align: center; margin-bottom: 10px; border-bottom: 1px solid #e5e5e5;">
-                <span style="font-size: 20px;">{{title}}</span>
-              </div>
-            </el-col>
-            <el-col :span="2">
-              <el-button @click.stop.prevent="rightBtnClose" circle icon="el-icon-close" size="mini"></el-button>
-            </el-col>
-          </el-row>
-          <div class="page-right-main">
-            <slot></slot>
+          <div class="drawer-container">
+            <el-row :gutter="23">
+              <el-col :span="22">
+                <div style="text-align: center; margin-bottom: 10px; border-bottom: 1px solid #e5e5e5;">
+                  <span style="font-size: 20px;">{{title}}</span>
+                </div>
+              </el-col>
+              <el-col :span="2">
+                <el-button @click.stop.prevent="rightBtnClose" circle icon="el-icon-close" size="mini"></el-button>
+              </el-col>
+            </el-row>
+            <div class="page-right-main">
+              <slot></slot>
+            </div>
+            <div class="btn-list">
+              <custom-button-list
+                :btn-list="btnList"
+                :text-align="btnTextAlign"
+                @btn-click="btnClick"
+              >
+              </custom-button-list>
+            </div>
           </div>
         </div>
       </transition>
@@ -22,8 +32,11 @@
   </transition>
 </template>
 <script>
+  import { EventBus } from '../../utils/event-bus'
+  import CustomButtonList from "@/components/custom/custom-button-list";
   export default {
     name: 'CustomDrawer',
+    components: {CustomButtonList},
     props: {
       title: {
         type: String,
@@ -45,6 +58,29 @@
       wrapperClosable: {
         type: Boolean,
         default: false
+      },
+      btnList: {
+        type: Array,
+        default: () => {
+          return [
+            {
+              action: 'submit',
+              label: '提交',
+              type: 'success'
+            }, {
+              action: 'cancel',
+              label: '取消',
+              type: 'info'
+            }
+          ]
+        }
+      },
+      btnTextAlign: {
+        type: String,
+        default: 'right'
+      },
+      event: {
+        type: String,
       }
     },
     computed: {
@@ -76,6 +112,21 @@
         this.$emit('right-close');
         this.$emit('rightClose');
         this.$emit('close');
+      },
+      btnClick(item) {
+        let process = {
+          submit: () => {
+            if (!this.event) {
+              this.$emit('on-submit')
+            } else {
+              EventBus.$emit(`on-${this.event}-submit`)
+            }
+          },
+          cancel: () => {
+            this.$emit('update:show', false)
+          }
+        }
+        process[item.action].call(this)
       }
     }
   };
@@ -119,5 +170,18 @@
     /* .slide-fade-leave-active for below version 2.1.8 */ {
     transform: translateX(10px);
     opacity: 0;
+  }
+
+  .drawer-container {
+    display: flex;
+    flex-flow: column;
+    height: calc(100% - 40px);
+  }
+  .page-right-main {
+    flex: 1;
+  }
+  .btn-list {
+    border-top: 1px solid #e6e6e6;
+    padding-top: 10px;
   }
 </style>

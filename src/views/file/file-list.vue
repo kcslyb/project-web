@@ -1,7 +1,7 @@
 <template>
   <div v-loading="loading">
     <custom-collapse>
-      <el-row :gutter="24" style="padding-bottom: 10px" slot="operate">
+      <el-row :gutter="24" slot="operate">
         <el-col :offset="1" :span="6">
           <custom-perm label="upload-file-manage">
             <custom-file-upload :on-success="uploadSuccess"></custom-file-upload>
@@ -30,11 +30,15 @@
       <el-table-column label="操作" align="center" width="200px">
         <template slot-scope="scope">
           <custom-perm label="download-file-manage">
-            <el-button type="primary" size="mini" plain circle class="el-icon-download" @click="download(scope.row)"></el-button>
-            <el-tag v-show="scope.row.fileDownloadNumber > 0" size="mini">已下载{{scope.row.fileDownloadNumber}}次</el-tag>
+            <el-button type="primary" size="mini" plain circle class="el-icon-download"
+                       @click="download(scope.row)"></el-button>
+            <el-tag v-show="scope.row.fileDownloadNumber > 0" size="mini">
+              已下载{{scope.row.fileDownloadNumber}}次
+            </el-tag>
           </custom-perm>
           <custom-perm label="delete-file-manage">
-            <el-button type="primary" size="mini" plain circle class="el-icon-delete" @click="deleteFile(scope.row)"></el-button>
+            <el-button type="primary" size="mini" plain circle class="el-icon-delete"
+                       @click="deleteFile(scope.row)"></el-button>
           </custom-perm>
         </template>
       </el-table-column>
@@ -61,13 +65,13 @@
   export default {
     name: 'file',
     components: {CustomFileUpload, CustomCollapse},
-    data () {
+    data() {
       return {
         loading: true,
         multipleSelection: [],
         defaultHeight: window.innerHeight - 235,
         fileDto: {
-          fileDescription: '上传者：'+this.$store.state.user.userName
+          fileDescription: '上传者：' + this.$store.state.user.userName
         },
         filename: '',
         list: [],
@@ -85,17 +89,17 @@
     },
     methods: {
       tableRowClassName({row, rowIndex}) {
-        if (rowIndex%2 === 0 || rowIndex%2 === '0') {
+        if (rowIndex % 2 === 0 || rowIndex % 2 === 0) {
           return 'warning-row';
-        } else if (rowIndex%2 === 1 || rowIndex%2 === '1') {
+        } else if (rowIndex % 2 === 1 || rowIndex % 2 === 1) {
           return 'warning-row';
         }
         return '';
       },
       updateIndex(index) {
-        return index + (this.condition.offset-1) * this.condition.limit + 1;
+        return index + (this.condition.offset - 1) * this.condition.limit + 1;
       },
-      setTime (row) {
+      setTime(row) {
         return DateUtils.formatStringToDateTime(row.fileCreateTime);
       },
       uploadSuccess() {
@@ -144,7 +148,7 @@
           this.getFileList();
         })
       },
-      download (file) {
+      download(file) {
         this.filename = file.fileName;
         let url = window.location.origin + '/api/file/download/' + file.fileId;
         return new Promise((resolve, reject) => {

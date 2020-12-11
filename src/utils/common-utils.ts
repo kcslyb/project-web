@@ -138,7 +138,7 @@ export class CustomUtils {
      * 文件下载 默认文件名
      * @param url 文件路径
      */
-    public static fielDownload(url: string) {
+    public static fileDownload(url: string) {
         const $a = document.createElement('a');
         $a.setAttribute('href', url);
         const fileLink = document.createElement('span');
@@ -188,5 +188,16 @@ export class CustomUtils {
         lower = Math.floor(lower);
         upper = Math.ceil(upper);
         return Math.floor(Math.random() * (upper - lower + 1)) + lower;
+    }
+
+    /**
+     * 大写首字母
+     * @param str
+     */
+    public static replaceStr(str: string) {
+        let reg = /\b(\w)|\s(\w)/g
+        return str.replace(reg, function (m) {
+            return m.toUpperCase()
+        })
     }
 }
