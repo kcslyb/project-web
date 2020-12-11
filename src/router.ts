@@ -78,36 +78,6 @@ export default new Router({
             component: () => import('@/views/index/test.vue'),
         },
         {
-            path: '/store',
-            name: 'store',
-            meta: {moduleId: 'store', title: 'store', icon: 'el-icon-s-home', perm: 'system-manage'},
-            component: () => import('@/views/store/index.vue'),
-            children: [
-                {
-                    path: '/store/main',
-                    component: () => import('@/views/store/main.vue'),
-                    meta: {moduleId: 'store', title: '首页', perm: 'system-notify-manage'}
-                }
-            ]
-        },
-        {
-            path: '/store/manage',
-            name: 'storeManage',
-            meta: {moduleId: 'storeManage', title: 'storeManage', icon: 'el-icon-s-home', perm: 'system-manage'},
-            component: () => import('@/views/store/index.vue'),
-            children: [
-                {
-                    path: '/store/manage/product',
-                    component: () => import('@/views/store/manage/product/product-list.vue'),
-                    meta: {moduleId: 'storeManage', title: '菜品管理', perm: 'system-notify-manage'}
-                }, {
-                    path: '/store/manage/rooms',
-                    component: () => import('@/views/store/manage/desk/desk-list.vue'),
-                    meta: {moduleId: 'storeManage', title: '包间管理', perm: 'system-notify-manage'}
-                }
-            ]
-        },
-        {
             path: '/play',
             name: 'play',
             meta: {moduleId: 'play', title: 'play', icon: 'el-icon-s-home', perm: 'system-manage'},
@@ -116,7 +86,7 @@ export default new Router({
         {
             path: '/*',
             name: 'not-found',
-            meta: {moduleId: 'home', title: '404', icon: 'el-icon-s-home', perm: 'system-manage'},
+            meta: {moduleId: 'found', title: '404', icon: 'el-icon-s-home', perm: 'system-manage'},
             component: () => import('@/views/index/404.vue'),
         },
     ],

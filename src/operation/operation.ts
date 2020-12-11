@@ -58,7 +58,6 @@ class Operation {
     }
 
     operation = (optObj: optObj, param: object|string) => {
-        debugger
         return this.apiObj[optObj.action](param).then((res: any) => {
             this.vm.$notify.success({
                 title: '提示',

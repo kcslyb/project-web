@@ -1,4 +1,4 @@
-import {EventBus} from '../utils/event-bus'
+import {EventBus} from './event-bus'
 import {CustomUtils} from '../utils/common-utils'
 
 const EventBusMixin = {
@@ -13,8 +13,6 @@ const EventBusMixin = {
       if (Object.prototype.hasOwnProperty.call(this, methodName)) {
         this[methodName]()
       } else {
-        console.info(this)
-        debugger
         throw new Error(`需要添加方法名为：${methodName}的方法来处理点击事件：on-${this.event}-submit`)
       }
     })

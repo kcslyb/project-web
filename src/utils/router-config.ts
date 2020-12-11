@@ -4,7 +4,7 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import {getToken} from '@/utils/auth';
 import {Route} from 'vue-router';
-const whiteList = ['/login', '/test', '/play'];
+const whiteList: string[] = ['/login', '/test'];
 router.beforeEach((to: Route, from: Route, next: any) => {
   NProgress.start();
   if (getToken() === 'JSESSIONID') { // 已经登录

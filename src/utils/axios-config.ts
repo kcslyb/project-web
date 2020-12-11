@@ -4,6 +4,7 @@ import {Loading, Notification} from 'element-ui';
 import EncryptHelper from '@/utils/encryption-util';
 import {ElLoadingComponent} from 'element-ui/types/loading';
 import {removeToken} from '@/utils/auth';
+import router from "@/router";
 
 const http = axios.default.create({
     baseURL: process.env.BASE_URL,
@@ -59,8 +60,9 @@ http.interceptors.response.use(
         });
         const flag = error.response.config.url !== '/api/login';
         if (error.response.status === 401 && flag) {
-            removeToken();
-            location.reload();
+            router.push('/login').then(() => {
+              removeToken();
+            }).catch(() => {})
         }
         return Promise.reject(error);
     }

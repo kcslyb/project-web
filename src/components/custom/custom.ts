@@ -5,7 +5,6 @@ import CustomInput from './custom-input.vue';
 import CustomDrawer from './custom-drawer.vue';
 import CustomFileUpload from './custom-file-upload.vue';
 import CustomAddressCity from './custom-address-city.vue';
-import CustomNode from './node/self-node.vue';
 import CustomPaging from './custom-paging.vue';
 import CustomCollapse from './custom-collapse.vue';
 import CustomUpload from './custom-upload.vue';
@@ -23,7 +22,6 @@ const components: any[] = [
     CustomInput,
     CustomFileUpload,
     CustomAddressCity,
-    CustomNode,
     CustomPaging,
     CustomCollapse,
     CustomFloatNavigation,
