@@ -4,7 +4,7 @@
       <el-row :gutter="24" style="margin: 0">
         <el-col :span="1">
           <div class="blog">
-            <span>BLOG</span>
+            <img class="blog-logo" :src="require('../../assets/logo.png')"/>
           </div>
         </el-col>
         <el-col :span="20">
@@ -152,6 +152,10 @@
     height: 60px;
     color: $default-background-color;
     font-weight: bold;
+    .blog-logo {
+      width: 30px;
+      height: 30px;
+    }
   }
 
   .el-menu.el-menu--horizontal {

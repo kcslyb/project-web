@@ -9,12 +9,11 @@
         <el-button type="primary" icon="el-icon-plus" plain size="mini" @click="handleAdd">新增</el-button>
       </template>
       <custom-form
-        v-if="$scopedSlots.hasOwnProperty('content')"
+        v-if="searchItems.length"
         slot="content"
         form-name="product"
         v-model="searchData"
-        :rules="formItems.rules"
-        :form-items="formItems.items">
+        :form-items="searchItems">
       </custom-form>
     </custom-collapse>
     <div class="page-table content">
@@ -30,8 +29,14 @@
         @buttonDeleteClick="buttonDeleteClick">
       </custom-table>
     </div>
-    <custom-drawer :title="formTitle" :event="event" :css="css" :show="showForm" @rightClose="rightClose">
-      <slot :operation="operation" name="form"/>
+    <custom-drawer
+      :css="css"
+      :event="event"
+      :show="showForm"
+      :operation="operation"
+      :title="formTitle + actionLabel"
+      @rightClose="rightClose">
+      <slot name="form"/>
     </custom-drawer>
     <slot name="default"/>
   </div>
@@ -40,6 +45,7 @@
 <script lang="ts">
     import {Component, Provide, Prop, Vue} from 'vue-property-decorator';
     import Operation from "@/operation/operation";
+    import {EventBus} from "@/mixin/event-bus.js";
 
     @Component
     export default class CustomPage extends Vue {
@@ -61,7 +67,7 @@
         @Prop({default: ''})
         public title!: string;
 
-        @Prop({default: '新增'})
+        @Prop({default: ''})
         public formTitle!: string;
 
         @Prop({default: () => {}})
@@ -69,16 +75,10 @@
 
         @Prop({
             default: () => {
-                return {
-                    data: {}, items: [], rules: {}
-                }
+                return []
             }
         })
-        public formItems!: {
-            data: any,
-            items: [],
-            rules: any
-        };
+        public searchItems!: [];
 
         @Prop({default: () => []})
         public tableColumn!: [];
@@ -86,8 +86,8 @@
         @Prop({
             default: () => {
                 return {
-                    limit: 10,
-                    offset: 1
+                    size: 10,
+                    start: 1
                 }
             }
         })
@@ -104,11 +104,11 @@
 
         @Provide()
         public condition: {
-            limit: number,
-            offset: number
+            size: number,
+            start: number
         } = {
-            limit: 10,
-            offset: 1
+            size: 10,
+            start: 1
         }
 
         @Provide()
@@ -134,7 +134,7 @@
         }
 
         searchReset() {
-            this.formItems.data = {};
+            this.searchData = {};
             this.initTableList()
         }
 
@@ -166,6 +166,10 @@
             this.showForm = true;
             this.actionLabel = '修改';
             this.$emit('handleEdit', row)
+          EventBus.$emit(`on-${this.event}-edit`, {
+            id: row[this.objectIdLabel],
+            operation: this.operation
+          })
         }
 
         buttonDeleteClick(row: any, action: string) {

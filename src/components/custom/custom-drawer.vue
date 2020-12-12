@@ -33,6 +33,7 @@
 </template>
 <script>
   import { EventBus } from '../../mixin/event-bus'
+  import {CustomUtils} from "@/utils/common-utils";
   import CustomButtonList from "@/components/custom/custom-button-list";
   export default {
     name: 'CustomDrawer',
@@ -77,11 +78,20 @@
       },
       btnTextAlign: {
         type: String,
-        default: 'right'
+        default: 'center'
       },
       event: {
         type: String,
+      },
+      operation: {
+        type: Object,
+        default: () => {}
       }
+    },
+    mounted () {
+      EventBus.$on(`on-${this.event}-close`, () => {
+        this.rightBtnClose()
+      })
     },
     computed: {
       style() {
@@ -119,15 +129,28 @@
             if (!this.event) {
               this.$emit('on-submit')
             } else {
-              EventBus.$emit(`on-${this.event}-submit`)
+              this.throttleSave (() => {
+                EventBus.$emit(`on-${this.event}-submit`, this.operation)
+              })()
             }
           },
           cancel: () => {
-            this.$emit('update:show', false)
+            this.rightBtnClose()
           }
         }
         process[item.action].call(this)
-      }
+      },
+      // 5秒内只能执行一次
+      throttleSave (func, wait = 5000) {
+        const that = this
+        return function (...args) {
+          const now = +new Date()
+          if (!that.lastSave || now > that.lastSave + wait) {
+            that.lastSave = now
+            func.apply(that, args)
+          }
+        }
+      },
     }
   };
 </script>

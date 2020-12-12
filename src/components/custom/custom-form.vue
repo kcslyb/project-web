@@ -90,13 +90,15 @@
           <el-input
             type={item.type}
             style={item.style}
+            lable-width="100px"
             rows={item.rows ? item.rows : 3}
             value={this.$attrs.value[item.name]}
             size={item.size ? item.size : 'small'}
             disabled={item.disabled ? item.disabled : false}
             autosize={item.autosize ? item.autosize : false}
-            maxlength={item.maxlength ? item.maxlength : 50}
-            show-word-limit={item.showWordLimit ? item.showWordLimit : false}
+            maxlength={item.maxlength ? item.maxlength : 100}
+            clearable={item.clearable ? !item.clearable : true}
+            show-word-limit={item.showWordLimit ? !item.showWordLimit : true}
             placeholder={item.placeholder ? item.placeholder : '请输入' + item.label}
             onInput={(e) => {
               this.$set(this.$attrs.value, item.name, e)
@@ -143,11 +145,12 @@
       acquireDate(item) {
         return (
           <el-date-picker
-            type={item.type}
             style={item.style}
+            type={item.dateType || 'datetime'}
             size={item.size ? item.size : 'small'}
             attrs={{value: this.$attrs.value[item.name]}}
             disabled={item.disabled ? item.disabled : false}
+            format={item.format ? item.format : 'yyyy-MM-dd HH:mm:ss'} // 默认时间戳格式
             value-format={item.valueFormat ? item.valueFormat : 'timestamp'} // 默认时间戳格式
             placeholder={item.placeholder ? item.placeholder : '请选择' + item.label}
             change={item.change}

@@ -4,11 +4,13 @@
     class="height-full"
     :api-obj="apiObj"
     :css="{width: '700px'}"
-    :form-items="formItems"
-    :table-data="tableData"
+    :search-items="searchItems"
     :table-column="tableColumns"
   >
-    <notepad-form event="notepad" slot="form"></notepad-form>
+    <notepad-form
+      slot="form"
+      event="notepad">
+    </notepad-form>
   </CustomPage>
 </template>
 
@@ -23,8 +25,7 @@
     data () {
       return {
         apiObj: {},
-        formItems: {},
-        tableData: [],
+        searchItems: [],
         tableColumns: []
       }
     },
@@ -34,7 +35,7 @@
     methods: {
       initData () {
         this.apiObj = ApiFactory.getApi(DayLog)
-        this.formItems = NotepadJson.searchItems
+        this.searchItems = NotepadJson.searchItems
         this.tableColumns = NotepadJson.tableColumn
       }
     }

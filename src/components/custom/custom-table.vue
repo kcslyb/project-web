@@ -6,8 +6,8 @@
     data() {
       return {
         condition: {
-          limit: this.page.limit,
-          offset: this.page.offset
+          size: this.page.size,
+          start: this.page.start
         }
       }
     },
@@ -42,8 +42,8 @@
         type: Object,
         default: () => {
           return {
-            limit: 1,
-            offset: 10
+            start: 1,
+            size: 10
           }
         }
       },
@@ -78,7 +78,7 @@
     },
     methods: {
       indexMethod(index) {
-        return ((this.condition.offset - 1) * this.condition.limit) + 1 + index;
+        return ((this.condition.start - 1) * this.condition.size) + 1 + index;
       },
       rowDblclick(row, column, event) {
         this.$emit('rowDblclick', row, column, event);
@@ -115,11 +115,11 @@
         this.$emit('selectionChange', selection);
       },
       handleSizeChange(val) {
-        this.condition = Object.assign({}, this.page, {limit: val, offset: 1});
+        this.condition = Object.assign({}, this.page, {size: val, start: 1});
         this.$emit('pageChange', this.condition);
       },
       handleCurrentChange(val) {
-        this.condition = Object.assign({}, this.page, {offset: val});
+        this.condition = Object.assign({}, this.page, {start: val});
         this.$emit('pageChange', this.condition);
       },
       // 是否显示序号
@@ -358,6 +358,22 @@
 
     /deep/ .el-table--scrollable-y .el-table__body-wrapper {
       height: 100% !important;
+      &::-webkit-scrollbar { /*滚动条整体样式*/
+        width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+      }
+
+      &::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
+        border-radius: 10px;
+        background: $border-color;
+        -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+
+      &::-webkit-scrollbar-track { /*滚动条里面轨道*/
+        border-radius: 10px;
+        background: $white-color;
+        -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      }
     }
 
     .pagination-container {

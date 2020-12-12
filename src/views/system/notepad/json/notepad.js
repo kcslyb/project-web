@@ -1,83 +1,58 @@
 const NotepadJson = {
-  searchItems: {
-    rules: {
-      productName: [
-        {required: true, message: '名称不能为空'}
-      ],
-      productType: [
-        {required: true, message: '类型不能为空'}
-      ],
-    },
-    items: [
-      {
-        type: 'input',
-        name: 'productPrise',
-        label: '搜索1'
-      }, {
-        type: 'input',
-        name: 'productDescription',
-        label: '搜索2',
-        dataList: []
-      }, {
-        type: 'input',
-        name: 'productPrise',
-        label: '搜索1'
-      }, {
-        type: 'input',
-        name: 'productDescription',
-        label: '搜索2',
-        dataList: []
-      }
-    ]
-  },
+  searchItems: [
+    {
+      type: 'input',
+      name: 'title',
+      label: '标题'
+    }
+  ],
   tableColumn: [
-    {prop: 'key', label: '关键字'},
-    {prop: 'label', label: '标签'},
     {prop: 'title', label: '标题'},
+    {type: 'dateTime', prop: 'happenTime', label: '发生时间'},
+    {prop: 'createByName', label: '创建者'},
+    {type: 'dateTime', prop: 'createTime', label: '创建时间'},
+    {prop: 'updateByName', label: '修改者'},
+    {type: 'dateTime', prop: 'updateTime', label: '修改时间'},
+    {prop: 'reservedKeyOne', label: '预留字段一'},
+    {prop: 'reservedKeyTwo', label: '预留字段二'},
     {
       type: 'optButton',
       prop: 'option',
       label: '操作',
-      width: 200,
-      btnList: [
-        {
-          event: 'buttonEditClick',
-          icon: 'el-icon-edit',
-          type: 'warning',
-          action: 'edit',
-          label: '编辑'
-        }
-      ]
+      width: 200
     }
   ],
   formItems: {
     rules: {
-      productName: [
-        {required: true, message: '名称不能为空'}
+      title: [
+        {required: true, message: '标题不能为空'}
       ],
-      productType: [
-        {required: true, message: '类型不能为空'}
+      happenTime: [
+        {required: true, message: '发生时间不能为空'}
       ],
     },
     items: [
       {
         type: 'input',
-        name: 'productPrise',
-        label: '搜索1'
+        name: 'title',
+        label: '标题'
+      }, {
+        type: 'date',
+        name: 'happenTime',
+        label: '发生时间'
       }, {
         type: 'input',
-        name: 'productDescription',
-        label: '搜索2',
-        dataList: []
+        name: 'reservedKeyOne',
+        label: '预留字段一'
       }, {
         type: 'input',
-        name: 'productPrise',
-        label: '搜索1'
+        name: 'reservedKeyTwo',
+        label: '预留字段二'
       }, {
-        type: 'input',
-        name: 'productDescription',
-        label: '搜索2',
-        dataList: []
+        type: 'textarea',
+        name: 'remark',
+        label: '备注',
+        style: {width: '530px'}
       }
     ]
   },

@@ -150,4 +150,8 @@ export class Desk extends BaseApi {
 
 export class DayLog extends BaseApi {
     public url: string = 'api/dayLog';
+
+    public queryById(id: string) {
+        return http.get(`/api/dayLog/queryById?id=${id}`);
+    }
 }
