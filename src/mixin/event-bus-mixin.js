@@ -1,4 +1,4 @@
-import {EventBus} from './event-bus'
+import {EventBus} from '../operation/event-bus'
 import {CustomUtils} from '../utils/common-utils'
 import de from "element-ui/src/locale/lang/de";
 

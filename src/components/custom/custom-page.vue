@@ -45,7 +45,7 @@
 <script lang="ts">
     import {Component, Provide, Prop, Vue} from 'vue-property-decorator';
     import Operation from "@/operation/operation";
-    import {EventBus} from "@/mixin/event-bus.js";
+    import {EventBus} from "../../operation/event-bus";
 
     @Component
     export default class CustomPage extends Vue {

@@ -32,8 +32,7 @@
   </transition>
 </template>
 <script>
-  import { EventBus } from '../../mixin/event-bus'
-  import {CustomUtils} from "@/utils/common-utils";
+  import { EventBus } from '../../operation/event-bus'
   import CustomButtonList from "@/components/custom/custom-button-list";
   export default {
     name: 'CustomDrawer',
