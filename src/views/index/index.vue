@@ -23,7 +23,7 @@
             </template>
           </el-menu>
         </el-col>
-        <el-col :span="3">
+        <el-col :offset="getMenu.length > 0 ? 0 : 20" :span="3">
           <el-row :gutter="24">
             <el-col :span="12">
               <div style="height: 60px; font-size: 1rem; float: right; font-weight: bold; display: flex;
