@@ -52,7 +52,7 @@
 
 <script>
   export default {
-    name: 'selffrom',
+    name: 'UserInfoForm',
     props: {
       dataForm: {
         type: Object,

@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-upload
-        class="upload-demo"
-        :headers="{'Access-Control-Allow-Origin':'*'}"
-        :action="$URLREPLACEHOST(uploadPath)"
-        :on-success ="uploadSuccess"
-        :on-remove="handleRemove"
-        :before-upload="beforeAvatarUpload"
-        :file-list = "fileList"
-        :list-type="checkType ? 'picture' : 'text'">
+      action="#"
+      class="upload-demo"
+      :headers="{'Access-Control-Allow-Origin':'*'}"
+      :file-list="fileList"
+      :on-remove="handleRemove"
+      :on-success="uploadSuccess"
+      :before-upload="beforeAvatarUpload"
+      :list-type="checkType ? 'picture' : 'text'">
       <el-button size="small" class="el-icon-upload" type="primary">点击上传</el-button>
     </el-upload>
   </div>
@@ -16,6 +16,7 @@
 
 <script>
   import EncryptHelper from '@/utils/encryption-util';
+  import {ApiFactory, File} from "@/resources";
 
   export default {
     name: 'CustomFileUpload',
@@ -24,21 +25,51 @@
         type: Boolean,
         default: false
       },
-      uploadPath: {
+      fileIds: {
         type: String,
-        default: 'http://127.0.0.1:8018/api/file/upload'
-      },
-      fileList: {
-        type: Array,
-        default: () => []
+        default: ''
       }
     },
     data(){
       return{
-        file: {}
+        file: {},
+        fileList: []
       }
     },
+    watch: {
+      fileIds () {
+        this.initFileData()
+      }
+    },
+    computed: {
+      getPreviewSrcList() {
+        const temp = []
+        this.fileList.forEach(value => {
+          temp.push(value.base64)
+        })
+        return temp
+      }
+    },
+    mounted() {
+      this.initFileData()
+    },
     methods: {
+      initFileData () {
+        if (this.fileIds) {
+          const temp = this.fileIds.split(',');
+          ApiFactory.getApi(File).accessFileBase64(temp).then((res) => {
+            if (res.status === 200) {
+              this.fileList = res.data || []
+              this.fileList.map(value => {
+                value.url = value.base64
+                value.name = value.fileName
+              })
+            }
+          }).catch(error => {
+            throw new Error(error)
+          })
+        }
+      },
       handleRemove (file, fileList) {
         this.$emit('on-remove', file, fileList);
       },
@@ -49,7 +80,9 @@
           type: 'success',
           message: `${data.fileName}上传成功`
         });
-        // this.$emit('on-success', data);
+        this.$nextTick(() => {
+          this.$emit('on-success', data);
+        })
       },
       beforeAvatarUpload(file) {
         if (this.checkType) {
@@ -73,9 +106,6 @@
         this.$http.post('/api/file/upload', fd, config).then((res) => {
           if (res.status === 200) {
             this.uploadSuccess(res.data)
-            this.$nextTick(() => {
-              this.$emit('on-success', res.data);
-            })
           }
         }).catch(error => {
           throw new Error(error)

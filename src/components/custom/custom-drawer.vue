@@ -17,7 +17,7 @@
             <div class="page-right-main">
               <slot></slot>
             </div>
-            <div class="btn-list">
+            <div class="btn-list" v-if="showBtn">
               <custom-button-list
                 :btn-list="btnList"
                 :text-align="btnTextAlign"
@@ -78,6 +78,10 @@
       btnTextAlign: {
         type: String,
         default: 'center'
+      },
+      showBtn: {
+        type: Boolean,
+        default: false
       },
       event: {
         type: String,

@@ -38,13 +38,14 @@
           </el-form>
         </div>
         <el-tree
-            ref="tree"
-            :data="tree"
-            node-key="id"
-            show-checkbox
-            default-expand-all
-            :filter-node-method="filterNode"
-            :default-checked-keys="defaultChecked">
+          ref="tree"
+          :data="tree"
+          node-key="id"
+          show-checkbox
+          default-expand-all
+          :expand-on-click-node="false"
+          :filter-node-method="filterNode"
+          :default-checked-keys="defaultChecked">
         </el-tree>
       </div>
     </div>

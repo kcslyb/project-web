@@ -25,7 +25,8 @@
               size="small"
               type="datetimerange"
               v-model="periodTime"
-              value-format="timestamp"
+              format="yyyy-MM-dd HH:mm:ss"
+              value-format="yyyy-MM-dd HH:mm:ss"
               range-separator="至"
               end-placeholder="结束日期"
               start-placeholder="开始日期"
@@ -72,7 +73,7 @@
     @Provide() public condition: {
       start: number, size: number, logUserId: string, startTime: any, endTime: any
     } = {
-      start: 0, size: 0, logUserId: '', startTime: '', endTime: ''
+      start: 1, size: 10, logUserId: '', startTime: '', endTime: ''
     };
 
     mounted() {
@@ -86,6 +87,7 @@
       }
       let params = Object.assign({}, this.condition);
       ApiFactory.getApi(Logger).queryPager(params).then(res => {
+        console.info(res.data)
         this.loggerList = res.data.list;
         this.page.total = res.data.total;
       });
@@ -93,7 +95,7 @@
 
     filterVisitor(query: string) {
       this.visitorList = [];
-      ApiFactory.getApi(UserAccount).queryPager({start: 0, size: 10, keyWord: query}).then(res => {
+      ApiFactory.getApi(UserAccount).queryPager({start: 1, size: 10, keyWord: query}).then(res => {
         this.visitorList = res.data.list;
       });
     }
@@ -111,6 +113,7 @@
     }
 
     public searchLogger() {
+      this.condition.start = 1
       this.getDataList();
     }
 

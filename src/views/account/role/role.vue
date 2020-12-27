@@ -3,7 +3,7 @@
     <div class="el-container">
       <div class="el-aside" :style="'width: 20% ; border: 1px solid #e6e6e6; height: '+ defaultHeight +'px;'">
         <div align="center">
-          <h5 style="display: inline-block;">账户角色</h5>
+          <div style="display: inline-block; font-size: 14px; font-weight: bold; padding: 17px 0">账户角色</div>
           <el-button class="mg-r10" @click="showSearchInput = !showSearchInput" size="mini" type="primary" plain
                      icon="el-icon-search" circle></el-button>
           <custom-perm label="add-role-manage">
@@ -30,7 +30,7 @@
       <div class="el-main custom-scrollbar" :style="'padding: 0; border-bottom: 1px solid #e6e6e6; height:' +defaultHeight + 'px'"
            v-loading="loading">
         <el-header align="right"
-                   style="padding-top: 20px; border-bottom: 1px solid #e6e6e6; border-top: 1px solid #e6e6e6">
+                   style="padding-top: 15px; border-bottom: 1px solid #e6e6e6; border-top: 1px solid #e6e6e6">
           <div style="display: inline-block; float: left">
             <span>{{roleDto.roleDescription}}</span>
             <span>({{roleDto.roleName}})</span>
@@ -40,6 +40,7 @@
           编辑
         </el-header>
         <el-tree
+          :expand-on-click-node="false"
           :data="permissionTree"
           default-expand-all
           node-key="id"

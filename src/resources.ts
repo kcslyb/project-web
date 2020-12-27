@@ -109,6 +109,10 @@ export class File extends BaseApi {
     public remove(id: string) {
         return http.delete('/api/file/remove/' + id);
     }
+
+    public accessFileBase64(ids: string[]) {
+        return http.post('/api/file/accessFileBase64', ids);
+    }
 }
 
 // tslint:disable-next-line:max-classes-per-file

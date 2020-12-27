@@ -1,5 +1,5 @@
 <template>
-  <CustomPage
+  <custom-page
     event="notepad"
     class="height-full"
     :api-obj="apiObj"
@@ -11,17 +11,18 @@
       slot="form"
       event="notepad">
     </notepad-form>
-  </CustomPage>
+  </custom-page>
 </template>
 
 <script>
   import NotepadJson from "./json/notepad";
-  import {ApiFactory, DayLog} from "../../../resources";
   import NotepadForm from "./NotepadForm";
+  import {ApiFactory, DayLog} from "../../../resources";
+  import CustomPage from "../../../components/custom/custom-page";
 
   export default {
     name: 'Notepad',
-    components: {NotepadForm},
+    components: {CustomPage, NotepadForm},
     data () {
       return {
         apiObj: {},

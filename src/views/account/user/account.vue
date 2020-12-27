@@ -3,7 +3,7 @@
     <div class="el-container">
       <div class="el-aside" :style="'width: 20% ; border: 1px solid #e6e6e6; height: '+ defaultHeight +'px;'">
         <div class="text-align-center">
-          <h5 style="display: inline-block;">账户等级</h5>
+          <div style="display: inline-block; font-size: 14px; padding: 14px 0; font-weight: bold">账户等级</div>
           <el-button @click="showSearchInput = !showSearchInput" size="mini" type="primary" plain icon="el-icon-search"
                      circle></el-button>
           <custom-perm :label="'add-department-manage'">
@@ -16,7 +16,7 @@
             <el-input v-model="searchText" placeholder="请输入关键字搜索"></el-input>
           </div>
         </div>
-        <div v-loading="departmentLoading" class="custom-scrollbar">
+        <div class="custom-scrollbar">
           <custom-list-item :data="department"
                             :perm="departmentPerms" describe="等级编号"
                             :current-id="depart.departmentId"
@@ -56,7 +56,7 @@
             </div>
           </custom-collapse>
           <el-table class="custom-scrollbar" :data="accountUser" :header-cell-style="$tableCellHeader"
-                    :height="tableDefaultHeight" v-loading="departmentLoading">
+                    :height="tableDefaultHeight">
             <el-table-column type="index" width="50" label="序号" :index="$indexMethod(page)"></el-table-column>
             <el-table-column prop="userName" label="用户姓名">
               <template slot-scope="scope">
@@ -112,7 +112,7 @@
         </div>
       </div>
     </div>
-    <custom-drawer :show="showRight" @rightClose="rightClose" :css="{'width': '500px'}">
+    <custom-drawer :show="showRight" :title="actionLabel" @rightClose="rightClose" :css="{'width': '500px'}">
       <account-form :user="user" :show="showRight" :action="action" @rightClose="rightClose"
                     @right-Close="rightCloseRoad"></account-form>
     </custom-drawer>
@@ -148,10 +148,10 @@
         showDepartment: false,
         showSearchInput: false,
         showSearchInputTwo: false,
-        departmentLoading: true,
         searchText: '',
         searchTextTwo: '',
         action: '',
+        actionLabel: '新增账号',
         departAction: '',
         user: {},
         depart: {},
@@ -201,7 +201,6 @@
         this.getUserAccountList();
       },
       getUserAccountList() {
-        this.departmentLoading = true;
         ApiFactory.getApi(UserDepartment).query({}).then((res) => {
           this.department = res.data;
           this.department.unshift({
@@ -214,7 +213,6 @@
           } else {
             this.accountUser = []
           }
-          this.departmentLoading = false;
         });
       },
       setUserAccountList(item) {
@@ -224,6 +222,7 @@
         let formData = JSON.parse(JSON.stringify(params));
         ApiFactory.getApi(UserAccount).queryPager(formData).then(res => {
           this.accountUser = res.data.list;
+          console.info(res.data.list)
           this.page.total = res.data.total;
         })
       },
@@ -269,6 +268,7 @@
       },
       addAccount() {
         this.action = 'add';
+        this.actionLabel = '新增账号';
         this.user = JSON.parse(JSON.stringify({}));
         this.showRight = true;
       },
@@ -297,10 +297,12 @@
       queryAccount(item) {
         this.user = item;
         this.userId = item.userId;
-        this.showInfo = true;
+        this.showRight = true;
+        this.actionLabel = '查看账号';
       },
       updateAccount(item) {
         this.action = 'edit';
+        this.actionLabel = '修改账号';
         this.user = JSON.parse(JSON.stringify(item));
         this.showRight = true;
       },

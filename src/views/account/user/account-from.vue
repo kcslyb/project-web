@@ -1,19 +1,16 @@
 <template>
   <div style="width: 500px" align="center">
-    <h2 class="clearfix">{{action === 'add'?'添加账号':'编辑账号'}}</h2>
-    <el-alert
-      title="默认密码:123456"
-      type="success"
-      effect="dark"
-      :closable="false">
-    </el-alert>
     <div align="left">
       <el-form ref="accountform" :model="user" label-width="100px"
                @submit.prevent="onSubmit('accountform')" onsubmit="return false">
         <el-form-item label="用户头像" prop="userAvatar" :rules="[
           { required: true, message: '请上传用户头像', trigger: 'blur' }
          ]">
-          <custom-file-upload :fileList="fileList" :check-type="true" @callback="handleAvatarSuccess"></custom-file-upload>
+          <custom-file-upload
+            :check-type="true"
+            :file-ids="user.userAvatar"
+            @on-success="handleAvatarSuccess">
+          </custom-file-upload>
         </el-form-item>
         <el-form-item
           label="姓名"
@@ -91,7 +88,7 @@
   import {ApiFactory, Role, UserAccount, UserDepartment} from '@/resources';
 
   export default {
-    name: 'from',
+    name: 'AccountForm',
     props: {
       user: {
         type: Object,
@@ -100,14 +97,6 @@
       action: {
         type: String,
         default: ''
-      }
-    },
-    watch: {
-      user(u) {
-        this.fileList = [];
-        if (u.userAvatar) {
-          this.fileList.push({name: u.userName + ' avatar', url: this.$URLREQUIRE(u.userAvatar)});
-        }
       }
     },
     mounted() {
@@ -195,7 +184,7 @@
         })
       },
       handleAvatarSuccess(file) {
-        this.user.userAvatar = file.filePath;
+        this.user.userAvatar = file.fileId;
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';

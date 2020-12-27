@@ -35,7 +35,7 @@
               <div class="block" style="height: 60px; display: flex; align-items: center; justify-content: center;">
                 <el-dropdown>
                 <span class="el-dropdown-link">
-                  <el-avatar :src="$URLREQUIRE($store.state.user.avatar)" size="medium"></el-avatar>
+                  <user-avatar :id="$store.state.user.avatar"></user-avatar>
                 </span>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>
@@ -69,7 +69,9 @@
   </el-container>
 </template>
 <script>
+  import UserAvatar from "../account/user/user-avatar";
   export default {
+    components: {UserAvatar},
     data() {
       return {
         menu: [],
