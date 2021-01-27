@@ -156,16 +156,30 @@ const PermissionTree: Permission[] = [
         id: 'system-h5menu-manage',
         label: 'h5菜单管理',
         children: [{
-            id: 'basic-manage',
-            label: '类型转换',
+            id: 'basic-data-manage',
+            label: '基础数据',
             children: [
                 {
-                    id: 'basic-manage',
-                    label: '基础信息',
+                    id: 'type-pool-manage',
+                    label: '类型池',
                     children: []
                 }, {
-                    id: 'convert-manage',
-                    label: '转换信息',
+                    id: 'type-convert-manage',
+                    label: '类型转换关系',
+                    children: []
+                }
+            ]
+        }, {
+            id: 'event-record-manage',
+            label: '事件记录',
+            children: [
+                {
+                    id: 'event-pool-manage',
+                    label: '事件列表',
+                    children: []
+                }, {
+                    id: 'type-statistics-manage',
+                    label: '事件统计',
                     children: []
                 }
             ]
