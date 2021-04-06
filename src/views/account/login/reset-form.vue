@@ -14,11 +14,12 @@
         ]"
     >
       <el-row :gutter="24">
-        <el-col :span="13">
-          <el-input v-model="user.emailCode"></el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-button type="primary" @click="getCode" size="small">获取验证码</el-button>
+        <el-col :span="24">
+          <el-input v-model="user.emailCode">
+            <template slot="append">
+              <el-button type="primary" @click="getCode" size="small">获取验证码</el-button>
+            </template>
+          </el-input>
         </el-col>
       </el-row>
     </el-form-item>

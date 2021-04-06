@@ -6,10 +6,10 @@
           <div class="nav-login">
             <div class="content-container nav-container">
               <h1>
-                kcs-erp
+                kcs
               </h1>
               <h3>
-                user-role-log
+                user-role
               </h3>
               <p>
                 This is a management system

@@ -92,11 +92,11 @@
       };
       return {
         userDto: {
-          userName: '用户名',
+          userName: `register_${+new Date()}`,
           userPhone: '13745678910',
-          userEmail: '2815443705@qq.com',
-          userPassword: '123456',
-          checkPass: '123456',
+          userEmail: '',
+          userPassword: '',
+          checkPass: '',
           sessionCode: ''
         },
         rules: {

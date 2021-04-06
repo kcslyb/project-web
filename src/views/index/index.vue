@@ -35,7 +35,7 @@
               <div class="block" style="height: 60px; display: flex; align-items: center; justify-content: center;">
                 <el-dropdown>
                 <span class="el-dropdown-link">
-                  <user-avatar :id="$store.state.user.avatar"></user-avatar>
+                  <user-avatar :id="userAvatar"></user-avatar>
                 </span>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>
@@ -95,6 +95,9 @@
     computed: {
       getMenu() {
         return this.$store.getters.currentRouters;
+      },
+      userAvatar () {
+        return this.$store.getters.avatar
       }
     },
     methods: {

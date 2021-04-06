@@ -1,13 +1,16 @@
 <template>
     <div class="container">
-      <custom-collapse class="title">
-        <template slot="operate">
-          <el-button type="primary" plain size="mini">添加</el-button>
-        </template>
-      </custom-collapse>
-      <div class="item content">
-        <custom-table :columns="columns" :data="data" :total="data.length"></custom-table>
-      </div>
+        <h5>测试页</h5>
+<!--        <node></node>-->
+        <tree-node></tree-node>
+<!--      <custom-collapse class="title">-->
+<!--        <template slot="operate">-->
+<!--          <el-button type="primary" plain size="mini">添加</el-button>-->
+<!--        </template>-->
+<!--      </custom-collapse>-->
+<!--      <div class="item content">-->
+<!--        <custom-table :columns="columns" :data="data" :total="data.length"></custom-table>-->
+<!--      </div>-->
         <!--        <custom-collapse>-->
 <!--            <template slot="tools">-->
 <!--                <el-button type="primary" plain size="mini">1</el-button>-->
@@ -47,9 +50,11 @@
     import CustomUpload from "@/components/custom/custom-upload.vue";
     import FloatNavigation from "@/components/custom/custom-float-navigation.vue";
     import CustomForm from "@/components/custom/custom-form.vue";
+    import Node from "@/components/custom/binary-tree/src/node.vue";
+    import TreeNode from "@/components/custom/binary-tree/src/tree-node.vue";
 
     @Component({
-        components: {CustomForm, FloatNavigation, CustomUpload, CustomCollapse, CustomTable}
+        components: {TreeNode, Node, CustomForm, FloatNavigation, CustomUpload, CustomCollapse, CustomTable}
     })
     export default class Test extends Vue {
         @Provide()
@@ -112,39 +117,7 @@
         public data: any[] = [
           {key: 'key', label: 'label', title: 'title'},
           {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key2', label: 'label2', title: 'title2'},
-          {key: 'key3', label: 'label3', title: 'title3'}
+          {key: 'key2', label: 'label2', title: 'title2'}
         ];
 
         @Provide()
@@ -211,25 +184,30 @@
 </script>
 
 <style scoped lang="scss">
-.container {
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  .title {
-  }
-  .content {
-    height: 100%;
-    display: flex;
-    flex-flow: column;
-  }
-  .footer {
-    height: 20px;
-  }
-  .item {
-    flex: 1;
-    display:flex;
-    flex-flow: column;
-    border: 1px solid #e6e6e6;
-  }
-}
+    .container {
+        height: 100%;
+        display: flex;
+        flex-flow: column;
+        text-align: center;
+
+        .title {
+        }
+
+        .content {
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+        }
+
+        .footer {
+            height: 20px;
+        }
+
+        .item {
+            flex: 1;
+            display: flex;
+            flex-flow: column;
+            border: 1px solid #e6e6e6;
+        }
+    }
 </style>

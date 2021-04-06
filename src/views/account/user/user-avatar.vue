@@ -15,14 +15,21 @@
         src: ''
       }
     },
+    watch: {
+      id (val, oldVal) {
+        if (val !== oldVal) {
+          this.initFileData()
+        }
+      }
+    },
     mounted() {
       this.initFileData()
     },
     methods: {
-      initFileData() {
+      async initFileData() {
         if (this.id) {
           const temp = this.id.split(',');
-          ApiFactory.getApi(File).accessFileBase64(temp).then((res) => {
+          await ApiFactory.getApi(File).accessFileBase64(temp).then((res) => {
             if (res.status === 200) {
               if (Array.isArray(res.data)) {
                 this.src = res.data[0].base64
