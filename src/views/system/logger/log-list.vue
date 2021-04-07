@@ -61,7 +61,7 @@
   })
   export default class LogList extends Vue {
     @Provide() name: string = 'LogList';
-    @Provide() defaultHeight: number = window.innerHeight - 280;
+    @Provide() defaultHeight: number = window.innerHeight - 230;
     @Provide() periodTime: string[] = [];
     @Provide() public loggerList: any[] = [];
     @Provide() public visitorList: any[] = [];

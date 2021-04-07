@@ -33,10 +33,11 @@
                    style="padding-top: 15px; border-bottom: 1px solid #e6e6e6; border-top: 1px solid #e6e6e6">
           <div style="display: inline-block; float: left">
             <span>{{roleDto.roleDescription}}</span>
-            <span>({{roleDto.roleName}})</span>
+            <span>{{roleDto.roleName}}</span>
           </div>
           <el-button type="warning" size="mini" plain circle class="el-icon-edit"
-                     @click="editRolePermission"></el-button>
+                     @click="editRolePermission">
+          </el-button>
           编辑
         </el-header>
         <el-tree
@@ -146,6 +147,8 @@
           const length = this.defaultChecked.length;
           this.defaultChecked.splice(0, length, ...result);
           this.permissionTree = this.filterPermission(menuTree, temp);
+          console.info(this.permissionTree)
+          this.changeLabel(this.permissionTree)
           this.loading = false;
         });
       },
@@ -156,6 +159,15 @@
           }
           return permissions.includes(item.id);
         });
+      },
+      // 拼接展示字段
+      changeLabel(dataList) {
+        dataList.map(value => {
+          value.label = `${value.label}(${value.id})`
+          if (value.children && value.children.length > 0) {
+            this.changeLabel(value.children)
+          }
+        })
       },
       // 过滤存在子节点的父节点
       setDefaultCheckedKes (menuTree, permissions, result) {

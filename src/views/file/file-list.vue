@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading">
-    <custom-collapse>
+    <custom-collapse title="操作栏">
       <el-row :gutter="24" slot="operate">
         <el-col :offset="1" :span="6">
           <custom-perm label="upload-file-manage">
@@ -69,7 +69,7 @@
       return {
         loading: true,
         multipleSelection: [],
-        defaultHeight: window.innerHeight - 235,
+        defaultHeight: window.innerHeight - 300,
         fileDto: {
           fileDescription: '上传者：' + this.$store.state.user.userName
         },
