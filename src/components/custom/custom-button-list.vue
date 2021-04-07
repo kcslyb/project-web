@@ -1,20 +1,24 @@
 <template>
   <div :class="`custom-button-${textAlign}`">
     <template v-for="(item, index) in btnList">
-      <el-button
-        :type="item.type"
-        :key="index+item.action"
-        :size="item.size ? item.size : 'mini'"
-        @click="btnClick(item)">
-        {{item.label}}
-      </el-button>
+      <custom-perm :label="item.perm">
+        <el-button
+          :type="item.type"
+          :key="index+item.action"
+          :size="item.size ? item.size : 'mini'"
+          @click="btnClick(item)">
+          {{item.label}}
+        </el-button>
+      </custom-perm>
     </template>
   </div>
 </template>
 
 <script>
+  import CustomPerm from "@/components/custom/custom-perm";
   export default {
     name: "custom-button-list",
+    components: {CustomPerm},
     props: {
       btnList: {
         type: Array,

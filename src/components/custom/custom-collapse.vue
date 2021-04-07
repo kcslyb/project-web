@@ -2,39 +2,27 @@
     <div class="custom-collapse">
         <div class="custom-collapse-warp">
             <div class="custom-collapse-header">
-                <el-row :gutter="24" style="margin: 0">
-                    <el-col :xs="19" :sm="20" :md="21" :lg="22" :xl="22">
-                        <div class="tools">
-                            <div>
-                                <div class="collapse-title">{{title}}</div>
-                            </div>
-                        </div>
-                    </el-col>
-                    <el-col :xs="5" :sm="4" :md="3" :lg="2" :xl="2" style="padding: 0">
-                        <span @click="handleArrowClick">{{flag?'隐藏':'展开'}}搜索</span>
-                        <i :class="flag ? 'el-icon-arrow-down': 'el-icon-arrow-right'" @click="handleArrowClick"></i>
-                    </el-col>
-                </el-row>
+                <div class="collapse-title">{{title}}</div>
+                <div>
+                    <el-button v-if="$scopedSlots.hasOwnProperty('content')"
+                               icon="el-icon-search" type="primary" plain size="mini"
+                               @click="searchSubmit">查询</el-button>
+                    <el-button v-if="$scopedSlots.hasOwnProperty('content')"
+                               icon="el-icon-refresh" type="info" plain size="mini"
+                               @click="searchReset">重置</el-button>
+                </div>
             </div>
             <div v-show="flag" class="custom-collapse-content">
                 <div class="custom-collapse-content-filter custom-scrollbar">
                     <slot clas="slot" name="content"></slot>
                 </div>
-                <div class="operation">
+                <div class="custom-collapse-content-filter custom-scrollbar">
+                    <slot></slot>
+                </div>
+                <div class="operation" v-if="$scopedSlots.hasOwnProperty('operate')">
                     <div>
                         <slot name="operate"></slot>
                     </div>
-                    <div>
-                        <el-button v-if="$scopedSlots.hasOwnProperty('content')"
-                                   icon="el-icon-search" type="primary" plain size="mini"
-                                   @click="searchSubmit">查询</el-button>
-                        <el-button v-if="$scopedSlots.hasOwnProperty('content')"
-                                   icon="el-icon-refresh" type="info" plain size="mini"
-                                   @click="searchReset">重置</el-button>
-                    </div>
-                </div>
-                <div>
-                    <slot></slot>
                 </div>
             </div>
             <div style="clear: both"></div>
@@ -53,7 +41,7 @@
         @Prop({default: true})
         public searchFlag!: boolean
 
-        @Prop({default: ''})
+        @Prop({default: '搜索栏'})
         public title!: string
 
         @Provide()
@@ -68,7 +56,7 @@
         }
 
         handleArrowClick () {
-            this.flag = !this.flag
+            // this.flag = !this.flag
         }
     };
 </script>
@@ -100,6 +88,7 @@
     .custom-collapse-header {
         height: 40px;
         margin: 0 10px;
+        padding: 0 10px;
         font-size: 0.8rem;
         text-align: right;
         color: $black-color;
@@ -107,17 +96,9 @@
         background-color: $system-collapse-color;
         border: 1px solid $system-border-color;
         box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-
-        & i {
-            cursor: pointer;
-            padding-top: 13px;
-            padding-right: 10px;
-        }
-
-        & span {
-            padding-top: 10px;
-            cursor: pointer;
-        }
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .custom-collapse-content {
@@ -139,5 +120,6 @@
     .collapse-title {
         line-height: 30px;
         font-weight: bold;
+        font-size: 14px;
     }
 </style>

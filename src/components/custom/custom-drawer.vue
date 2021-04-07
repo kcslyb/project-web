@@ -6,7 +6,7 @@
           <div class="drawer-container">
             <el-row :gutter="23">
               <el-col :span="22">
-                <div style="text-align: center; margin-bottom: 10px; border-bottom: 1px solid #e5e5e5;">
+                <div style="text-align: center; margin-bottom: 20px;">
                   <span style="font-size: 20px;">{{title}}</span>
                 </div>
               </el-col>
@@ -178,7 +178,7 @@
     border: 1px solid #e6e6e6;
   }
   .page-right-main{
-    padding: 10px;
+    padding: 0;
   }
   .lightBox {
     position: absolute;

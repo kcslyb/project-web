@@ -22,6 +22,7 @@
     },
     computed: {
       isShow: function () {
+        if (!this.label) return false
         let tempType = Object.prototype.toString.call(this.label);
         if (Object.is(tempType, '[object Array]')) {
           if (!this.label.length) {
