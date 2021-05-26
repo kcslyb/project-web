@@ -6,7 +6,9 @@
       @searchReset="searchReset"
       @searchSubmit="searchSubmit">
       <template slot="operate">
-        <el-button type="primary" icon="el-icon-plus" plain size="mini" @click="handleAdd">新增</el-button>
+        <slot name="operate">
+          <el-button type="primary" icon="el-icon-plus" plain size="mini" @click="handleAdd">新增</el-button>
+        </slot>
       </template>
       <custom-form
         v-if="searchItems.length"
@@ -45,7 +47,7 @@
 <script lang="ts">
     import {Component, Provide, Prop, Vue} from 'vue-property-decorator';
     import Operation from "@/operation/operation";
-    import {EventBus} from "../../operation/event-bus";
+    import {EventBus} from "@/operation/event-bus";
 
     @Component
     export default class CustomPage extends Vue {
@@ -140,6 +142,7 @@
 
         initTableList() {
             let param = Object.assign({}, this.condition, this.searchData);
+            if (!this.apiObj || this.apiObj.queryPager) return
             this.apiObj.queryPager(param).then((res :any) => {
                 console.info(res.data.list)
                 this.tableData = res.data.list;

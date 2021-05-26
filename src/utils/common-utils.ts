@@ -19,10 +19,11 @@ export class DateUtils {
      * @returns {String}
      */
     public static   formatStringToDateTime(formatString: string): string {
-        if (formatString) {
+        if (!formatString) return '';
+        if (CustomUtils.typeJudge(formatString)) {
             return moment(formatString).format('YYYY-MM-DD HH:mm:ss');
         } else {
-            return '';
+            return moment(new Date(formatString)).format('YYYY-MM-DD HH:mm:ss');
         }
     }
     /**
@@ -34,7 +35,7 @@ export class DateUtils {
      */
     public static   formatStringToDate(formatString: string, format:string = 'YYYY-MM-DD'): string {
         if (formatString) {
-            return moment(formatString).format(format);
+            return moment(new Date(formatString)).format(format);
         } else {
             return '';
         }
@@ -43,6 +44,54 @@ export class DateUtils {
 
 // tslint:disable-next-line:max-classes-per-file
 export class CustomUtils {
+    /**
+     * 类型比较
+     * @param target
+     * @param type
+     */
+    public static typeJudge = (target: any, type = 'String') => {
+        return type === target.prototype.toString.call(target).match(/(\w+)]/)[1]
+    }
+
+    /**
+     * JSON文件的保存
+     * @param data
+     * @param filename
+     */
+    public static saveDataToLocal = (data: any, filename: string) => {
+        return new Promise((resolve, reject) => {
+            try {
+                if (!data) {
+                    reject(new Error('保存的数据为空'))
+                }
+                if (!filename) filename = `${+new Date()}.json`
+                if (typeof data === 'object') {
+                    data = JSON.stringify(data, undefined, 4)
+                }
+                // 要创建一个 blob 数据
+                const blob = new Blob([data], { type: 'text/json' })
+                const a = document.createElement('a')
+                a.download = filename
+                // 将blob转换为地址
+                // 创建 URL 的 Blob 对象
+                a.href = window.URL.createObjectURL(blob)
+                a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
+                // 添加鼠标事件
+                const event = new MouseEvent('click', {})
+                // 向一个指定的事件目标派发一个事件
+                a.dispatchEvent(event)
+                resolve(true)
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+
+    /**
+     * 文件下载
+     * @param fileId
+     * @param fileName
+     */
     public static downloadFile(fileId: string, fileName: string) {
         let url = window.location.origin + '/file/download' + fileId;
         return new Promise((resolve, reject) => {
@@ -113,7 +162,7 @@ export class CustomUtils {
      * @param wait 等待的时间
      * @returns {Function}
      */
-    public static throttle(func: () => any, wait: number = 3000) {
+    public static throttle(func: () => Function, wait: number = 3000) {
         let last: any, deferTimer: any;
         const that: any = this;
         // tslint:disable-next-line:only-arrow-functions
@@ -180,8 +229,8 @@ export class CustomUtils {
 
     /**
      * 产生随机整数，包含下限值，包括上限值
-     * @param {Number} lower 下限
-     * @param {Number} upper 上限
+     * @param {Number} lower 上限
+     * @param {Number} upper 下限
      * @return {Number} 返回在下限到上限之间的一个随机整数
      */
     public static randomNumber(lower: number, upper: number): number {
@@ -199,5 +248,97 @@ export class CustomUtils {
         return str.replace(reg, function (m) {
             return m.toUpperCase()
         })
+    }
+
+    /**
+     * 获取文件的内容
+     */
+    public static readJsonFromLocal = () => {
+        return new Promise(((resolve, reject) => {
+            const inputElement = document.createElement('input')
+            inputElement.type = 'file'
+            inputElement.addEventListener('change', handleFiles, false)
+            const event = new MouseEvent('click', {})
+            inputElement.dispatchEvent(event)
+
+            function handleFiles(e: any) {
+                const selectedFile = e.target.files[0] // 获取读取的File对象
+                const name = selectedFile.name // 读取选中文件的文件名
+                const size = selectedFile.size // 读取选中文件的大小
+                // console.log('文件名:' + name + '大小：' + size)
+                const reader = new FileReader() // 这里是核心！！！读取操作就是由它完成的。
+                reader.readAsText(selectedFile) // 读取文件的内容
+                reader.onload = function () {
+                    // console.log('读取结果：', reader.result)
+                    // console.log('读取结果转为JSON：')
+                    // @ts-ignore
+                    resolve(JSON.parse(JSON.stringify(reader.result.toString())))
+                }
+                reader.onerror = function (e) {
+                    reject(e)
+                }
+            }
+        }))
+    }
+
+    /**
+     *匹配html标签
+     * @param html
+     * @param tag
+     */
+    public static parseHtml = (html: string, tag = 'A') => {
+        let regexp = `<DT>(<${tag}\\s[\\w|\\d|\\s|\\&|\\?|\\||\\(|\\)|\\#|"|.|\\/|:|;|+|,|=|__|_|\\-|\\u4e00-\\u9fa5]*>[\\w|\\d|\\s|\\&|\\?|\\||\\(|\\)|\\#|"|.|\\/|:|;|+|,|=|__|_|\\-|\\u4e00-\\u9fa5]*<\/${tag}>)`
+        return [...html.matchAll(new RegExp(regexp, 'g'))].map(v => v[1])
+    }
+
+    /**
+     * 匹配html标签值
+     * @param htmlLabel
+     * @param title
+     * @param tagType
+     */
+    public static parseHtmlLabel = (htmlLabel: string, title = 'title', tagType = 'tagType') => {
+        const resultObj = {}
+        const labels = [...htmlLabel.matchAll(/\s([\w|_]+)=/g)].map(v => v[1])
+        const values = [...htmlLabel.matchAll(/\s[\w|_]+="([\w|\d|\s|.|\/|\&|\#|\?|\||\(|\)|:|;|+|,|=|_|__|\-|\u4e00-\u9fa5]*)"/g)].map(v => v[1])
+        if (labels.length > 0) {
+            for (let i = labels.length - 1; i > -1; i--) {
+                // @ts-ignore
+                resultObj[labels[i]] = values[i]
+            }
+        }
+        const tempTitle = htmlLabel.match(/>([\w|\d|\s|.|\/|\&|\#|\?|\||\(|\)|:|;|+|,|=|_|__|\-|\u4e00-\u9fa5]*)</)
+        if (tempTitle && tempTitle.length > 0) {
+            // @ts-ignore
+            resultObj[title] = tempTitle[1]
+        }
+        const tempTagType = htmlLabel.match(/<([\w]+)\s/)
+        if (tempTagType && tagType.length > 0) {
+            // @ts-ignore
+            resultObj[tagType] = tempTagType[1]
+        }
+        return resultObj
+    }
+
+    /**
+     * 组装数组为二维数组
+     * @param array
+     * @param size
+     */
+    public static assembleArray = (array: Array<any>, size = 10) => {
+        if (!array) {
+            return []
+        }
+        if (array.length <= size) {
+            return [array]
+        }
+        let index = 0
+        const result = []
+        do {
+            let temp = index + size > array.length ? array.length : index + size
+            result.push(array.slice(index, temp))
+            index = temp
+        } while (index < array.length)
+        return result
     }
 }
