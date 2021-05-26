@@ -159,3 +159,14 @@ export class DayLog extends BaseApi {
         return http.get(`/api/dayLog/queryById?id=${id}`);
     }
 }
+
+export class Bookmarks extends BaseApi {
+    public url: string = 'api/bookmarks';
+
+    public insertBatch(data: Array<any>) {
+        return http.post(`${this.url}/batch`, data);
+    }
+    public click(id: string) {
+        return http.post(`${this.url}/click/${id}`);
+    }
+}

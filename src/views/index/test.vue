@@ -1,8 +1,9 @@
 <template>
     <div class="container">
-        <h5>测试页</h5>
+        <h4>测试页</h4>
+        <Bookmarks></Bookmarks>
 <!--        <node></node>-->
-        <tree-node></tree-node>
+<!--        <tree-node></tree-node>-->
 <!--      <custom-collapse class="title">-->
 <!--        <template slot="operate">-->
 <!--          <el-button type="primary" plain size="mini">添加</el-button>-->
@@ -52,9 +53,10 @@
     import CustomForm from "@/components/custom/custom-form.vue";
     import Node from "@/components/custom/binary-tree/src/node.vue";
     import TreeNode from "@/components/custom/binary-tree/src/tree-node.vue";
+    import Bookmarks from "@/views/system/bookmarks/bookmarks.vue";
 
     @Component({
-        components: {TreeNode, Node, CustomForm, FloatNavigation, CustomUpload, CustomCollapse, CustomTable}
+        components: {Bookmarks, TreeNode, Node, CustomForm, FloatNavigation, CustomUpload, CustomCollapse, CustomTable}
     })
     export default class Test extends Vue {
         @Provide()

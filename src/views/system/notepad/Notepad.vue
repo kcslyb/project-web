@@ -18,11 +18,10 @@
   import NotepadJson from "./json/notepad";
   import NotepadForm from "./NotepadForm";
   import {ApiFactory, DayLog} from "../../../resources";
-  import CustomPage from "../../../components/custom/custom-page";
 
   export default {
     name: 'Notepad',
-    components: {CustomPage, NotepadForm},
+    components: {NotepadForm},
     data () {
       return {
         apiObj: {},

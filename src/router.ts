@@ -78,6 +78,12 @@ export default new Router({
             component: () => import('@/views/index/test.vue'),
         },
         {
+            path: '/bookmarks',
+            name: 'bookmarks',
+            meta: {moduleId: 'bookmarks', title: 'bookmarks', icon: 'el-icon-s-home', perm: 'system-manage'},
+            component: () => import('@/views/system/bookmarks/bookmarks.vue'),
+        },
+        {
             path: '/play',
             name: 'play',
             meta: {moduleId: 'play', title: 'play', icon: 'el-icon-s-home', perm: 'system-manage'},

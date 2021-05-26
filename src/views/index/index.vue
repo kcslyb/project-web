@@ -42,6 +42,9 @@
                       <el-button type="text">{{$store.state.user.userName}}</el-button>
                     </el-dropdown-item>
                     <el-dropdown-item>
+                      <el-button type="text" @click="jumpBookmarks">书签管理</el-button>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
                       <el-button type="text" @click="logout">退出登录</el-button>
                     </el-dropdown-item>
                   </el-dropdown-menu>
@@ -134,6 +137,9 @@
         if (menuItem.path !== this.currentPath) {
           this.$router.push({path: menuItem.path}).catch(() => {})
         }
+      },
+      jumpBookmarks () {
+        this.$router.push('/bookmarks').catch(() => {})
       },
       logout() {
         this.$store.dispatch('FedLogOut', this.user).then(() => {

@@ -4,7 +4,7 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import {getToken} from '@/utils/auth';
 import {Route} from 'vue-router';
-const whiteList: string[] = ['/login', '/test'];
+const whiteList: string[] = ['/login', '/test', '/bookmarks'];
 router.beforeEach((to: Route, from: Route, next: any) => {
   NProgress.start();
   if (getToken() === 'JSESSIONID') { // 已经登录
@@ -12,7 +12,7 @@ router.beforeEach((to: Route, from: Route, next: any) => {
       store.dispatch('GetInfo').then(() => {
         next({...to});
       }).catch(() => {
-        next({path: '/login'});
+        next({path: '/bookmarks'});
         NProgress.done();
       });
     }
@@ -22,7 +22,7 @@ router.beforeEach((to: Route, from: Route, next: any) => {
     next();
     NProgress.done();
   } else {// 如果路径不是白名单内的,而且又没有登录,就跳转登录页面
-    next({path: '/login'});
+    next({path: '/bookmarks'});
     NProgress.done();
   }
 });
