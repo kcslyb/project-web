@@ -10,6 +10,7 @@ const user = {
     state: {
         userId: '',
         avatar: '',
+        session: '',
         userName: '',
         roleName: '',
         userPhone: '',
@@ -19,6 +20,7 @@ const user = {
     mutations: {
         SET_USER: (state: any, userInfo: any) => {
             state.userId = userInfo.userId;
+            state.session = userInfo.session;
             state.avatar = userInfo.userAvatar;
             state.userName = userInfo.userName;
             state.roleName = userInfo.roleName;
@@ -29,6 +31,7 @@ const user = {
         RESET_USER: (state: any) => {
             state.userId = '';
             state.avatar = '';
+            state.session = '';
             state.userName = '';
             state.roleName = '';
             state.userPhone = '';
@@ -37,7 +40,7 @@ const user = {
         },
     },
     actions: {
-// 登录
+        // 登录
         Login({commit, state}: {commit: any, state: any}, loginForm: any) {
             return new Promise((resolve, reject) => {
                 http.post('/api/login', loginForm).then((res) => {

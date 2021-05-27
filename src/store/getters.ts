@@ -1,4 +1,5 @@
 const getters = {
+  session: (state: any) => state.user.session,
   userName: (state: any) => state.user.userName,
   userId: (state: any) => state.user.userId,
   avatar: (state: any) => state.user.avatar,

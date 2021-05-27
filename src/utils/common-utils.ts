@@ -50,7 +50,8 @@ export class CustomUtils {
      * @param type
      */
     public static typeJudge = (target: any, type = 'String') => {
-        return type === target.prototype.toString.call(target).match(/(\w+)]/)[1]
+        // @ts-ignore
+        return type === Object.prototype.toString.call(target).match(/(\w+)]/)[1]
     }
 
     /**

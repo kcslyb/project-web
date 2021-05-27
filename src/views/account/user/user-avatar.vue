@@ -31,7 +31,7 @@
           const temp = this.id.split(',');
           await ApiFactory.getApi(File).accessFileBase64(temp).then((res) => {
             if (res.status === 200) {
-              if (Array.isArray(res.data)) {
+              if (Array.isArray(res.data) && res.data.length > 0) {
                 this.src = res.data[0].base64
               }
             }
