@@ -4,6 +4,7 @@
       <el-button class="btn" type="text" size="small" @click="handleUpload">上传书签</el-button>
       <el-button v-if="!$store.getters.userName" class="btn" type="text" size="small" @click="handleLogin">登录</el-button>
       <el-button v-if="$store.getters.userName" class="btn" type="text" size="small" @click="handleExport">导出书签</el-button>
+      <el-button v-if="$store.getters.userName" class="btn" type="text" size="small" @click="handleBack">返回</el-button>
     </div>
     <div id="container-content" class="container-content">
       <div class="bookmarks">
@@ -84,6 +85,9 @@
         }).catch(() => {})
       },
       handleEdit (item) {
+      },
+      handleBack () {
+        this.$router.go(-1)
       },
       handleExport () {
         const tempDate = +new Date()
