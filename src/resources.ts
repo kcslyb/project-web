@@ -169,4 +169,12 @@ export class Bookmarks extends BaseApi {
     public click(id: string) {
         return http.post(`${this.url}/click/${id}`);
     }
+    public batchDelete(ids: Array<String>) {
+        return http.post(`${this.url}/batch/delete`, ids);
+    }
+    public collection(id: string) {
+        return http.post(`${this.url}/collection/${id}`);
+    }
 }
+
+export default BaseApi

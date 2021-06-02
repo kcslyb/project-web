@@ -1,6 +1,7 @@
 <template>
   <div class="bookmarks-container" @scroll="handleScroll">
     <div class="bookmarks-btn">
+      <el-button v-if="$store.getters.userName" class="btn" type="text" size="small" @click="handleBatchDelete">删除书签</el-button>
       <el-button class="btn" type="text" size="small" @click="handleUpload">上传书签</el-button>
       <el-button v-if="!$store.getters.userName" class="btn" type="text" size="small" @click="handleLogin">登录</el-button>
       <el-button v-if="$store.getters.userName" class="btn" type="text" size="small" @click="handleExport">导出书签</el-button>
@@ -10,10 +11,12 @@
       <div class="bookmarks">
         <div class="bookmarks-content" v-for="(bookmarks, bookIndex) in data" :key="`bookmarks-content-${bookIndex}`">
           <div class="content-item" v-for="(item, index) in bookmarks" :key="`bookmarks-${index}`">
-            <img class="content-item-img" :src="item.iconFileId" alt=""/>
+            <el-checkbox v-model="item.checked" @change="handleBoxChange($event,item)"></el-checkbox>
+            <img class="content-item-img opt-btn" :src="item.iconFileId" alt=""/>
             <span class="content-item-jump" @click="handleClick(item)">{{item.title}}</span>
             <i v-if="optFlag(item)" class="el-icon-edit opt-btn" @click="handleEdit(item)"></i>
             <i v-if="optFlag(item)" class="el-icon-delete opt-btn" @click="handleDelete(item)"></i>
+            <i v-if="$store.getters.userName && item.commonFlag === '1'" class="el-icon-link opt-btn" @click="handleCollection(item)"></i>
           </div>
         </div>
       </div>
@@ -41,7 +44,7 @@
         total: 0,
         condition: {
           start: 0,
-          size: 21
+          size: 20
         },
         showScrollTop: true,
         bookmarksApi: {}
@@ -83,6 +86,49 @@
             this.initData()
           })
         }).catch(() => {})
+      },
+      handleBatchDelete () {
+        let temp = []
+        this.data.forEach(value => {
+          temp = temp.concat(value)
+        })
+        const ids = temp.reduce((acc, cur) => {
+          if (cur.checked) {
+            acc.push(cur.id)
+          }
+          return acc
+        }, [])
+        if (ids.length === 0) {
+          this.$notify.warning({
+            title: '提示！',
+            message: '未勾选需要删除的数据'
+          })
+          return false
+        }
+        this.$confirm(`确认删除?`, {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.bookmarksApi.batchDelete(ids).then(() => {
+            this.$notify.success({
+              title: '成功',
+              message: '删除成功'
+            })
+            this.initData()
+          })
+        }).catch(() => {})
+      },
+      handleCollection (item) {
+        this.bookmarksApi.collection(item.id).then(() => {
+          this.$notify.success({
+            title: '成功',
+            message: '收藏成功'
+          })
+        })
+      },
+      handleBoxChange (value, item) {
+        this.$set(item, 'checked', value)
       },
       handleEdit (item) {
       },
@@ -209,7 +255,7 @@
         width: 100%;
         display: flex;
         padding: 5px 0;
-        justify-content: space-around;
+        justify-content: left;
         flex-wrap: wrap;
 
         .bookmarks-content {

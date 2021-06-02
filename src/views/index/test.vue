@@ -1,7 +1,13 @@
 <template>
     <div class="container">
         <h4>测试页</h4>
-        <Bookmarks></Bookmarks>
+        <div>
+          <el-button type="primary" plain size="small" @click="handleBtnClick('save')">1</el-button>
+          <el-button type="primary" plain size="small" @click="handleBtnClick('update')">2</el-button>
+          <el-button type="primary" plain size="small" @click="handleBtnClick('delete')">3</el-button>
+          <el-button type="primary" plain size="small" @click="handleBtnClick('query')">4</el-button>
+        </div>
+<!--        <Bookmarks></Bookmarks>-->
 <!--        <node></node>-->
 <!--        <tree-node></tree-node>-->
 <!--      <custom-collapse class="title">-->
@@ -53,7 +59,9 @@
     import CustomForm from "@/components/custom/custom-form.vue";
     import Node from "@/components/custom/binary-tree/src/node.vue";
     import TreeNode from "@/components/custom/binary-tree/src/tree-node.vue";
-    import Bookmarks from "@/views/system/bookmarks/bookmarks.vue";
+    import Subscribe from "@/operation/observer/subscribe";
+    import {ApiFactory, Bookmarks} from "@/resources";
+    import Publisher from "@/operation/observer/publisher";
 
     @Component({
         components: {Bookmarks, TreeNode, Node, CustomForm, FloatNavigation, CustomUpload, CustomCollapse, CustomTable}
@@ -133,6 +141,8 @@
 
         @Provide()
         public show: boolean = false;
+        @Provide()
+        public publisher: Publisher;
         public option: any = {
             title: {
                 text: ''
@@ -167,6 +177,12 @@
         };
         mounted() {
             // this.initChart();
+          const api = ApiFactory.getApi(Bookmarks)
+          const subscribe = new Subscribe(api)
+          subscribe.query = function (formData: {}): Promise<any> {
+            return this.operation('query', formData)
+          }
+          this.publisher = new Publisher(subscribe)
         }
         public initChart() {
             let data = [];
@@ -179,8 +195,13 @@
             const chart: any = echarts.init(this.$refs.chart as HTMLCanvasElement);
             chart.setOption(this.option);
         }
-        public showFormModel() {
-          console.info(this.formModel)
+        public handleBtnClick(action: any) {
+          this.publisher.notifyDep(action, {label: `测试：${action}`}, {label: `btn-${action}`})
+              .then((res) => {
+                console.info(`handler ${action} end res: ${JSON.stringify(res.data)}`)
+              }).catch(() => {
+            console.info(`handler ${action} end res: ${res}`)
+          })
         }
     }
 </script>

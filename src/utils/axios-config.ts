@@ -56,7 +56,7 @@ http.interceptors.response.use(
         Notification({
             title: '错误！',
             type: 'error',
-            message: msg,
+            message: msg || error.message || error.response?.data,
         });
         const flag = error.response.config.url !== '/api/login';
         if (error.response.status === 401 && flag) {

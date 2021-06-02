@@ -64,14 +64,6 @@ class Operation {
                 message: `${optObj.actionLabel}成功`
             });
             return Promise.resolve(res)
-        }).catch((error :any) => {
-            this.vm.$notify.error({
-                title: '提示',
-                message: `${optObj.actionLabel}失败`
-            });
-            return Promise.reject(error)
-        }).catch((error: any) => {
-            return Promise.reject(error)
         })
     }
 }
