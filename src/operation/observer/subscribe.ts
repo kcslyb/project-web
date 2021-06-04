@@ -40,7 +40,7 @@ class Subscribe {
     operation(action: string, param: object | string, arg?: any): Promise<any> {
         const label = arg?.label || '操作'
         if (!this.api || !this.api[action]) {
-            throw new Error(`catchError: base-opt api is not prototype ${action}`)
+            throw new Error(`catchError: Subscribe api is not prototype ${action}`)
         }
         return this.api[action](param).then((res: any) => {
             console.info(`*api method:${action}\n*params:${JSON.stringify(param)}\n*operation:${label}`)

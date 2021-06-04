@@ -2,10 +2,19 @@
     <div class="container">
         <h4>测试页</h4>
         <div>
-          <el-button type="primary" plain size="small" @click="handleBtnClick('save')">1</el-button>
-          <el-button type="primary" plain size="small" @click="handleBtnClick('update')">2</el-button>
-          <el-button type="primary" plain size="small" @click="handleBtnClick('delete')">3</el-button>
-          <el-button type="primary" plain size="small" @click="handleBtnClick('query')">4</el-button>
+<!--          <el-button type="primary" plain size="small" @click="handleBtnClick('save')">1</el-button>-->
+          <el-button type="primary" plain size="small" @click="handleBtnClick('update')">update</el-button>
+          <el-button type="primary" plain size="small" @click="handleBtnClick('delete')">delete</el-button>
+          <el-button type="primary" plain size="small" @click="handleBtnClick('query')">query</el-button>
+          <el-button type="primary" plain size="small" @click="handleBtnClick('once')">once</el-button>
+        </div>
+        <h5>
+          <el-button type="primary" plain size="small" @click="handleDebounce">debounce</el-button>
+          <el-button type="primary" plain size="small" @click="handleThrottle">throttle</el-button>
+        </h5>
+        <div>
+          <el-progress :percentage="debounceTage" status="warning"></el-progress>
+          <el-progress :percentage="throttleTage" status="success"></el-progress>
         </div>
 <!--        <Bookmarks></Bookmarks>-->
 <!--        <node></node>-->
@@ -37,9 +46,9 @@
 <!--        <custom-upload :isCheckImgType="true"></custom-upload>-->
 <!--        <custom-upload :btnCss="css" :fileList="fileList"></custom-upload>-->
 <!--        <custom-upload :isCheckImgType="true" url="https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"></custom-upload>-->
-<!--        <div>-->
-<!--            <div ref="chart" style="height: 500px"></div>-->
-<!--        </div>-->
+        <div>
+            <div ref="chart" style="height: 500px"></div>
+        </div>
 <!--        <custom-table :columns="columns" :data="data" is-selection="true"></custom-table>-->
 <!--        <float-navigation :active="3" :menuList="menuList"></float-navigation>-->
 <!--        <custom-form :formItems="fromData" v-model="formModel"></custom-form>-->
@@ -62,9 +71,10 @@
     import Subscribe from "@/operation/observer/subscribe";
     import {ApiFactory, Bookmarks} from "@/resources";
     import Publisher from "@/operation/observer/publisher";
+    import {CustomUtils} from "@/utils/common-utils";
 
     @Component({
-        components: {Bookmarks, TreeNode, Node, CustomForm, FloatNavigation, CustomUpload, CustomCollapse, CustomTable}
+        components: {TreeNode, Node, CustomForm, FloatNavigation, CustomUpload, CustomCollapse, CustomTable}
     })
     export default class Test extends Vue {
         @Provide()
@@ -142,7 +152,15 @@
         @Provide()
         public show: boolean = false;
         @Provide()
-        public publisher: Publisher;
+        public debounceTage: number = 0;
+        @Provide()
+        public throttleTage: number = 0;
+        @Provide()
+        public debounceFunc: Function | undefined;
+        @Provide()
+        public throttleFunc: Function | undefined;
+        @Provide()
+        public publisher: Publisher & any = {};
         public option: any = {
             title: {
                 text: ''
@@ -176,13 +194,16 @@
             animationDuration: 2000
         };
         mounted() {
-            // this.initChart();
+          this.initChart();
           const api = ApiFactory.getApi(Bookmarks)
-          const subscribe = new Subscribe(api)
+          const subscribe: Subscribe & any = new Subscribe(api)
           subscribe.query = function (formData: {}): Promise<any> {
             return this.operation('query', formData)
           }
           this.publisher = new Publisher(subscribe)
+          this.publisher.once('once', function (formData: {}): any {
+            console.info(formData, 'once end')
+          })
         }
         public initChart() {
             let data = [];
@@ -196,12 +217,30 @@
             chart.setOption(this.option);
         }
         public handleBtnClick(action: any) {
-          this.publisher.notifyDep(action, {label: `测试：${action}`}, {label: `btn-${action}`})
-              .then((res) => {
-                console.info(`handler ${action} end res: ${JSON.stringify(res.data)}`)
-              }).catch(() => {
-            console.info(`handler ${action} end res: ${res}`)
+          this.publisher.notifyDep(action, {label: `测试：${action}`}, {label: `btn-${action}`})?.then((res: any) => {
+            console.info(`handler ${action} end`)
+          }).catch(() => {
+            console.info(`handler ${action} end, but catch error`)
           })
+        }
+        public handleDebounce() {
+          if (!this.debounceFunc) {
+            let _this = this
+            this.debounceFunc = CustomUtils.debounce(function() {
+              console.info('debounce')
+              _this.debounceTage = (_this.debounceTage + 10) % 100
+            },3000, true)
+          }
+          this.debounceFunc()
+        }
+        public handleThrottle() {
+          if (!this.throttleFunc) {
+            this.throttleFunc = CustomUtils.throttle(() => {
+              console.info('throttle')
+              this.throttleTage = (this.throttleTage + 10) % 100
+            })
+          }
+          this.throttleFunc()
         }
     }
 </script>

@@ -18,7 +18,7 @@ export class DateUtils {
      * @param formatString
      * @returns {String}
      */
-    public static   formatStringToDateTime(formatString: string): string {
+    public static formatStringToDateTime(formatString: string): string {
         if (!formatString) return '';
         if (CustomUtils.typeJudge(formatString)) {
             return moment(formatString).format('YYYY-MM-DD HH:mm:ss');
@@ -33,7 +33,7 @@ export class DateUtils {
      * @param format
      * @returns {String}
      */
-    public static   formatStringToDate(formatString: string, format:string = 'YYYY-MM-DD'): string {
+    public static formatStringToDate(formatString: string, format:string = 'YYYY-MM-DD'): string {
         if (formatString) {
             return moment(new Date(formatString)).format(format);
         } else {
@@ -163,7 +163,7 @@ export class CustomUtils {
      * @param wait 等待的时间
      * @returns {Function}
      */
-    public static throttle(func: () => Function, wait: number = 3000) {
+    public static throttle(func: () => any, wait: number = 3000) {
         let last: any, deferTimer: any;
         const that: any = this;
         // tslint:disable-next-line:only-arrow-functions
@@ -238,6 +238,24 @@ export class CustomUtils {
         lower = Math.floor(lower);
         upper = Math.ceil(upper);
         return Math.floor(Math.random() * (upper - lower + 1)) + lower;
+    }
+
+    /**
+     * 字典数组转字典对象
+     * @param array 字典数组
+     * @param propObj key-value 从数组取键值的字段名
+     */
+    public static listToDictObj (array: Array<any>, propObj: {key: 'key', value: 'value'}) {
+        if (!Array.isArray(array) || array.length === 0) {
+            return {}
+        }
+        const dictObj: any = {}
+        const index = array.length - 1
+        for (let i = index; i > -1 ; i--) {
+            const propKey = array[i][propObj.key]
+            dictObj[propKey] = array[i][propObj.value]
+        }
+        return dictObj
     }
 
     /**

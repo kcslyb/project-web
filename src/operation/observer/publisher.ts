@@ -14,7 +14,8 @@ class Publisher {
         this.task = {}
         this.subscribe = subscribe || new Subscribe()
         const funcNames = Object.getOwnPropertyNames(this.subscribe)
-        const funcNamesProto = Object.getOwnPropertyNames(this.subscribe.__proto__)
+        // const funcNamesProto = Object.getOwnPropertyNames(this.subscribe.__proto__)
+        const funcNamesProto = Object.getOwnPropertyNames(Object.getPrototypeOf(this.subscribe))
         const result = funcNames.concat(funcNamesProto).filter(value => !this.temp.includes(value))
         console.info(result.join('\n'))
         for (let i = 0; i < result.length; i++) {
@@ -29,12 +30,28 @@ class Publisher {
         }
     }
 
+    // 移除
+    off(name: string) {
+        if (this.isExistTask(name)) {
+            delete this.task[name]
+        }
+    }
+
+    // 只执行一次
+    once(name: string, fn: Function) {
+        const func = () => {
+            fn()
+            this.off(name)
+        }
+        this.on(name, func)
+    }
+
     // 通知订阅者
     notifyDep(name: string, params: any, ...arg: [any?]): Promise<any> {
         if (this.isExistTask(name)) {
             return this.task[name].call(this.subscribe, params, ...arg)
         }
-        throw new Error(`catchError: not exist task ${name}`)
+        throw new Error(`catchError: publisher not exist task form name is ${name}`)
     }
 
     // 是否存在指定事件
