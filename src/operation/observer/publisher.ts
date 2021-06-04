@@ -4,22 +4,23 @@ import Subscribe from "@/operation/observer/subscribe";
 class Publisher {
 
     private readonly task: any
-    private readonly subscribe: any;
-    private readonly temp = [
+    readonly #subscribe: any;
+    readonly #temp = [
         'api',
         'constructor'
     ]
 
     constructor(subscribe?: Subscribe) {
         this.task = {}
-        this.subscribe = subscribe || new Subscribe()
-        const funcNames = Object.getOwnPropertyNames(this.subscribe)
+        // @ts-ignore
+        this.#subscribe = subscribe || new Subscribe()
+        const funcNames = Object.getOwnPropertyNames(this.#subscribe)
         // const funcNamesProto = Object.getOwnPropertyNames(this.subscribe.__proto__)
-        const funcNamesProto = Object.getOwnPropertyNames(Object.getPrototypeOf(this.subscribe))
-        const result = funcNames.concat(funcNamesProto).filter(value => !this.temp.includes(value))
+        const funcNamesProto = Object.getOwnPropertyNames(Object.getPrototypeOf(this.#subscribe))
+        const result = funcNames.concat(funcNamesProto).filter(value => !this.#temp.includes(value))
         console.info(result.join('\n'))
         for (let i = 0; i < result.length; i++) {
-            this.on(result[i], this.subscribe[result[i]])
+            this.on(result[i], this.#subscribe[result[i]])
         }
     }
 
@@ -49,7 +50,7 @@ class Publisher {
     // 通知订阅者
     notifyDep(name: string, params: any, ...arg: [any?]): Promise<any> {
         if (this.isExistTask(name)) {
-            return this.task[name].call(this.subscribe, params, ...arg)
+            return this.task[name].call(this.#subscribe, params, ...arg)
         }
         throw new Error(`catchError: publisher not exist task form name is ${name}`)
     }
