@@ -3,7 +3,7 @@ import Subscribe from "@/operation/observer/subscribe";
 
 class Publisher {
 
-    private readonly task: any
+    readonly #task: any
     readonly #subscribe: any;
     readonly #temp = [
         'api',
@@ -11,7 +11,8 @@ class Publisher {
     ]
 
     constructor(subscribe?: Subscribe) {
-        this.task = {}
+        // @ts-ignore
+        this.#task = {}
         // @ts-ignore
         this.#subscribe = subscribe || new Subscribe()
         const funcNames = Object.getOwnPropertyNames(this.#subscribe)
@@ -27,14 +28,14 @@ class Publisher {
     // 添加
     on(name: string, fn: Function) {
         if (!this.isExistTask(name)) {
-            this.task[name] = fn
+            this.#task[name] = fn
         }
     }
 
     // 移除
     off(name: string) {
         if (this.isExistTask(name)) {
-            delete this.task[name]
+            delete this.#task[name]
         }
     }
 
@@ -50,14 +51,14 @@ class Publisher {
     // 通知订阅者
     notifyDep(name: string, params: any, ...arg: [any?]): Promise<any> {
         if (this.isExistTask(name)) {
-            return this.task[name].call(this.#subscribe, params, ...arg)
+            return this.#task[name].call(this.#subscribe, params, ...arg)
         }
         throw new Error(`catchError: publisher not exist task form name is ${name}`)
     }
 
     // 是否存在指定事件
     private isExistTask(name: string) {
-        return Object.prototype.hasOwnProperty.call(this.task, name)
+        return Object.prototype.hasOwnProperty.call(this.#task, name)
     }
 }
 
